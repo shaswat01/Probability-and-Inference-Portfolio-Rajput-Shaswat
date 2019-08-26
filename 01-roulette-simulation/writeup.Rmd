@@ -4,23 +4,23 @@ output: html_notebook
 ---
 
 
-#' A single play of the Martingale strategy
-#'
-#' Takes a state list, spins the roulette wheel, returns the state list with updated values (for example, budget, plays, etc)
-#' @param state A list with the following entries: 
-#'   B              number, the budget
-#'   W              number, the budget threshold for successfully stoping
-#'   L              number, the maximum number of plays 
-#'   M              number, the casino wager limit
-#'   plays          integer, the number of plays executed
-#'   previous_wager number, the wager in the previous play (0 at first play)
-#'   previous_win   TRUE/FALSE, indicator if the previous play was a win (TRUE at first play)
-#' @return The updated state list
-one_play <- function(state){
+#' A single play of the Martingale strategy <br>
+#' <br>
+#' Takes a state list, spins the roulette wheel, returns the state list with updated values (for example, budget, plays, etc) <br>
+#' @param state A list with the following entries: <br>
+#'&nbsp;   B       &nbsp;&nbsp;       number, the budget<br>
+#'&nbsp;   W       &nbsp;&nbsp;       number, the budget threshold for successfully stoping<br>
+#'&nbsp;   L       &nbsp;&nbsp;       number, the maximum number of plays <br>
+#'&nbsp;   M       &nbsp;&nbsp;       number, the casino wager limit<br>
+#'&nbsp;   plays   &nbsp;&nbsp;       integer, the number of plays executed<br>
+#'&nbsp;   previous_wager number, the wager in the previous play (0 at first play)<br>
+#'&nbsp;   previous_win   TRUE/FALSE, indicator if the previous play was a win (TRUE at first play)<br>
+#'&nbsp; @return The updated state list<br>
+
 ```{r}
-library(tidyverse)
-one_play <- function(state){
-     # Wager
+    library(tidyverse)
+    one_play <- function(state){
+    # Wager
     proposed_wager <- ifelse(state$previous_win, 1, 2*state$previous_wager)
     wager <- min(proposed_wager, state$M, state$B)
     
@@ -100,7 +100,7 @@ one_series <- function(
 get_last <- function(x) x[length(x)] 
 
 
-# Simulation
+# Simulation 1
 walk_out_money <- rep(NA, 1000)
 for(j in seq_along(walk_out_money)){
   walk_out_money[j] <- one_series(B = 200, W = 300, L = 1000, M = 100) %>% get_last
@@ -114,5 +114,164 @@ mean(walk_out_money > 200)
 
 # Estimated earnings
 mean(walk_out_money - 200)
+plot(one_series(B = 200, W = 300, L = 1000, M = 100),ylab = "Money",xlab = "No. of plays")
 
 ```
+
+
+
+
+```{r}
+# Simulation 2
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 100, W = 150, L = 100, M = 1000) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 100)
+
+# Estimated earnings
+mean(walk_out_money - 100)
+plot(one_series(B = 100, W = 150, L = 100, M = 1000),ylab = "Money",xlab = "No. of plays")
+```
+
+```{r}
+# Simulation 3
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 100, W = 10000, L = 1000, M = 1000) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 1000)
+
+# Estimated earnings
+mean(walk_out_money - 1000)
+plot(one_series(B = 100, W = 10000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
+```
+
+
+```{r}
+# Simulation 4
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 100, W = 1000, L = 1000, M = 100) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 100)
+
+# Estimated earnings
+mean(walk_out_money - 100)
+plot(one_series(B = 100, W = 1000, L = 1000, M = 100),ylab = "Money",xlab = "No. of plays")
+```
+
+```{r}
+# Simulation 5
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 100, W = 1000, L = 1000, M = 1000) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 100)
+
+# Estimated earnings
+mean(walk_out_money - 100)
+plot(one_series(B = 100, W = 1000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
+```
+
+
+```{r}
+# Simulation 6
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 100, W = 150, L = 100, M = 10) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 100)
+
+# Estimated earnings
+mean(walk_out_money - 100)
+plot(one_series(B = 100, W = 150, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
+```
+
+```{r}
+# Simulation 7
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 200, W = 300, L = 1000, M = 10) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 200)
+
+# Estimated earnings
+mean(walk_out_money - 200)
+plot(one_series(B = 200, W = 300, L = 1000, M = 10),ylab = "Money",xlab = "No. of plays")
+```
+
+```{r}
+# Simulation 8
+walk_out_money <- rep(NA, 1000)
+for(j in seq_along(walk_out_money)){
+  walk_out_money[j] <- one_series(B = 200, W = 300, L = 100, M = 10) %>% get_last
+}
+
+# Walk out money distribution
+hist(walk_out_money, breaks = 100)
+
+# Estimated probability of walking out with extra cash
+mean(walk_out_money > 200)
+
+# Estimated earnings
+mean(walk_out_money - 200)
+plot(one_series(B = 200, W = 300, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
+```
+
+<b><u>First let's understand what is Martingale System? <br></b></u>
+The roulette has total of 38 even sized slots, 18 of which are red, 18 are black and rest 2 are green. Martingale System suggests that puts yours odds on black starting with $1 and if the ball lands on black then you will make additional $1 but if it lands on red then you will loose your bet money. Martingale suggested to double your bet each time such that if you llst all tge previous one and you won the current one you will end with $1 in profit. <br>
+<u>This technique seems lucrative to those who never played this game or atlest they will think that atleast they will not end up in loss if they just won 1 bet after many looses. </u><br>
+
+<u><b>Problems with this technique: </b></u>
+<ul>
+<li> <u><b> The odds : </b></u> There is a possibility that the ball land on green as there are 2 green spots on the table. Both balck and red can loose if the ball lands on 0 or green spot.</li>
+
+<li> <u><b> The Limits: </b></u> All the tables in casinos have betting limit which means that if your luck is on the loosing side and you reach the table betting limit then casino will stop from doubling your bet. Also no one has infinie money in their bank account. </li>
+
+<li> <b><u> Math: </u></b> This technique will help anyone alot but the profits will not be huge. Think of it this way : you may have few loosing sessions but the looses will be enoromous which will cancel out the winning sessions. </li> <br>
+
+<b><u>Limitation of Simulation: </u></b> <br>
+We need more samples to be sure about the distribution of the data but pc is computationally constaraint to cpu limitations. We would be needing infinite samples but that is not possible on PC. <br>
+Simulations are often not precise. Lack of prexision is difficult to measure. <br>
+It's a trial and error method that may produce different solutions in different run.<br>
+
+
+
+
+
+
+
+
+
+
