@@ -41,9 +41,18 @@ for(i in 1:length(p)){
 }
 ```
 
-
+''
 ```{r}
-plot(abserr)
+for(i in 1:5){
+  plot(abserr[,i])
+}
+
 ```
 
 
+```{r}
+for(i in 1:5){
+  plot(relerr[,i])
+}
+
+```
