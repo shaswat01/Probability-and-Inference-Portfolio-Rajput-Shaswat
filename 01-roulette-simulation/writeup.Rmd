@@ -266,6 +266,10 @@ We need more samples to be sure about the distribution of the data but pc is com
 Simulations are often not precise. Lack of prexision is difficult to measure. <br>
 It's a trial and error method that may produce different solutions in different run.<br>
 
+```{r}
+#Browser functioin after the function ois gonna open up all the variables and we can look them up.
+# If you are in iteration then use c in console to go to the next iteration and see. Add length at end. In plot(type='')
+```
 
 
 
