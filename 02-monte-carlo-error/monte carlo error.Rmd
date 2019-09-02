@@ -5,9 +5,12 @@ output: html_notebook
 
 Simulation generates approximate answers; there is some degree of error in a quantity estimated by Monte Carlo simulation. Intuitively, it seems that the degree of error should get smaller as the number of simulation replicates increases.
 
+
+Any simulation or measurement that we take is just asn approximation. It's impossible to achieve 100% accuracy. If we do simulation different number of times, chances are high that no 2 simulations will be same. This difference between same simulations is known as variation of simulations. This variation introduces an unwanted but an unavoidable uncertainty in our measurement. This uncertainty is called the Errors in simulations. 
+
 ### Absolute Error
 
-Absolute error is a measure of how far 'off' a measurement is from a true value or an indication of the uncertainty in a measurement. For example, Let's say that a car is going at speed of 
+Absolute error is a measure of how far 'off' a measurement is from a true value or an indication of the uncertainty in a measurement. For example, Let's say that a car is going at speed of 52 kmph but the odometer is actaully showing 50 kmph. So the absolute error will be the difference i.e. 2 kmph. Remember that the absolute error is always of same dimensiom as of actual value.
 
 Absolute Error = Actual Value - Measured Value
 
@@ -16,4 +19,5 @@ You first need to determine absolute error to calculate relative error. Relative
 
 Relative Error = Absolute Error / Known Value
 
-For example, a driver's speedometer says his car is going 60 miles per hour (mph) when it's actually going 62 mph. The absolute error of his speedometer is 62 mph - 60 mph = 2 mph. The relative error of the measurement is 2 mph / 60 mph = 0.033 or 3.3%
+Let's take the above example, we found that absolute error is 2 kmph. The relative error of the measurement will be 2 kmph / 50 kmph = 0.04 or 4.0% . As we can see that relative error is dimensionless. 
+
