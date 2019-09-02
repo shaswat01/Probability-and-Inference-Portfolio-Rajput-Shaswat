@@ -22,3 +22,28 @@ Relative Error = Absolute Error / Known Value
 
 Let's take the above example, we found that absolute error is 2 kmph. The relative error of the measurement will be 2 kmph / 50 kmph = 0.04 or 4.0% . As we can see that relative error is dimensionless. 
 
+
+```{r}
+
+
+p <- c(0.01,0.05,0.1, 0.25, 0.5)
+R <-c(2^(2:15))
+#set as a matrix so p1 p2 etc with r1 r2
+abserr <- matrix(NA,length(R), length(p))
+relerr <- matrix(NA,length(R), length(p))
+
+
+for(i in 1:length(p)){
+  for(j in 1:length(R)){
+      abserr[j,i] <- mean(abs((rbinom(10000,R[j],p[i])/R[j])-p[i]))
+      relerr[j,i] <- abserr[j,i]/p[i]
+  }
+}
+```
+
+
+```{r}
+plot(abserr)
+```
+
+
