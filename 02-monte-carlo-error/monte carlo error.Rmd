@@ -1,6 +1,8 @@
 ---
 title: "02-Monte-Carlo-Error"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 Simulation generates approximate answers; there is some degree of error in a quantity estimated by Monte Carlo simulation. Intuitively, it seems that the degree of error should get smaller as the number of simulation replicates increases.
@@ -105,7 +107,7 @@ for (j in seq_along(l1)){
         col=j, lwd=2, text(1, l1[[j]]$mae[1], l1[[j]]$p[1]))
 }
 ```
-
+<li>As we can see MAE decreases as number of replicates.</li>
 ```{r}
 plot.new()
 plot.window(xlim=c(0,15) , ylim= range(ss1$mre))
@@ -119,7 +121,8 @@ for (j in seq_along(l1)){
         col=j, lwd=2, text(1, l1[[j]]$mre[1], l1[[j]]$p[1] ))
 }
 ```
-
+<li> Same goes for the MRE, as number of replicates increases, MRE decreases. <br>
+As they can't be distinguished at large replicates, what we can do is we can use log10 scale for the y axis to be able to see the difference.</li>
 ```{r}
 ss1$mae_log = log10(ss1$mae)
 plot.new()
