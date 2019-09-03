@@ -42,6 +42,32 @@ for(i in 1:length(p)){
       relerr[j,i] <- abserr[j,i]/p[i]
   }
 }
+
+n <- rep(NA,14)
+for(i in 1:14){
+ n[i] <-2^(i+1)
+}
+M <- matrix(NA,14,5)
+p <- c(0.01, 0.05, 0.10, 0.25, 0.50)
+for(x in 1:length(p)){
+ for(y in 1:length(n)){
+   TestSample <- rep(NA,1000)
+   for(z in 1:1000){
+     TestSample[z] <- abs(rbinom(1, n[y],p[x])/n[y]-p[x])
+   }
+   M[y,x]<- mean(TestSample)
+ }
+
+}
+plot(M[,1], xlim = c(0,14),ylim = c(0,0.2),xaxt="n",xlab = "N(log2 scale)",ylab="Absolute Error")
+lname <- p
+xname <- n
+axis(1, at=1:14,las=2,lab=xname)
+lines(M[,1],col="red",type = "b")
+lines(M[,2],col="blue",type = "b")
+lines(M[,3],col="green",type = "b")
+lines(M[,4],col="purple",type = "b")
+lines(M[,5],col="orange",type = "b")
 ```
 
 ```{r}
@@ -70,7 +96,6 @@ ss1$xlog2 <- log2(ss1$N)
 plot.new()
 plot.window(xlim=c(0,15) , ylim= range(ss1$mae))
 axis(1, 2:15, 2^(2:15))
-plot
 axis(2)
 box()
 l1 <- ss1 %>% split(.$p) #split it on p (list of 5 data frames)
@@ -124,7 +149,6 @@ for (j in seq_along(l1)){
         col=j, lwd=2, text(1, l1[[j]]$mre_log[1], l1[[j]]$p[1]))
 }
 ```
-
 
 
 
