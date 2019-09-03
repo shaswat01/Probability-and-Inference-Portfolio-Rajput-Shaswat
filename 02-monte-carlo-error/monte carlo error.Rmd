@@ -70,13 +70,14 @@ ss1$xlog2 <- log2(ss1$N)
 plot.new()
 plot.window(xlim=c(0,15) , ylim= range(ss1$mae))
 axis(1, 2:15, 2^(2:15))
+plot
 axis(2)
 box()
 l1 <- ss1 %>% split(.$p) #split it on p (list of 5 data frames)
 
 for (j in seq_along(l1)){
   lines(l1[[j]] $ xlog2 , l1[[j]]$mae, type="b", pch=16,
-        col=j, lwd=3, text(2, l1[[j]]$mae[1], l1[[j]]$p[1]))
+        col=j, lwd=2, text(1, l1[[j]]$mae[1], l1[[j]]$p[1]))
 }
 ```
 
@@ -90,7 +91,7 @@ l1 <- ss1 %>% split(.$p) #split it on p (list of 5 data frames)
 
 for (j in seq_along(l1)){
   lines(l1[[j]] $ xlog2 , l1[[j]]$mre ,type="b", pch=16,
-        col=j, lwd=3, text(2, l1[[j]]$mre[1], l1[[j]]$p[1] ))
+        col=j, lwd=2, text(1, l1[[j]]$mre[1], l1[[j]]$p[1] ))
 }
 ```
 
@@ -105,7 +106,7 @@ l1 <- ss1 %>% split(.$p) #split it on p (list of 5 data frames)
 
 for (j in seq_along(l1)){
   lines(l1[[j]] $ xlog2 , l1[[j]]$mae_log, type="b", pch=16,
-        col=j, lwd=3, text(2, l1[[j]]$mae_log[1], l1[[j]]$p[1]))
+        col=j, lwd=2, text(1, l1[[j]]$mae_log[1], l1[[j]]$p[1]))
 }
 ```
 
@@ -120,7 +121,7 @@ l1 <- ss1 %>% split(.$p) #split it on p (list of 5 data frames)
 
 for (j in seq_along(l1)){
   lines(l1[[j]] $ xlog2 , l1[[j]]$mre_log, type="b", pch=16,
-        col=j, lwd=3, text(2, l1[[j]]$mre_log[1], l1[[j]]$p[1]))
+        col=j, lwd=2, text(1, l1[[j]]$mre_log[1], l1[[j]]$p[1]))
 }
 ```
 
