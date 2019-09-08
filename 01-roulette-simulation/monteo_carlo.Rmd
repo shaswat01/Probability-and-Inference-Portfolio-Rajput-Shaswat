@@ -1,22 +1,9 @@
 ---
 title: "01-Roulette-Simulation"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
-
-
-#' A single play of the Martingale strategy <br>
-#' <br>
-#' Takes a state list, spins the roulette wheel, returns the state list with updated values (for example, budget, plays, etc) <br>
-#' @param state A list with the following entries: <br>
-#'&nbsp;   B       &nbsp;&nbsp;       number, the budget<br>
-#'&nbsp;   W       &nbsp;&nbsp;       number, the budget threshold for successfully stoping<br>
-#'&nbsp;   L       &nbsp;&nbsp;       number, the maximum number of plays <br>
-#'&nbsp;   M       &nbsp;&nbsp;       number, the casino wager limit<br>
-#'&nbsp;   plays   &nbsp;&nbsp;       integer, the number of plays executed<br>
-#'&nbsp;   previous_wager number, the wager in the previous play (0 at first play)<br>
-#'&nbsp;   previous_win   TRUE/FALSE, indicator if the previous play was a win (TRUE at first play)<br>
-#'&nbsp; @return The updated state list<br>
-
 
 
 ### <b><u>First let's understand what is Martingale System? <br></b></u>
@@ -34,11 +21,17 @@ The roulette has total of 38 even sized slots, 18 of which are red, 18 are black
 #### <b><u>Limitation of Simulation: </u></b> <br>
 We need more samples to be sure about the distribution of the data but pc is computationally constaraint to cpu limitations. We would be needing infinite samples but that is not possible on PC. <br>
 Simulations are often not precise. Lack of prexision is difficult to measure. <br>
-It's a trial and error method that may produce different solutions in different run.<br>
+It's a trial and error method that may produce different solutions in different run.<br><br>
 
-
-```{r}
-    library(tidyverse)
+#### <b><u>Simulation</u></b>
+##### <b><u>Parameters :</u></b>
+Param B: the starting budget<br>
+Param W: the budget threshold for successfully stoping<br>
+Param L: the maximum number of plays <br>
+Param M: the casino wager limit<br>
+Return A : vector of budget values calculated after each play.<br>
+```{r echo=FALSE}
+ library(tidyverse)
     one_play <- function(state){
     # Wager
     proposed_wager <- ifelse(state$previous_win, 1, 2*state$previous_wager)
@@ -63,11 +56,7 @@ It's a trial and error method that may produce different solutions in different 
 }
 
 
-#' Stopping rule
-#'
-#' Takes the state list and determines if the gambler has to stop
-#' @param state A list.  See one_play
-#' @return TRUE/FALSE
+
 stop_play <- function(state){
   if(state$B <= 0) return(TRUE)
   if(state$plays >= state$L) return(TRUE)
@@ -75,14 +64,6 @@ stop_play <- function(state){
   FALSE
 }
 
-
-#' Play roulette to either bankruptcy, success, or play limits
-#'
-#' @param B number, the starting budget
-#' @param W number, the budget threshold for successfully stoping
-#' @param L number, the maximum number of plays 
-#' @param M number, the casino wager limit
-#' @return A vector of budget values calculated after each play.
 one_series <- function(
     B = 200
   , W = 300
@@ -119,8 +100,11 @@ one_series <- function(
 # helper function
 get_last <- function(x) x[length(x)] 
 
+```
 
-# Simulation 1
+#### <b> <u> Simulation 1:</u></b>
+
+```{r}
 walk_out_money <- rep(NA, 1000)
 for(j in seq_along(walk_out_money)){
   walk_out_money[j] <- one_series(B = 200, W = 300, L = 1000, M = 100) %>% get_last
@@ -138,8 +122,13 @@ plot(one_series(B = 200, W = 300, L = 1000, M = 100),ylab = "Money",xlab = "No. 
 
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 200 ; W = 300 ; L = 1000 ; M = 100 </u><br>
+After running the simulation we find that chance of our winning is 0.527 with average walk out money of -41.8 dollars. As we can see from the second plot above we do end up with $50 in profit after around 100 plays but if we increased our number of play we tend to loose money. I ran this simulation multiple time and every time I end up with different results as we need more samples but our computation power is limited. Anyways, what the plot above tells us that we have chance of winning around 0.52 with average walk out money of -41.8 dollars. 
 
+##### <b><u> As a data scientist we should have curosity to ask that what will happen if I change the parameters. Is there a connection between the parameters. Let's find out...</u></b><br>
 
+#### <b><u>Simulation 2:</u></b>
 
 ```{r}
 # Simulation 2
@@ -159,6 +148,11 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 150, L = 100, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u><In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 150 ; L = 100 ; M = 1000 </u><br>
+
+
+#### <b><u>Simulation 3:</u></b>
 ```{r}
 # Simulation 3
 walk_out_money <- rep(NA, 1000)
@@ -177,7 +171,10 @@ mean(walk_out_money - 1000)
 plot(one_series(B = 100, W = 10000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 1000 ; L = 1000 ; M = 1000 </u><br>
 
+#### <b><u>Simulation 4:</u></b>
 ```{r}
 # Simulation 4
 walk_out_money <- rep(NA, 1000)
@@ -196,6 +193,11 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 1000, L = 1000, M = 100),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 1000 ; L = 1000 ; M = 100 </u><br>
+
+
+#### <b><u>Simulation 5:</u></b>
 ```{r}
 # Simulation 5
 walk_out_money <- rep(NA, 1000)
@@ -214,7 +216,10 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 1000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 1000 ; L = 1000 ; M = 1000</u> <br>
 
+#### <b><u>Simulation 6:</u></b>
 ```{r}
 # Simulation 6
 walk_out_money <- rep(NA, 1000)
@@ -233,6 +238,10 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 150, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 150 ; L = 100 ; M = 10 </u><br>
+
+#### <b><u>Simulation 7:</u></b>
 ```{r}
 # Simulation 7
 walk_out_money <- rep(NA, 1000)
@@ -251,6 +260,10 @@ mean(walk_out_money - 200)
 plot(one_series(B = 200, W = 300, L = 1000, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 200 ; W = 300 ; L = 1000 ; M = 10 </u><br>
+
+#### <b><u>Simulation 8:</u></b>
 ```{r}
 # Simulation 8
 walk_out_money <- rep(NA, 1000)
@@ -269,13 +282,18 @@ mean(walk_out_money - 200)
 plot(one_series(B = 200, W = 300, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 200 ; W = 300 ; L = 100 ; M = 10 </u><br>
 
 
+#### <u><b>Conclusions :</b></u> <br>
 
-```{r}
-#Browser function after the function is gonna open up all the variables and we can look them up.
-# If you are in iteration then use c in console to go to the next iteration and see. Add length at end. In plot(type='')
-```
+<li>So we infer from the above graphs that there is no chance if you are going with a small budget and expecting that your money is gonna get increase by almost 1000%. This strategy is not your best bet then. </li><br>
+<li>Throughtout the simulation our earnings remained negative which tells us that this strategy is not the best strategy out there. </li><br>
+<li> We do infer one thing that there is an relation between parameters. We found out that if are going wit less budget and expecting less profit with less number number of plays with high wager limit by casino then probability of winning is the highest, i.e. 0.562 </li><br>
+<li> Overall, this strategy is not your bet to the path to riches. There are many strategies which can be simulated the same way as we did this and can find out which is the best to play with.</li>
+
+
 
 
 
