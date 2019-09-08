@@ -1,30 +1,36 @@
 ---
 title: "02-Monte-Carlo-Error"
 output: html_notebook
+author: Shaswat Rajput
+
+
 ---
 
+
+### <b><u>What is error? What is uncertanity in simulations? </u></b>
 Simulation generates approximate answers; there is some degree of error in a quantity estimated by Monte Carlo simulation. Intuitively, it seems that the degree of error should get smaller as the number of simulation replicates increases.
 
-
-Any simulation or measurement that we take is just asn approximation. It's impossible to achieve 100% accuracy. If we do simulation different number of times, chances are high that no 2 simulations will be same. This difference between same simulations is known as variation of simulations. This variation introduces an unwanted but an unavoidable uncertainty in our measurement. This uncertainty is called the Errors in simulations. 
+Any simulation or measurement that we take is just an approximation. It's impossible to achieve 100% accuracy. If we do simulation different number of times, chances are high that no 2 simulations will be same. This difference between same simulations is known as variation of simulations. This variation introduces an unwanted but an unavoidable uncertainty in our measurement. This uncertainty is called the Errors in simulations. 
 The errors in measurement is a mathematical way to show the uncertainty in the measurement.  It is the difference between the result of the measurement and the true value of what we were measuring.
 
-### Absolute Error
+### <u>Absolute Error</u>
 
-Absolute error is a measure of how far 'off' a measurement is from a true value or an indication of the uncertainty in a measurement. For example, Let's say that a car is going at speed of 52 kmph but the odometer is actaully showing 50 kmph. So the absolute error will be the difference i.e. 2 kmph. Remember that the absolute error is always of same dimensiom as of actual value.
+Absolute error is a measure of how far 'off' a measurement is from a true value or an indication of the uncertainty in a measurement. <u>For example, Let's say that a car is going at speed of 52 kmph but the odometer is actaully showing 50 kmph. So the absolute error will be the difference i.e. 2 kmph. Remember that the absolute error is always of same dimensiom as of actual value.</u>
 
-Absolute Error = Actual Value - Measured Value
+<b> <u>Absolute Error = Actual Value - Measured Value </u></b>
 
-### Relative Error
+### <u>Relative Error</u>
 You first need to determine absolute error to calculate relative error. Relative error expresses how large the absolute error is compared with the total size of the object you are measuring. Relative error is expressed as a fraction or is multiplied by 100 and expressed as a percent.
 
-Relative Error = Absolute Error / Known Value
+<b> <u>Relative Error = Absolute Error / Known Value </u></b>
 
-Let's take the above example, we found that absolute error is 2 kmph. The relative error of the measurement will be 2 kmph / 50 kmph = 0.04 or 4.0% . As we can see that relative error is dimensionless. 
+<u>Let's take the above example, we found that absolute error is 2 kmph. The relative error of the measurement will be 2 kmph / 50 kmph = 0.04 or 4.0% . As we can see that relative error is dimensionless. </u>
 
 ```{r}
 library(tidyverse)
 ```
+
+#### <u>Absolute and Relative Error relation with number of replicates : </u>
 
 ```{r}
 
@@ -70,6 +76,10 @@ lines(M[,4],col="purple",type = "b")
 lines(M[,5],col="orange",type = "b")
 ```
 
+
+<b>What all the probability simulations have in common?</b><br>
+When we increase the number of simulations we found that absolute error decreases. Let's find out about the relative error relation with number of simulations.
+
 ```{r}
 ss1<-expand.grid(N = 2^(2:15)
             ,p = c(0.01,0.25,0.1,0.05,0.5)
@@ -105,7 +115,9 @@ for (j in seq_along(l1)){
         col=j, lwd=2, text(1, l1[[j]]$mae[1], l1[[j]]$p[1]))
 }
 ```
-<li>As we can see MAE decreases as number of replicates.</li>
+
+<li><u>As we can see MAE decreases as number of replicates increases.</u></li>
+
 ```{r}
 plot.new()
 plot.window(xlim=c(0,15) , ylim= range(ss1$mre))
@@ -119,8 +131,13 @@ for (j in seq_along(l1)){
         col=j, lwd=2, text(1, l1[[j]]$mre[1], l1[[j]]$p[1] ))
 }
 ```
-<li> Same goes for the MRE, as number of replicates increases, MRE decreases. <br>
-As they can't be distinguished at large replicates, what we can do is we can use log10 scale for the y axis to be able to see the difference.</li>
+
+<li> <u>Same goes for the MRE, as number of replicates increases, MRE decreases.</u> <br>
+<li> We also found one intresting thing that the smaller the actual value is, the smaller the absolute error is and the bigger relative error is. </li> <br>
+As both Absolute and relative error can't be distinguished at large replicates, what we can do is we can use log10 scale for the y axis to be able to see the difference.</li>
+
+### <b><u> Same Simulation with log10 Y-AXIS : </u></b>
+
 ```{r}
 ss1$mae_log = log10(ss1$mae)
 plot.new()
@@ -151,8 +168,9 @@ for (j in seq_along(l1)){
 }
 ```
 
-
-
+#### <b><u> Conclusion: </u></b><br>
+We can conclude from the above simulations that as the number of replicates increased, both relative and absolute error tend to decrease. From the simulations we can find the optimum number of replicates for our experiment and can get least error as poosible. <br>
+We also find an intresting result that for small number of values our absolute error is small but relative error is large. But as number of replicates get increased both error tend to decrease. 
 
 
 
