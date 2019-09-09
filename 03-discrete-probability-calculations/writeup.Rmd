@@ -91,6 +91,31 @@ for (i in 3:100) {
 
 ```
 
+<b><u>4. What is the shortest series length so that P(Braves win World Series| P<sub>b</sub> = x) ≥ 0.8? This will be a figure (see below) with P<sub>b</sub> on the x-axis and series length is the y-axis. </u></b>
+
+```{r}
+min_game <- 0
+for (i in 3:100) {
+  for (j in seq_along(probab)) {
+    if (ev_od(i) == "even") {
+      win_probab = pbinom((i / 2), i, probab[j], lower.tail = FALSE)
+      if (win_probab >= 0.8) {
+        min_game <- min_game + 1
+        print(i)
+        break
+      }
+    }  else if (ev_od(i) == "odd") {
+      win_probab = pbinom(floor(i / 2), i, probab[j], lower.tail = FALSE)
+      if (win_probab >= 0.8) {
+        min_game <- min_game + 1
+        print(i)
+        break
+      }
+    }
+  }
+}
+```
+
 
 
 
