@@ -1,0 +1,21 @@
+---
+title: "03-Discrete-Probability-Calculations"
+author: "Shaswat Rajput"
+output: html_notebook
+---
+
+### <b><u> What is Probability ? </u></b>
+Probability is a branch of mathematics that deals with calculating the likelihood of a given event's occurrence, which is expressed as a number between 1 and 0. An event with a probability of 1 can be considered a certainty: for example, the probability of a coin toss resulting in either "heads" or "tails" is 1, because there are no other options, assuming the coin lands flat. An event with a probability of .5 can be considered to have equal odds of occurring or not occurring: for example, the probability of a coin toss resulting in "heads" is .5, because the toss is equally as likely to result in "tails." An event with a probability of 0 can be considered an impossibility: for example, the probability that the coin will land (flat) without either side facing up is 0, because either "heads" or "tails" must be facing up. A little paradoxical, probability theory applies precise calculations to quantify uncertain measures of random events.<br>
+
+<b> What is a probabilistic model? </b><br>
+A probabilistic model is a quantative description of a situation, a phenomenon or an experiment where outcome is uncertain.
+
+#### <b><u> Axioms: </u></b><br>
+The rules that any probabilistic model should satisfy are called axioms of probability.
+<li> <b><u>Non-Negativity: P(A) > 0 </li>
+<li> Normalisation: P(Ω) = 1</li>
+<li> Additivity (Finite) : If two events are disjoint then, P(A ∪ B) = P(A) + P(B) </li></u></b>
+These 3 axioms are the only requirement in order to have a legitimate probability model. <br>
+
+
+
