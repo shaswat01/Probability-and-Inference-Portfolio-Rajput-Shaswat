@@ -17,5 +17,47 @@ The rules that any probabilistic model should satisfy are called axioms of proba
 <li> Additivity (Finite) : If two events are disjoint then, P(A ∪ B) = P(A) + P(B) </li></u></b>
 These 3 axioms are the only requirement in order to have a legitimate probability model. <br>
 
+#### <b><u>Role of Probability Theory: </u></b>
+<li>A Framework for analysing phenomena with uncertain outcomes. </li>
+<li>Rule for consistent reasoning. </li>
+<li>Used for predictions and decisions. </li>
+
+#### <b><u>Discrete Uniform Law: </u></b>
+<li> Assume Ω consists of n equally likely elements. </li>
+<li> Assume A consists of k elements. </li>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;So, P(A) = k/n
+
+#### <b><u>Probability Calculation Steps: </u></b>
+<li>Specify the sample space </li>
+<li>Specify the probability law </li>
+<li>Identify the event of interest </li>
+<li>Calculate... </li>
+
+### <b><u>Let's understand about Discrete Probability through following Problem: </u></b>
+#### <b><u>How often does the better team win the World Series? </u></b><br>
+The world series is a best-of-7 match-up between the champions of the American and National Leagues of Major League Baseball. In this assignment, you are going to explain probability calculations related to the world series. <br>
+
+##### <b><u>Setup: </u></b><br>
+<li>Suppose that the Braves and the Yankees are teams competing in the World Series. </li>
+<li>Suppose that in any given game, the probability that the Braves win is P<sub>b</sub> and the probability that the Yankees win is P<sub>y</sub> = 1−P<sub>b</sub>. </li> <br>
+
+<b><u>1. What is the probability that the Braves win the World Series given that P<sub>b</sub> = 0.55? </u></b><br>
+```{r}
+dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) 
+```
+We can say that the probability of Braves winining the world series is ---->
+P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br>
+
+<b><u>2. What is the probability that the Braves win the World Series given that P<sub>b</sub> = x? This will be a figure (see below) with PB on the x-axis and P(Braves win World Series) on the y-axis. </u></b><br>
+```{r}
+probab <- seq(0.5,1.0, length.out = 100)
+win_probab <- rep(NA,100)
+for (i in seq_along(probab)){
+  win_probab[i] = dbinom(4,7,probab[i]) + dbinom(5,7,probab[i]) +dbinom(6,7,probab[i]) +dbinom(7,7,probab[i]) 
+}
+plot(probab,win_probab,xlab = "Probability of Braves winning a head-to-headmatchup",ylab = "P(Win World Series)")
+```
+
+
 
 
