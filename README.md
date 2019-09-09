@@ -10,4 +10,4 @@ Probability and Inference class Assignment repo
 [Monte Carlo Error HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/02-monte-carlo-error/monte%20carlo%20error.nb.html) <br><br>
 
 3. [03-Discrete-Probability-Calculations](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/03-discrete-probability-calculations)<br>
-[Discrete Probability Calcculations HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/03-discrete-probability-calculations/writeup.nb.html) <br><br>
+[Discrete Probability Calculations HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/03-discrete-probability-calculations/writeup.nb.html) <br><br>
