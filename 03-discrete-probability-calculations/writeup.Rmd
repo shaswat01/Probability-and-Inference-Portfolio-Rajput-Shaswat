@@ -44,6 +44,7 @@ The world series is a best-of-7 match-up between the champions of the American a
 <b><u>1. What is the probability that the Braves win the World Series given that P<sub>b</sub> = 0.55? </u></b><br>
 ```{r}
 dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) 
+pbinom(3,7,0.55,lower.tail = FALSE)
 ```
 We can say that the probability of Braves winining the world series is ---->
 P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br>
@@ -53,10 +54,50 @@ P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br>
 probab <- seq(0.5,1.0, length.out = 100)
 win_probab <- rep(NA,100)
 for (i in seq_along(probab)){
-  win_probab[i] = dbinom(4,7,probab[i]) + dbinom(5,7,probab[i]) +dbinom(6,7,probab[i]) +dbinom(7,7,probab[i]) 
+  win_probab[i] = pbinom(3,7,probab[i],lower.tail = FALSE)
 }
 plot(probab,win_probab,xlab = "Probability of Braves winning a head-to-headmatchup",ylab = "P(Win World Series)")
 ```
+
+<b><u>3. Suppose one could change the World Series to be best-of-9 or some other best-of-X series. What is the shortest series length so that P(Braves win World Series|Psub>b</sub> = 0.55) ≥ 0.8 ?</u></b>
+Let's assume Braves are playing thre best of 11 series. In any given series, a minimum of more than half is required, so in this cade a minimum of 6 wins are required to win the World Series.
+```{r}
+ev_od <- function (x) {
+  if (x %% 2 ==0){
+    return("even")
+  }else {
+    return ('odd')
+  }
+}
+# min_game <- seq(1:70)
+min_game <- 0
+for (i in 3:100) {
+  if (ev_od(i) == "even") {
+    win_probab = pbinom((i / 2), i, 0.55, lower.tail = FALSE)
+    if (win_probab >= 0.8) {
+      min_game <- min_game + 1
+      print(i)
+      break
+    }
+  }else if (ev_od(i) == "odd") {
+      win_probab = pbinom(floor(i / 2), i, 0.55, lower.tail = FALSE)
+      if (win_probab >= 0.8) {
+        min_game <- min_game + 1
+        print(i)
+        break
+      }
+}
+}
+
+```
+
+
+
+
+
+
+
+
 
 
 
