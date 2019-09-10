@@ -91,25 +91,45 @@ for (i in 3:100) {
 <b><u>4. What is the shortest series length so that P(Braves win World Series| P<sub>b</sub> = x) ≥ 0.8? This will be a figure (see below) with P<sub>b</sub> on the x-axis and series length is the y-axis. </u></b>
 
 ```{r}
-min_game <- rep(NA,1000)
-for (i in 3:100) {
-  for (j in seq_along(probab)) {
-    if (ev_od(i) == "even") {
-      win_probab = pbinom((i / 2), i, probab[j], lower.tail = FALSE)
-      if (win_probab >= 0.8) {
-        append(min_game,i)
-        append(min_game,win_probab)
-        
-      }
-    }  else if (ev_od(i) == "odd") {
-      win_probab = pbinom(floor(i / 2), i, probab[j], lower.tail = FALSE)
-      if (win_probab >= 0.8) {
-        append(min_game,win_probab)
-        
-      }
+# min_game <- vector()
+# 
+# for (i in 3:100){
+#   for (j in seq_along(probab)){
+#     if (pbinom(floor(i / 2), i, probab[j], lower.tail = FALSE) >= 0.8){
+#       min_game <- c(min_game,i)
+#     }
+#   }
+# }
+# plot(x=probab,y=min_game, type = 'l')
+
+
+p_winning <- function(req_wins,p){
+  losses <- req_wins-1
+  p_ws <-0
+  
+  while (losses >= 0 ){
+    p_ws <- p_ws + dbinom(losses, req_wins,p)
+    losses = losses-1
+  }
+  return(p_ws)
+}
+
+games <- seq(3,1500,2)
+probab_b <- seq(0.51,1,0.0001)
+min_win <- rep(NA,length(probab_b))
+
+for(i in seq_along(probab_b)){
+  for (j in seq_along(games)){
+    req_wins <- floor(0.5*games[j]) +1
+    probab_B_WS <- p_winning(req_wins = req_wins, probab_b[i])
+    if(probab_B_WS >= 0.8){
+      break
     }
   }
+  min_win[i] <- games[j]
 }
+
+plot(y = min_win, x= probab_b, type='l',lwd = 2.5,xlab = "Probability of Braves winning a head to head matchup", ylab = "Series Length")
 ```
 
 
