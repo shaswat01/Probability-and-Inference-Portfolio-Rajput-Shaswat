@@ -115,7 +115,7 @@ p_winning <- function(req_wins,p){
 }
 
 games <- seq(3,1500,2)
-probab_b <- seq(0.51,1,0.0001)
+probab_b <- seq(0.51,1.0,0.0001)
 min_win <- rep(NA,length(probab_b))
 
 for(i in seq_along(probab_b)){
@@ -129,7 +129,7 @@ for(i in seq_along(probab_b)){
   min_win[i] <- games[j]
 }
 
-plot(y = min_win, x= probab_b, type='l',lwd = 2.5,xlab = "Probability of Braves winning a head to head matchup", ylab = "Series Length")
+plot(y = min_win, x= rev(probab_b), type='l',lwd = 2.5,xlab = "Probability of Braves winning a head to head matchup", ylab = "Series Length")
 ```
 
 
@@ -137,11 +137,12 @@ plot(y = min_win, x= probab_b, type='l',lwd = 2.5,xlab = "Probability of Braves 
 <b><u>5. Calculate P(P<sub>b</sub> = 0.55|Braves win World Series in 7 games) under the assumption that either P<sub>b</sub> = 0.55 or P<sub>b</sub> = 0.45. Explain your solution.<br></u></b>
 <li> Let's assume that the P(P<sub>b</sub> = 0.55) and P(P<sub>b</sub> = 0.45) = 0.5, meaning that the events are equally likely.</li>
 ```{r}
-(0.5 * pbinom(3,7,0.55,lower.tail = FALSE)) / ((0.5 * pbinom(3,7,0.55,lower.tail = FALSE))+ (0.5 * pbinom(3,7,0.45,lower.tail = FALSE)) )
+(0.5 * dnbinom(3,4,0.55)) / ((0.5 * dnbinom(3,4,0.55))+ (0.5 * dnbinom(3,4,0.45)) )
 ```
 So, P(P<sub>b</sub> = 0.55 | Braves win World Series in 7 games) = P(P<sub>b</sub> = 0.55 ∩ Braves win World Series in 7 games) / P(B) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR <br>
-= P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) / ((P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) + (P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55)) = 0.6082878
+= P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) / ((P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) + (P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55)) = 0.55
+
 
 
 
