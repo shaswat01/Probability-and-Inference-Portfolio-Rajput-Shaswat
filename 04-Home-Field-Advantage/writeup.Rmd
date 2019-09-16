@@ -38,97 +38,101 @@ library(magrittr)
 1. Compute analytically the probability that the Braves win the world series when the sequence of game locations is {NYC, NYC, ATL, ATL, ATL, NYC, NYC}. Calculate the probability with and without home field advantage when P<sub>b</sub>= 0.55. What is the difference in probabilities?
 
 ```{r}
-hf1 <- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
+require(dplyr)
+require(data.table)
+# Get all possible outcomes
+apo <- fread("all-possible-world-series-outcomes.csv")
+set.seed(44)
+hfi <- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
 pb <- 0.55
 advantage_multiplier <- 1.1
 pbh <- 0.55*advantage_multiplier
 pba <- 1 - (1 - 0.55)*advantage_multiplier
 
 # Without Home Advantage
-pbinom(3,7,pb,lower.tail = F)
+analy_without<- pbinom(3,7,pb,lower.tail = F)
 
 # With home Aadvantage 
-a <- list()
-for (i in seq_along(hf1)) {
-  if (hf1[i] == 0){
-    a[i] <- dbinom(1,1,pba)
+apo[, p := NA_real_] # Initialize new column in apo to store prob
+for(i in 1:nrow(apo)){
+  prob_game <- rep(1, 7)
+  for(j in 1:7){
+    p_win <- ifelse(hfi[j], pbh, pba)
+    prob_game[j] <- case_when(
+        apo[i,j,with=FALSE] == "W" ~ p_win
+      , apo[i,j,with=FALSE] == "L" ~ 1 - p_win
+      , TRUE ~ 1
+    )
   }
-  else if (hf1[i] == 1) {
-    a[i] <- dbinom(1,1,pbh)
-  }
+  apo[i, p := prod(prob_game)] # Data.table syntax
 }
-Reduce("+",a)/7
 
-world_series <- function(p_game,hf1=c(0,0,1,1,1,0,0)) {
-  wins <- 0 
-  games <- 0
-  for (i in seq_along(hf1)){
-    if(hf1[i]){
-      p_game <- pbh
-    } else {
-      p_game <- pba
-    }
-    game_outcome <- rbinom(1,1,p_game)
-    wins <- wins+ game_outcome
-    games <- games + 1
-    if (wins == 4 | games - wins == 4) break
-  }
-  return(wins>3)
-}
-world_series(1)
+# Sanity check: does sum(p) == 1?
+apo[, sum(p)] # This is data.table notation
+
+# Probability of overall World Series outcomes
+apo[, sum(p), overall_outcome]
+
 ```
+There is difference in the analytical method if the team has advantage or without it. 
+Absolute Error = 0.6082878 - 0.604221	= 0.0040668
+Relative error = 0.0040668/0.6082878 = 0.00668565
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+2.Calculate the same probabilities as the previous question by simulation.
 
 ```{r}
+# Without home advantage 
+without_home_adv<-mean(rbinom(10000000,7,0.55)>3)
+without_home_adv
+#With Home Advantage
+with_adv <- mean((rbinom(100000,4,pba)+ rbinom(100000,3,pbh))>3)
+with_adv
+```
 
-hf1 <- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
-pb <- 0.55
-advantage_multiplier <- 1.1
-pbh <- 0.55*advantage_multiplier
-pba <- 1 - (1 - 0.55)*advantage_multiplier
 
-world_series <- function(x) {
-  wins <- 0 
-  games <-0 
-  for (i in 1:7) {
-    game_outcome <- rbinom(1,1,x)
-    wins <- wins + game_outcome
-    games <- games + 1
-    if (wins ==4 | games - wins ==4) break
-  }
-  return (wins >3)
-} 
+3. What is the absolute and relative error for your simulation in the previous question?
 
-world_series(0.55)
+```{r}
+# Mean absolute Error (with home advantage)
+(0.604221	 - with_adv)
+# Relative Error (with home advantage)
+(0.604221	 - with_adv)/0.604221
+
+#Mean absolute Error (without home advantage)
+analy_without - without_home_adv
+
+## Relative Error (without home advantage)
+(analy_without-without_home_adv)/analy_without
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 
