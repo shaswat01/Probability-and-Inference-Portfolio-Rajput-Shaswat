@@ -1753,8 +1753,134 @@ summary {
 
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-text-begin -->
+<div id="if-home-field-advantage-exists-how-much-of-an-impact-does-it-have-on-winning-the-world-series" class="section level2">
+<h2>If home field advantage exists, how much of an impact does it have on winning the world series? <br></h2>
+<div id="setup" class="section level3">
+<h3>SETUP :</h3>
+<li>
+Suppose that the Braves and the Yankees are teams competing in the World Series.
+</li>
+<li>
+The table below has the two possible schedules for each game of the series. (NYC = New York City, ATL = Atlanta)
+</li>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Overall advantage</th>
+<th align="center">Game 1</th>
+<th align="center">Game 2</th>
+<th align="center">Game 3</th>
+<th align="center">Game 4</th>
+<th align="center">Game 5</th>
+<th align="center">Game 6</th>
+<th align="center">Game 7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Braves</td>
+<td align="center">ATL</td>
+<td align="center">ATL</td>
+<td align="center">NYC</td>
+<td align="center">NYC</td>
+<td align="center">NYC</td>
+<td align="center">ATL</td>
+<td align="center">ATL</td>
+</tr>
+<tr class="even">
+<td align="center">Yankees</td>
+<td align="center">NYC</td>
+<td align="center">NYC</td>
+<td align="center">ATL</td>
+<td align="center">ATL</td>
+<td align="center">ATL</td>
+<td align="center">NYC</td>
+<td align="center">NYC</td>
+</tr>
+</tbody>
+</table>
+<li>
+Let <em>P</em><sub><em>B</em></sub> be the probability that the Braves win a single head-to-head match-up with the Yankees, under the assumption that home field advantage doesn’t exist. Let <em>P</em><sub><em>B</em></sub><sup><em>H</em></sup> denote the probability that the Braves win a single head-to-head match-up with the Yankees as the home team (H for home). Let <em>P</em><sub><em>B</em></sub><sup><em>A</em></sup> denote the probability that the Braves win a single head-to-head match-up with the away team (A for away).
+</li>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Game location</th>
+<th align="center">No advantage</th>
+<th align="left">Advantage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">ATL</td>
+<td align="center"><em>P</em><sub><em>B</em></sub></td>
+<td align="left"><em>P</em><sub><em>B</em></sub><sup><em>H</em></sup> = <em>P</em><sub><em>B</em></sub> * 1.1</td>
+</tr>
+<tr class="even">
+<td align="center">NYC</td>
+<td align="center"><em>P</em><sub><em>B</em></sub></td>
+<td align="left"><em>P</em><sub><em>B</em></sub><sup><em>A</em></sup> = 1 − (1 − <em>P</em><sub><em>B</em></sub>) * 1.1</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Compute analytically the probability that the Braves win the world series when the sequence of game locations is {NYC, NYC, ATL, ATL, ATL, NYC, NYC}. Calculate the probability with and without home field advantage when P<sub>b</sub>= 0.55. What is the difference in probabilities?</li>
+</ol>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud29ybGRfc2VyaWVzKDEpXG5cbmBgYCJ9 -->
+<pre class="r"><code>world_series(1)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5oZjEgPC0gYygwLDAsMSwxLDEsMCwwKSAjIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9XG5wYiA8LSAwLjU1XG5hZHZhbnRhZ2VfbXVsdGlwbGllciA8LSAxLjFcbnBiaCA8LSAwLjU1KmFkdmFudGFnZV9tdWx0aXBsaWVyXG5wYmEgPC0gMSAtICgxIC0gMC41NSkqYWR2YW50YWdlX211bHRpcGxpZXJcblxud29ybGRfc2VyaWVzIDwtIGZ1bmN0aW9uKHgpIHtcbiAgd2lucyA8LSAwIFxuICBnYW1lcyA8LTAgXG4gIGZvciAoaSBpbiAxOjcpIHtcbiAgICBnYW1lX291dGNvbWUgPC0gcmJpbm9tKDEsMSx4KVxuICAgIHdpbnMgPC0gd2lucyArIGdhbWVfb3V0Y29tZVxuICAgIGdhbWVzIDwtIGdhbWVzICsgMVxuICAgIGlmICh3aW5zID09NCB8IGdhbWVzIC0gd2lucyA9PTQpIGJyZWFrXG4gIH1cbiAgcmV0dXJuICh3aW5zID4zKVxufSBcblxud29ybGRfc2VyaWVzKDAuNTUpXG5gYGAifQ== -->
+<pre class="r"><code>
+hf1 &lt;- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
+pb &lt;- 0.55
+advantage_multiplier &lt;- 1.1
+pbh &lt;- 0.55*advantage_multiplier
+pba &lt;- 1 - (1 - 0.55)*advantage_multiplier
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDQtaG9tZS1maWVsZC1hZHZhbnRhZ2UiCmF1dGhvcjogIlNoYXN3YXQgUmFqcHV0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCg==</div>
+world_series &lt;- function(x) {
+  wins &lt;- 0 
+  games &lt;-0 
+  for (i in 1:7) {
+    game_outcome &lt;- rbinom(1,1,x)
+    wins &lt;- wins + game_outcome
+    games &lt;- games + 1
+    if (wins ==4 | games - wins ==4) break
+  }
+  return (wins &gt;3)
+} 
+
+world_series(0.55)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFRSVUVcbiJ9 -->
+<pre><code>[1] TRUE</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmJpbm9tKDEsMSwwLjU1KVxuYGBgIn0= -->
+<pre class="r"><code>rbinom(1,1,0.55)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDBcbiJ9 -->
+<pre><code>[1] 0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>```</p>
+<!-- rnb-text-end -->
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDQtaG9tZS1maWVsZC1hZHZhbnRhZ2UiCmF1dGhvcjogIlNoYXN3YXQgUmFqcHV0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCmBgYHtyICxlY2hvPVRSVUUsIGluY2x1ZGU9RkFMU0V9CmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShtYWdyaXR0cikKYGBgCgojIyBJZiBob21lIGZpZWxkIGFkdmFudGFnZSBleGlzdHMsIGhvdyBtdWNoIG9mIGFuIGltcGFjdCBkb2VzIGl0IGhhdmUgb24gd2lubmluZyB0aGUgd29ybGQgc2VyaWVzPyA8YnI+CgojIyMgU0VUVVAgOgo8bGk+IFN1cHBvc2UgdGhhdCB0aGUgQnJhdmVzIGFuZCB0aGUgWWFua2VlcyBhcmUgdGVhbXMgY29tcGV0aW5nIGluIHRoZSBXb3JsZCBTZXJpZXMuPC9saT4KPGxpPiBUaGUgdGFibGUgYmVsb3cgaGFzIHRoZSB0d28gcG9zc2libGUgc2NoZWR1bGVzIGZvciBlYWNoIGdhbWUgb2YgdGhlIHNlcmllcy4gKE5ZQyA9IE5ldyBZb3JrIENpdHksIEFUTCA9IEF0bGFudGEpIDwvbGk+PGJyPgoKfCBPdmVyYWxsIGFkdmFudGFnZSB8IEdhbWUgMSB8IEdhbWUgMiB8IEdhbWUgMyB8IEdhbWUgNCB8IEdhbWUgNSB8IEdhbWUgNiB8IEdhbWUgNyB8Cnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fAp8ICAgICAgIEJyYXZlcyAgICAgIHwgICBBVEwgIHwgICBBVEwgIHwgICBOWUMgIHwgICBOWUMgIHwgICBOWUMgIHwgICBBVEwgIHwgICBBVEwgIHwKfCAgICAgIFlhbmtlZXMgICAgICB8ICAgTllDICB8ICAgTllDICB8ICAgQVRMICB8ICAgQVRMICB8ICAgQVRMICB8ICAgTllDICB8ICAgTllDICB8Cgo8bGk+IExldCAqUCo8c3ViPipCKjwvc3ViPiBiZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgQnJhdmVzIHdpbiBhCiAgICBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMsIHVuZGVyIHRoZSBhc3N1bXB0aW9uCiAgICB0aGF0IGhvbWUgZmllbGQgYWR2YW50YWdlIGRvZXNu4oCZdCBleGlzdC4gTGV0CiAgICAqUCo8c3ViPipCKjwvc3ViPjxzdXA+KkgqPC9zdXA+IGRlbm90ZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUKICAgIEJyYXZlcyB3aW4gYSBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMgYXMgdGhlCiAgICBob21lIHRlYW0gKEggZm9yIGhvbWUpLiBMZXQgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPiBkZW5vdGUKICAgIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBCcmF2ZXMgd2luIGEgc2luZ2xlIGhlYWQtdG8taGVhZCBtYXRjaC11cAogICAgd2l0aCB0aGUgYXdheSB0ZWFtIChBIGZvciBhd2F5KS48L2xpPgp8IEdhbWUgbG9jYXRpb24gfCAgICBObyBhZHZhbnRhZ2UgICB8IEFkdmFudGFnZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfDotLS0tLS0tLS0tLS0tOnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18CnwgICAgICBBVEwgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipIKjwvc3VwPuKAhD3igIQqUCo8c3ViPipCKjwvc3ViPuKAhVwq4oCFMS4xICAgICAgICAgICB8CnwgICAgICBOWUMgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPuKAhD3igIQx4oCF4oiS4oCFKDHigIXiiJLigIUqUCo8c3ViPipCKjwvc3ViPinigIVcKuKAhTEuMSB8Cjxicj4KCgoxLiBDb21wdXRlIGFuYWx5dGljYWxseSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgQnJhdmVzIHdpbiB0aGUgd29ybGQgc2VyaWVzIHdoZW4gdGhlIHNlcXVlbmNlIG9mIGdhbWUgbG9jYXRpb25zIGlzIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9LiBDYWxjdWxhdGUgdGhlIHByb2JhYmlsaXR5IHdpdGggYW5kIHdpdGhvdXQgaG9tZSBmaWVsZCBhZHZhbnRhZ2Ugd2hlbiBQPHN1Yj5iPC9zdWI+PSAwLjU1LiBXaGF0IGlzIHRoZSBkaWZmZXJlbmNlIGluIHByb2JhYmlsaXRpZXM/CgpgYGB7cn0KaGYxIDwtIGMoMCwwLDEsMSwxLDAsMCkgIyB7TllDLCBOWUMsIEFUTCwgQVRMLCBBVEwsIE5ZQywgTllDfQpwYiA8LSAwLjU1CmFkdmFudGFnZV9tdWx0aXBsaWVyIDwtIDEuMQpwYmggPC0gMC41NSphZHZhbnRhZ2VfbXVsdGlwbGllcgpwYmEgPC0gMSAtICgxIC0gMC41NSkqYWR2YW50YWdlX211bHRpcGxpZXIKCiMgV2l0aG91dCBIb21lIEFkdmFudGFnZQpwYmlub20oMyw3LHBiLGxvd2VyLnRhaWwgPSBGKQoKIyBXaXRoIGhvbWUgQWFkdmFudGFnZSAKYSA8LSBsaXN0KCkKZm9yIChpIGluIHNlcV9hbG9uZyhoZjEpKSB7CiAgaWYgKGhmMVtpXSA9PSAwKXsKICAgIGFbaV0gPC0gZGJpbm9tKDEsMSxwYmEpCiAgfQogIGVsc2UgaWYgKGhmMVtpXSA9PSAxKSB7CiAgICBhW2ldIDwtIGRiaW5vbSgxLDEscGJoKQogIH0KfQpSZWR1Y2UoIisiLGEpLzcKCndvcmxkX3NlcmllcyA8LSBmdW5jdGlvbihwX2dhbWUsaGYxPWMoMCwwLDEsMSwxLDAsMCkpIHsKICB3aW5zIDwtIDAgCiAgZ2FtZXMgPC0gMAogIGZvciAoaSBpbiBzZXFfYWxvbmcoaGYxKSl7CiAgICBpZihoZjFbaV0pewogICAgICBwX2dhbWUgPC0gcGJoCiAgICB9IGVsc2UgewogICAgICBwX2dhbWUgPC0gcGJhCiAgICB9CiAgICBnYW1lX291dGNvbWUgPC0gcmJpbm9tKDEsMSxwX2dhbWUpCiAgICB3aW5zIDwtIHdpbnMrIGdhbWVfb3V0Y29tZQogICAgZ2FtZXMgPC0gZ2FtZXMgKyAxCiAgICBpZiAod2lucyA9PSA0IHwgZ2FtZXMgLSB3aW5zID09IDQpIGJyZWFrCiAgfQogIHJldHVybih3aW5zPjMpCn0Kd29ybGRfc2VyaWVzKDEpCmBgYAoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCmBgYHtyfQoKaGYxIDwtIGMoMCwwLDEsMSwxLDAsMCkgIyB7TllDLCBOWUMsIEFUTCwgQVRMLCBBVEwsIE5ZQywgTllDfQpwYiA8LSAwLjU1CmFkdmFudGFnZV9tdWx0aXBsaWVyIDwtIDEuMQpwYmggPC0gMC41NSphZHZhbnRhZ2VfbXVsdGlwbGllcgpwYmEgPC0gMSAtICgxIC0gMC41NSkqYWR2YW50YWdlX211bHRpcGxpZXIKCndvcmxkX3NlcmllcyA8LSBmdW5jdGlvbih4KSB7CiAgd2lucyA8LSAwIAogIGdhbWVzIDwtMCAKICBmb3IgKGkgaW4gMTo3KSB7CiAgICBnYW1lX291dGNvbWUgPC0gcmJpbm9tKDEsMSx4KQogICAgd2lucyA8LSB3aW5zICsgZ2FtZV9vdXRjb21lCiAgICBnYW1lcyA8LSBnYW1lcyArIDEKICAgIGlmICh3aW5zID09NCB8IGdhbWVzIC0gd2lucyA9PTQpIGJyZWFrCiAgfQogIHJldHVybiAod2lucyA+MykKfSAKCndvcmxkX3NlcmllcygwLjU1KQoKYGBgCmBgYAoKCgoKCgo=</div>
 
 
 

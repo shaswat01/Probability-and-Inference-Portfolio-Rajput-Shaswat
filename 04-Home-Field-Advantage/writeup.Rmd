@@ -3,3 +3,136 @@ title: "04-home-field-advantage"
 author: "Shaswat Rajput"
 output: html_notebook
 ---
+```{r ,echo=TRUE, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+```
+
+## If home field advantage exists, how much of an impact does it have on winning the world series? <br>
+
+### SETUP :
+<li> Suppose that the Braves and the Yankees are teams competing in the World Series.</li>
+<li> The table below has the two possible schedules for each game of the series. (NYC = New York City, ATL = Atlanta) </li><br>
+
+| Overall advantage | Game 1 | Game 2 | Game 3 | Game 4 | Game 5 | Game 6 | Game 7 |
+|:-----------------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+|       Braves      |   ATL  |   ATL  |   NYC  |   NYC  |   NYC  |   ATL  |   ATL  |
+|      Yankees      |   NYC  |   NYC  |   ATL  |   ATL  |   ATL  |   NYC  |   NYC  |
+
+<li> Let *P*<sub>*B*</sub> be the probability that the Braves win a
+    single head-to-head match-up with the Yankees, under the assumption
+    that home field advantage doesn’t exist. Let
+    *P*<sub>*B*</sub><sup>*H*</sup> denote the probability that the
+    Braves win a single head-to-head match-up with the Yankees as the
+    home team (H for home). Let *P*<sub>*B*</sub><sup>*A*</sup> denote
+    the probability that the Braves win a single head-to-head match-up
+    with the away team (A for away).</li>
+| Game location |    No advantage   | Advantage                                                            |
+|:-------------:|:-----------------:|:---------------------------------------------------------------------|
+|      ATL      | *P*<sub>*B*</sub> | *P*<sub>*B*</sub><sup>*H*</sup> = *P*<sub>*B*</sub> \* 1.1           |
+|      NYC      | *P*<sub>*B*</sub> | *P*<sub>*B*</sub><sup>*A*</sup> = 1 − (1 − *P*<sub>*B*</sub>) \* 1.1 |
+<br>
+
+
+1. Compute analytically the probability that the Braves win the world series when the sequence of game locations is {NYC, NYC, ATL, ATL, ATL, NYC, NYC}. Calculate the probability with and without home field advantage when P<sub>b</sub>= 0.55. What is the difference in probabilities?
+
+```{r}
+hf1 <- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
+pb <- 0.55
+advantage_multiplier <- 1.1
+pbh <- 0.55*advantage_multiplier
+pba <- 1 - (1 - 0.55)*advantage_multiplier
+
+# Without Home Advantage
+pbinom(3,7,pb,lower.tail = F)
+
+# With home Aadvantage 
+a <- list()
+for (i in seq_along(hf1)) {
+  if (hf1[i] == 0){
+    a[i] <- dbinom(1,1,pba)
+  }
+  else if (hf1[i] == 1) {
+    a[i] <- dbinom(1,1,pbh)
+  }
+}
+Reduce("+",a)/7
+
+world_series <- function(p_game,hf1=c(0,0,1,1,1,0,0)) {
+  wins <- 0 
+  games <- 0
+  for (i in seq_along(hf1)){
+    if(hf1[i]){
+      p_game <- pbh
+    } else {
+      p_game <- pba
+    }
+    game_outcome <- rbinom(1,1,p_game)
+    wins <- wins+ game_outcome
+    games <- games + 1
+    if (wins == 4 | games - wins == 4) break
+  }
+  return(wins>3)
+}
+world_series(1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+hf1 <- c(0,0,1,1,1,0,0) # {NYC, NYC, ATL, ATL, ATL, NYC, NYC}
+pb <- 0.55
+advantage_multiplier <- 1.1
+pbh <- 0.55*advantage_multiplier
+pba <- 1 - (1 - 0.55)*advantage_multiplier
+
+world_series <- function(x) {
+  wins <- 0 
+  games <-0 
+  for (i in 1:7) {
+    game_outcome <- rbinom(1,1,x)
+    wins <- wins + game_outcome
+    games <- games + 1
+    if (wins ==4 | games - wins ==4) break
+  }
+  return (wins >3)
+} 
+
+world_series(0.55)
+
+```
+```
+
+
+
+
+
+
