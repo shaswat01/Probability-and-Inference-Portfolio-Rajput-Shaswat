@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+
+calc_quantile <- function(x){
+quant_vector <- rep(NA, 5000)
+for (i in 1:5000) {
+dist <- rnorm(200, mean = 0, sd = 1)
+quant_vector[i] <- quantile(dist, x)
+} 
+
+value <- abs(quantile(quant_vector, 0.975) - quantile(quant_vector, 0.025))
+return(value)
+}
+  quantiles <- c(0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95)
+  length_values <- rep(NA, 7)
+  for (i in 1:7) {
+    length_values[i] <- calc_quantile(quantiles[i])
+  }
+
+```
+
+
+
+```{r}
+plot(quantiles,length_values,type = "b")
+```
+
+```{r}
+calc_density <- function(x) {
+  quant_vector <- rep(NA, 5000)
+  for (i in 1:5000) {
+    dist <- rnorm(200, mean = 0, sd = 1)
+    quant_vector[i] <- quantile(dist, x)
+  }
+  return(qnorn(0.95,quant_vector))
+}
+
+quantiles <- c(0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95)
+  length_values <- rep(NA, 7)
+  for (i in 1:7) {
+    length_values[i] <- dnorm(calc_quantile(quantiles[i]))
+  }
+
+```
+
+```{r}
+plot(quantiles,length_values,type="b")
+```
+
+
+
+
+
+
+
+
