@@ -2,53 +2,227 @@
 title: "R Notebook"
 output: html_notebook
 ---
-
+### 1st Distribution
 ```{r}
 
-calc_quantile <- function(x){
+calc_quantile <- function(x,N){
 quant_vector <- rep(NA, 5000)
 for (i in 1:5000) {
-dist <- rnorm(200, mean = 0, sd = 1)
+dist <- rnorm(N, mean = 0, sd = 1)
 quant_vector[i] <- quantile(dist, x)
 } 
 
 value <- abs(quantile(quant_vector, 0.975) - quantile(quant_vector, 0.025))
 return(value)
 }
-  quantiles <- c(0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95)
-  length_values <- rep(NA, 7)
-  for (i in 1:7) {
-    length_values[i] <- calc_quantile(quantiles[i])
+  quantiles <- seq(0.05, 1.0, 0.05)
+  length_values <-matrix(rep(NA,80),ncol = 4,byrow = TRUE)
+  for (i in 1:20) {
+    length_values[i,1] <- calc_quantile(quantiles[i],200)
+  }
+  for (i in 1:20) {
+    length_values[i,2] <- calc_quantile(quantiles[i],400)
+  }
+  for (i in 1:20) {
+    length_values[i,3] <- calc_quantile(quantiles[i],800)
+  }
+  for (i in 1:20) {
+    length_values[i,4] <- calc_quantile(quantiles[i],1600)
   }
 
 ```
 
 
-
 ```{r}
-plot(quantiles,length_values,type = "b")
+plot(seq(0.05,1,0.05),length_values[,1],type="b",axes=FALSE,xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,0.60))
+axis(1,at=seq(0.05,1.0,0.05),labels=seq(0.05,1,0.05))
+axis(2,at=seq(0.10,0.55,0.05),labels=seq(0.10,0.55,0.05))
+lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
+lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
+lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
+box(col="black")
 ```
 
 ```{r}
-calc_density <- function(x) {
-  quant_vector <- rep(NA, 5000)
-  for (i in 1:5000) {
-    dist <- rnorm(200, mean = 0, sd = 1)
-    quant_vector[i] <- quantile(dist, x)
+first <- qnorm(quantiles,0,1)
+den <- dnorm(first,0,1)
+```
+
+```{r}
+plot(den,length_values[,1],type="b", xlab = "Density", ylab = "Length")
+```
+
+### 2nd Distribution
+```{r}
+calc_quantile_expo <- function(x,N){
+quant_vector <- rep(NA, 5000)
+for (i in 1:5000) {
+dist <- rexp(N, rate = 1)
+quant_vector[i] <- quantile(dist, x)
+} 
+
+value <- abs(quantile(quant_vector, 0.975) - quantile(quant_vector, 0.025))
+return(value)
+}
+  quantiles <- seq(0.05, 1.0, 0.05)
+  length_values <-matrix(rep(NA,80),ncol = 4,byrow = TRUE)
+  for (i in 1:20) {
+    length_values[i,1] <- calc_quantile_expo(quantiles[i],200)
   }
-  return(qnorn(0.95,quant_vector))
+  for (i in 1:20) {
+    length_values[i,2] <- calc_quantile_expo(quantiles[i],400)
+  }
+  for (i in 1:20) {
+    length_values[i,3] <- calc_quantile_expo(quantiles[i],800)
+  }
+  for (i in 1:20) {
+    length_values[i,4] <- calc_quantile_expo(quantiles[i],1600)
+  }
+```
+
+```{r}
+plot(seq(0.05,1,0.05),length_values[,1],type="b",axes=FALSE,xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,0.60))
+axis(1,at=seq(0.05,1.0,0.05),labels=seq(0.05,1,0.05))
+axis(2,at=seq(0.10,0.55,0.05),labels=seq(0.10,0.55,0.05))
+lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
+lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
+lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
+box(col="black")
+```
+
+```{r}
+second <- qexp(quantiles,rate = 1)
+den_1 <- dexp(second,rate = 1)
+plot(den_1,length_values[,1],type="b", xlab = "Density", ylab = "Length")
+plot(den_1,length_values[,2],type="b", xlab = "Density", ylab = "Length")
+plot(den_1,length_values[,3],type="b", xlab = "Density", ylab = "Length")
+plot(den_1,length_values[,4],type="b", xlab = "Density", ylab = "Length")
+```
+
+### Distribution 3 
+```{r}
+calc_quantile_mix_1 <- function(x,N){
+quant_vector <- rep(NA, 5000)
+for (i in 1:5000) {
+G <- sample(0:2, N, replace = TRUE, prob = c(5,3,2))
+dist<-(G==0)*rnorm(N) + (G==1)*rnorm(N,4) + (G==2)*rnorm(N,-4,2)
+quant_vector[i] <- quantile(dist, x)
+} 
+
+value <- abs(quantile(quant_vector, 0.975) - quantile(quant_vector, 0.025))
+return(value)
+}
+  quantiles <- seq(0.05, 1.0, 0.05)
+  length_values <-matrix(rep(NA,80),ncol = 4,byrow = TRUE)
+  for (i in 1:20) {
+    length_values[i,1] <- calc_quantile_mix_1(quantiles[i],200)
+  }
+  for (i in 1:20) {
+    length_values[i,2] <- calc_quantile_mix_1(quantiles[i],400)
+  }
+  for (i in 1:20) {
+    length_values[i,3] <- calc_quantile_mix_1(quantiles[i],800)
+  }
+  for (i in 1:20) {
+    length_values[i,4] <- calc_quantile_mix_1(quantiles[i],1600)
+  }
+```
+
+```{r}
+plot(seq(0.05,1,0.05),length_values[,1],type="b",axes=FALSE,xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,2.5))
+axis(1,at=seq(0.05,1.0,0.05),labels=seq(0.05,1,0.05))
+axis(2,at=seq(0.10,3,0.05),labels=seq(0.10,3,0.05))
+lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
+lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
+lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
+box(col="black")
+```
+
+```{r}
+pf3 <- function(x){
+  .5*pnorm(x) + .3*pnorm(x,4) + .2*pnorm(x,-4,2)
+}
+p<-seq(0.05,1.0,0.05)
+roots<-rep(NA,20)
+for(i in 1:20){
+inv_func <- function(x){
+ pf3(x)-p[i]
+}
+roots[i]<-uniroot(inv_func,c(-100,100))[[1]]
 }
 
-quantiles <- c(0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95)
-  length_values <- rep(NA, 7)
-  for (i in 1:7) {
-    length_values[i] <- dnorm(calc_quantile(quantiles[i]))
-  }
 
+df3 <- function(x){
+  .5*dnorm(x) + .3*dnorm(x,4) + .2*dnorm(x,-4,2)
+}
+
+plot(df3(roots),length_values[,1],type="b",xlab="Density",ylab="Length")
+plot(df3(roots),length_values[,2],type="b",xlab="Density",ylab="Length")
+plot(df3(roots),length_values[,3],type="b",xlab="Density",ylab="Length")
+plot(df3(roots),length_values[,4],type="b",xlab="Density",ylab="Length")
+```
+
+### Distribution 4
+```{r}
+calc_quantile_mix_2 <- function(x,N){
+quant_vector <- rep(NA, 5000)
+for (i in 1:5000) {
+G <- sample(0:1, 100, replace = TRUE)
+dist<- (G==0)*rbeta(N,5,1) + (G==1)*rbeta(N,1,5)
+quant_vector[i] <- quantile(dist, x)
+} 
+
+value <- abs(quantile(quant_vector, 0.975) - quantile(quant_vector, 0.025))
+return(value)
+}
+  quantiles <- seq(0.05, 0.95, 0.05)
+  length_values <-matrix(rep(NA,76),ncol = 4,byrow = TRUE)
+  for (i in 1:19) {
+    length_values[i,1] <- calc_quantile_mix_2(quantiles[i],200)
+  }
+  for (i in 1:19) {
+    length_values[i,2] <- calc_quantile_mix_2(quantiles[i],400)
+  }
+  for (i in 1:19) {
+    length_values[i,3] <- calc_quantile_mix_2(quantiles[i],800)
+  }
+  for (i in 1:19) {
+    length_values[i,4] <- calc_quantile_mix_2(quantiles[i],1600)
+  }
 ```
 
 ```{r}
-plot(quantiles,length_values,type="b")
+plot(seq(0.05,0.95,0.05),length_values[,1],type="b",xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,0.5))
+axis(1,at=seq(0.05,0.95,0.05),labels=seq(0.05,0.95,0.05))
+axis(2,at=seq(0.10,0.95,0.05),labels=seq(0.10,0.95,0.05))
+lines(seq(0.05,0.95,0.05),length_values[,2],col="orange",type="b")
+lines(seq(0.05,0.95,.05),length_values[,3],col="green",type="b")
+lines(seq(0.05,0.95,.05),length_values[,4],col="violet",type="b")
+box(col = "black")
+```
+
+```{r}
+pf4 <- function(x){
+ 0.5*pbeta(x,5,1) + 0.5*pbeta(x,1,5)
+}
+p<-seq(0.05,0.95,0.05)
+roots<-rep(NA,19)
+for(i in 1:19){
+inv_func <- function(x){
+ pf4(x)-p[i]
+}
+roots[i]<-uniroot(inv_func,c(-1000,1000))[[1]]
+}
+
+
+df4 <- function(x){
+  0.5*dbeta(x,5,1) + 0.5*dbeta(x,1,5)
+}
+den_value<-df4(roots)
+plot(den_value,length_values[,1],type="b",xlab="Density",ylab="Length")
+plot(den_value,length_values[,2],type="b",xlab="Density",ylab="Length")
+plot(den_value,length_values[,3],type="b",xlab="Density",ylab="Length")
+plot(den_value,length_values[,4],type="b",xlab="Density",ylab="Length")
 ```
 
 
