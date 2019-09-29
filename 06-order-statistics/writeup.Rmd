@@ -1,0 +1,11 @@
+---
+title: "06-order-statistics"
+author: "Shaswat Rajput"
+output: html_notebook
+---
+
+# Which quantiles of a continuous distribution can one estimate with more precision?
+<p> The median is an important quantity in data analysis. It represents the middle value of the data distribution. Estimates of the median, however, have a degree of uncertainty because (a) the estimates are calculated from a finite sample and (b) the data distribution of the underlying data is generally unknown. One important roles of a data scientist is to quantify and to communicate the degree of uncertainty in his or her data analysis.</p> <br>
+
+
+
