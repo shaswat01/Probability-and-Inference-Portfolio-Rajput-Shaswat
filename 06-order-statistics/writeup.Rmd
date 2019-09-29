@@ -7,5 +7,128 @@ output: html_notebook
 # Which quantiles of a continuous distribution can one estimate with more precision?
 <p> The median is an important quantity in data analysis. It represents the middle value of the data distribution. Estimates of the median, however, have a degree of uncertainty because (a) the estimates are calculated from a finite sample and (b) the data distribution of the underlying data is generally unknown. One important roles of a data scientist is to quantify and to communicate the degree of uncertainty in his or her data analysis.</p> <br>
 
+```{r}
+dorder <- function(x){
+  100*
+  choose(200,100)*
+  (pnorm(x, 0, 1))^(100-1)*
+  (1-pnorm(x, 0, 1))^(200-100)*
+  dnorm(x, 0, 1)
+}
+
+curve(dorder,-1,1)
+
+```
+
+```{r}
+porder <- function(x){
+  pbinom(100-1, 200, pnorm(x, 0, 1), lower.tail = FALSE)
+}
+
+curve(porder,-1,1)
+
+```
+
+```{r}
+qorder <- function(x){
+  med_val <- rep(NA,200)
+  sorted  <- rep(NA,200)
+  for (i in seq_along(med_val)){
+    value<- rnorm(200,0,1)
+    sorted <- sort(value)
+    med_val[i]<-sorted[100]
+  }
+  sorted<- sort(med_val)
+  if(is.integer(200*x)){
+    sorted[200*x]+sorted[(200*x)+1]/2
+  } else{
+    sorted[(200*x)+1]
+  }
+}
+
+
+curve(qorder,0,1)
+
+```
+
+```{r}
+med_val <- rep(NA,200)
+  sorted  <- rep(NA,200)
+  for (i in seq_along(med_val)){
+    value<- rnorm(200,0,1)
+    sorted <- sort(value)
+    med_val[i]<-sorted[100]
+  }
+  sorted<- sort(med_val)
+  
+med_ecdf<-ecdf(med_val)
+plot(med_ecdf,do.points=F,lwd=2,col="black")
+curve(porder,lwd=3,add=T,col="orange")
+```
+
+```{r}
+hist(sorted,freq=F)
+curve(dorder,add=T,c(-1,1))
+```
+
+
+
+```{r}
+quant <- rep(NA,200)
+for (i in seq_along(quant)){
+  quant[i] <- quantile(rnorm(200,0,1),0.5)
+}
+quant_sort <- sort(quant)
+x <- quantile(quant_sort,seq(0.01,0.99,0.01))
+y <- qorder(seq(0.01,0.99,0.01))
+plot(x,y)
+abline(0,1)
+```
+
+
+Modified
+```{r}
+dorder_modified <- function(x,k){
+  k * choose(200,k)*
+  (pnorm(x, 0, 1))^(k-1)*
+  (1-pnorm(x, 25, 6.5))^(200-k)*
+  dnorm(x, 0, 1)
+}
+
+porder_modified <- function(x,k){
+  pbinom(k-1, 200, pnorm(x, 0, 1), lower.tail = FALSE)
+}
+
+qorder_modified <- function(x,k){
+  val <- rep(NA,200)
+  sorted  <- rep(NA,200)
+  for (i in seq_along(val)){
+    value<- rnorm(200,0,1)
+    sorted <- sort(value)
+    val[i]<-sorted[k]
+  }
+  sorted<- sort(val)
+  if(is.integer(200*x)){
+    sorted[200*x]+sorted[(200*x)+1]/2
+  } else{
+    sorted[(200*x)+1]
+  }
+}
+
+```
+
+
+```{r}
+quant <- rep(NA,200)
+for (i in seq_along(quant)){
+  quant[i] <- max(rnorm(200,0,1))
+}
+quant_sort <- sort(quant)
+x <- quantile(quant_sort,seq(0.01,0.99,0.01))
+y <- qorder_modified(seq(0.01,0.99,0.01),200)
+plot(x,y)
+abline(0,1)
+```
+
 
 
