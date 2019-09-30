@@ -7,6 +7,8 @@ output: html_notebook
 # Which quantiles of a continuous distribution can one estimate with more precision?
 <p> The median is an important quantity in data analysis. It represents the middle value of the data distribution. Estimates of the median, however, have a degree of uncertainty because (a) the estimates are calculated from a finite sample and (b) the data distribution of the underlying data is generally unknown. One important roles of a data scientist is to quantify and to communicate the degree of uncertainty in his or her data analysis.</p> <br>
 
+## Function for dorder (N = 200 and k = 100)
+
 ```{r}
 dorder <- function(x){
   100*
@@ -19,6 +21,9 @@ dorder <- function(x){
 curve(dorder,-1,1)
 
 ```
+For the above plot we used the formula used in the class for the Kth (in this case it's 100) order statistics. We had done this with the median from a sample of N = 200 from the standard normal distribution. The above plot is for the density function for the median in this sample.
+
+## Function for porder (N = 200 and k = 100)
 
 ```{r}
 porder <- function(x){
@@ -28,6 +33,9 @@ porder <- function(x){
 curve(porder,-1,1)
 
 ```
+The above is the probability function for the median in the sample. We have choosen N to be 200 and we are calculating for the 100th order of statistics.
+
+##  Function for qorder (N = 200 and k = 100)
 
 ```{r}
 qorder <- function(x){
@@ -50,6 +58,11 @@ qorder <- function(x){
 curve(qorder,0,1)
 
 ```
+The above function is the quantile function for the median in the sample. For this too we have used sample size (N) to be 200 and we are calculating for the 100th order of statistics.<br>
+
+
+Below is the Simulation of the sampling distribution for the median. we have created a plot of the empirical CDF (ECDF) and overlayed the plot of the ECDF with a plot of the CDF.
+In the below graph , black line denotes the ECDF and orange line denotes the CDF.
 
 ```{r}
 med_val <- rep(NA,200)
@@ -64,15 +77,17 @@ med_val <- rep(NA,200)
 med_ecdf<-ecdf(med_val)
 plot(med_ecdf,do.points=F,lwd=2,col="black")
 curve(porder,lwd=3,add=T,col="orange")
+
 ```
 
+Below is the histogram of the simulated sampling distribution from the previous question which is overlayed with a plot of the density function.
 ```{r}
-hist(sorted,freq=F)
-curve(dorder,add=T,c(-1,1))
+hist(sorted,main = " ",freq=F)
+curve(dorder,add=T,c(-1,1),col = 'green')
 ```
 
 
-
+One very common way to compare a random sample to a theoretical candidate distribution is the QQ plot. It is created by ploting quantiles of the theoretical distribution on the x-axis and empirical quantiles from the sample on the y-axis. Below is the QQ plot in which x-axis contains the theoretical distribution and y-axis contains the Sample (Empirical) Quantiles.
 ```{r}
 quant <- rep(NA,200)
 for (i in seq_along(quant)){
@@ -81,12 +96,14 @@ for (i in seq_along(quant)){
 quant_sort <- sort(quant)
 x <- quantile(quant_sort,seq(0.01,0.99,0.01))
 y <- qorder(seq(0.01,0.99,0.01))
-plot(x,y)
+plot(x,y,ylab = "Sample (Empirical) Quantiles", xlab = "Theoretical Quantiles Dist.")
 abline(0,1)
 ```
+As we can see in the above plots the simulated data somewhat agree with the theoretical sampling distribution. To get more precise result we can run this test on more samples. <br>
 
 
-Modified
+Below are the modified functions of dorder, porder and q order in which we can manually enter the Order of statistics rather it being set to 100. 
+
 ```{r}
 dorder_modified <- function(x,k){
   k * choose(200,k)*
@@ -117,6 +134,7 @@ qorder_modified <- function(x,k){
 
 ```
 
+Below is the the QQ plot for simulated data from the sampling distribution of the sample max and the theoretical largest order statistic distribution.
 
 ```{r}
 quant <- rep(NA,200)
@@ -126,7 +144,7 @@ for (i in seq_along(quant)){
 quant_sort <- sort(quant)
 x <- quantile(quant_sort,seq(0.01,0.99,0.01))
 y <- qorder_modified(seq(0.01,0.99,0.01),200)
-plot(x,y)
+plot(x,y,ylab = "Sample (Empirical) Quantiles", xlab = "Theoretical Quantiles Dist.")
 abline(0,1)
 ```
 
