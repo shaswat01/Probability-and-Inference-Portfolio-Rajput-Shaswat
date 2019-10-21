@@ -5,35 +5,12 @@ author: "Shaswat Rajput"
 ---
 
 ```{r}
-
-N <- 201
-pop.mean <- 0
-
-pop.sample <- rnorm(N,0,1)
-
-#Aproximate Distribution of our sample
-Fhat <- rnorm(N, mean(pop.sample), sd(pop.sample))
-
-mle.sd <- sqrt(((N-1)/N)*var(pop.sample))
-mle.mean <- mean(pop.sample)
-capture <- NA
-for(j in 1:10000){
-out <- rep(NA,10000)
-for(i in 1:10000) {
-Fhat.sample <- rnorm(N,mle.mean ,sd = mle.sd)
-out[i] <- median(Fhat.sample)
-}
-
-gen.ci <- quantile(out,c(0.025,0.975))
-
-
-capture[j] <- (gen.ci[1] < 0 & gen.ci[2] > 0 )
-}
-
-round(mean(capture,4))
+library(tidyverse)
+library(doParallel)
+library(foreach)
+library(iterators)
+library(parallel)
 ```
-
-
 
 
 
@@ -79,7 +56,7 @@ boot.meds.ci <- function(parameters) {
 }
 
 
-#true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
+true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
 
 ```
 
@@ -87,10 +64,6 @@ boot.meds.ci <- function(parameters) {
 
 
 ```{r}
-library(doParallel)
-library(foreach)
-library(iterators)
-library(parallel)
 
 cores_2_use <- detectCores() - 1
 cl <- makeCluster(cores_2_use)
