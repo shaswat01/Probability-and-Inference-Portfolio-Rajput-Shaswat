@@ -1753,8 +1753,120 @@ summary {
 
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5OIDwtIDIwMFxucG9wLm1lYW4gPC0gMFxuXG5wb3Auc2FtcGxlIDwtIHJub3JtKE4sMCwxKVxuXG4jQXByb3hpbWF0ZSBEaXN0cmlidXRpb24gb2Ygb3VyIHNhbXBsZVxuRmhhdCA8LSBybm9ybShOLCBtZWFuKHBvcC5zYW1wbGUpLCBzZChwb3Auc2FtcGxlKSlcblxubWxlLnNkIDwtIHNxcnQoKChOLTEpL04pKnZhcihwb3Auc2FtcGxlKSlcbm1sZS5tZWFuIDwtIG1lYW4ocG9wLnNhbXBsZSlcbmNhcHR1cmUgPC0gTkFcbmZvcihqIGluIDE6MTAwMDApe1xub3V0IDwtIHJlcChOQSwxMDAwMClcbmZvcihpIGluIDE6MTAwMDApIHtcbkZoYXQuc2FtcGxlIDwtIHJub3JtKE4sbWxlLm1lYW4gLHNkID0gbWxlLnNkKVxub3V0W2ldIDwtIG1lZGlhbihGaGF0LnNhbXBsZSlcbn1cblxuZ2VuLmNpIDwtIHF1YW50aWxlKG91dCxjKDAuMDI1LDAuOTc1KSlcblxuXG5jYXB0dXJlW2pdIDwtIChnZW4uY2lbMV0gPCAwICYgZ2VuLmNpWzJdID4gMCApXG59XG5gYGAifQ== -->
+<pre class="r"><code>
+N &lt;- 200
+pop.mean &lt;- 0
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDgtQ292ZXJhZ2UtUHJvYmFiaWxpdHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawphdXRob3I6ICJTaGFzd2F0IFJhanB1dCIKLS0tCgo=</div>
+pop.sample &lt;- rnorm(N,0,1)
+
+#Aproximate Distribution of our sample
+Fhat &lt;- rnorm(N, mean(pop.sample), sd(pop.sample))
+
+mle.sd &lt;- sqrt(((N-1)/N)*var(pop.sample))
+mle.mean &lt;- mean(pop.sample)
+capture &lt;- NA
+for(j in 1:10000){
+out &lt;- rep(NA,10000)
+for(i in 1:10000) {
+Fhat.sample &lt;- rnorm(N,mle.mean ,sd = mle.sd)
+out[i] &lt;- median(Fhat.sample)
+}
+
+gen.ci &lt;- quantile(out,c(0.025,0.975))
+
+
+capture[j] &lt;- (gen.ci[1] &lt; 0 &amp; gen.ci[2] &gt; 0 )
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zZXQuc2VlZCg0NClcbk4gPC0gMjAxIFxucG9wLm1lYW4gPSAwXG5wb3Auc2QgPSAxXG50cnVlLnBhcmFtZXRlcnMgPC0gYyhOLHBvcC5tZWFuLHBvcC5zZClcblxuZ2VuZXJhdGVfZGF0YSA8LSBmdW5jdGlvbihwYXJhbWV0ZXJzKSB7XG4jc3RhbmRhcmQgbm9ybWFsIGRpc3JpYnV0aW9uc1xuICBybm9ybShwYXJhbWV0ZXJzWzFdLHBhcmFtZXRlcnNbMl0scGFyYW1ldGVyc1szXSlcbiAgXG59XG5cbmNhcHR1cmVfbWVkaWFuIDwtIGZ1bmN0aW9uKGNpKXtcbiAgIyAwIGFzIHBhcmFtZXRlciBvZiBpbnRlcmVzdFxuICAxKihjaVsxXSA8IDAgJiAwIDwgY2lbMl0pXG59XG5cbmVzdC5tbGUgPC0gZnVuY3Rpb24oZGF0YSkge1xuICBcbiAgZGF0Lm1lYW4gPC0gbWVhbihkYXRhKVxuICBkYXQuc2QgPC0gc3FydCgoKGxlbmd0aChkYXRhKS0gMSkvbGVuZ3RoKGRhdGEpKSp2YXIoZGF0YSkpXG4gIFxuICByZXR1cm4oYyhsZW5ndGgoZGF0YSksIG1sZS5tZWFuLG1sZS5zZCkpXG59XG5cblxuYm9vdC5tZWRzLmNpIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHtcbiAgUiA8LSA1MDAwXG4gIHNhbXBsZS5tZWRzIDwtIE5BXG4gIGZvciAoaSBpbiAxOlIpe1xuICAgIFxuICAgIHNhbXBsZS5tZWRzW2ldIDwtIHBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhKCkgJT4lIG1lZGlhblxuICAgICNzYW1wbGUubWVkc1tpXVxuICB9XG4gIHF1YW50aWxlKHNhbXBsZS5tZWRzLCBjKDAuMDI1LDAuOTc1KSlcbiAgXG4gIFxufVxuXG5cbnRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuXG5gYGAifQ== -->
+<pre class="r"><code>
+set.seed(44)
+N &lt;- 201 
+pop.mean = 0
+pop.sd = 1
+true.parameters &lt;- c(N,pop.mean,pop.sd)
+
+generate_data &lt;- function(parameters) {
+#standard normal disributions
+  rnorm(parameters[1],parameters[2],parameters[3])
+  
+}
+
+capture_median &lt;- function(ci){
+  # 0 as parameter of interest
+  1*(ci[1] &lt; 0 &amp; 0 &lt; ci[2])
+}
+
+est.mle &lt;- function(data) {
+  
+  dat.mean &lt;- mean(data)
+  dat.sd &lt;- sqrt(((length(data)- 1)/length(data))*var(data))
+  
+  return(c(length(data), mle.mean,mle.sd))
+}
+
+
+boot.meds.ci &lt;- function(parameters) {
+  R &lt;- 5000
+  sample.meds &lt;- NA
+  for (i in 1:R){
+    
+    sample.meds[i] &lt;- parameters %&gt;%  generate_data() %&gt;% median
+    #sample.meds[i]
+  }
+  quantile(sample.meds, c(0.025,0.975))
+  
+  
+}
+
+
+true.parameters %&gt;%  generate_data %&gt;%  est.mle  %&gt;% boot.meds.ci%&gt;% capture_median</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gdHJ1ZS5wYXJhbWV0ZXJzICU+JSBnZW5lcmF0ZV9kYXRhICU+JSBlc3QubWxlICU+JSBib290Lm1lZHMuY2kgJT4lICA6IFxuICBjb3VsZCBub3QgZmluZCBmdW5jdGlvbiBcIiU+JVwiXG4ifQ== -->
+<pre><code>Error in true.parameters %&gt;% generate_data %&gt;% est.mle %&gt;% boot.meds.ci %&gt;%  : 
+  could not find function &quot;%&gt;%&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkb1BhcmFsbGVsKVxubGlicmFyeShmb3JlYWNoKVxubGlicmFyeShpdGVyYXRvcnMpXG5saWJyYXJ5KHBhcmFsbGVsKVxuXG5jb3Jlc18yX3VzZSA8LSBkZXRlY3RDb3JlcygpIC0gMVxuY2wgPC0gbWFrZUNsdXN0ZXIoY29yZXNfMl91c2UpXG5jbHVzdGVyU2V0Uk5HU3RyZWFtKGNsLCAyMzQ0KVxucmVnaXN0ZXJEb1BhcmFsbGVsKGNsKVxuXG5jYXB0dXJlcyA8LSBmb3JlYWNoKFxuICAgIGkgPSAxOjEwMDBcbiAgLCAuY29tYmluZSA9IGNcbiAgLCAucGFja2FnZXMgPSBjKCdkcGx5cicpXG4pICVkb3BhciUge1xuIHRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuXG59XG5zdG9wQ2x1c3RlcihjbClcblxuXG5tZWFuKGNhcHR1cmVzKVxuYGBgIn0= -->
+<pre class="r"><code>library(doParallel)
+library(foreach)
+library(iterators)
+library(parallel)
+
+cores_2_use &lt;- detectCores() - 1
+cl &lt;- makeCluster(cores_2_use)
+clusterSetRNGStream(cl, 2344)
+registerDoParallel(cl)
+
+captures &lt;- foreach(
+    i = 1:1000
+  , .combine = c
+  , .packages = c('dplyr')
+) %dopar% {
+ true.parameters %&gt;%  generate_data %&gt;%  est.mle  %&gt;% boot.meds.ci%&gt;% capture_median
+}
+stopCluster(cl)
+
+
+mean(captures)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDFcbiJ9 -->
+<pre><code>[1] 1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDgtQ292ZXJhZ2UtUHJvYmFiaWxpdHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawphdXRob3I6ICJTaGFzd2F0IFJhanB1dCIKLS0tCgpgYGB7cn0KCk4gPC0gMjAxCnBvcC5tZWFuIDwtIDAKCnBvcC5zYW1wbGUgPC0gcm5vcm0oTiwwLDEpCgojQXByb3hpbWF0ZSBEaXN0cmlidXRpb24gb2Ygb3VyIHNhbXBsZQpGaGF0IDwtIHJub3JtKE4sIG1lYW4ocG9wLnNhbXBsZSksIHNkKHBvcC5zYW1wbGUpKQoKbWxlLnNkIDwtIHNxcnQoKChOLTEpL04pKnZhcihwb3Auc2FtcGxlKSkKbWxlLm1lYW4gPC0gbWVhbihwb3Auc2FtcGxlKQpjYXB0dXJlIDwtIE5BCmZvcihqIGluIDE6MTAwMDApewpvdXQgPC0gcmVwKE5BLDEwMDAwKQpmb3IoaSBpbiAxOjEwMDAwKSB7CkZoYXQuc2FtcGxlIDwtIHJub3JtKE4sbWxlLm1lYW4gLHNkID0gbWxlLnNkKQpvdXRbaV0gPC0gbWVkaWFuKEZoYXQuc2FtcGxlKQp9CgpnZW4uY2kgPC0gcXVhbnRpbGUob3V0LGMoMC4wMjUsMC45NzUpKQoKCmNhcHR1cmVbal0gPC0gKGdlbi5jaVsxXSA8IDAgJiBnZW4uY2lbMl0gPiAwICkKfQoKcm91bmQobWVhbihjYXB0dXJlLDQpKQpgYGAKCgoKCgpgYGB7cn0KCnNldC5zZWVkKDQ0KQpOIDwtIDIwMSAKcG9wLm1lYW4gPSAwCnBvcC5zZCA9IDEKdHJ1ZS5wYXJhbWV0ZXJzIDwtIGMoTixwb3AubWVhbixwb3Auc2QpCgpnZW5lcmF0ZV9kYXRhIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHsKI3N0YW5kYXJkIG5vcm1hbCBkaXNyaWJ1dGlvbnMKICBybm9ybShwYXJhbWV0ZXJzWzFdLHBhcmFtZXRlcnNbMl0scGFyYW1ldGVyc1szXSkKICAKfQoKY2FwdHVyZV9tZWRpYW4gPC0gZnVuY3Rpb24oY2kpewogICMgMCBhcyBwYXJhbWV0ZXIgb2YgaW50ZXJlc3QKICAxKihjaVsxXSA8IDAgJiAwIDwgY2lbMl0pCn0KCmVzdC5tbGUgPC0gZnVuY3Rpb24oZGF0YSkgewogIAogIGRhdC5tZWFuIDwtIG1lYW4oZGF0YSkKICBkYXQuc2QgPC0gc3FydCgoKGxlbmd0aChkYXRhKS0gMSkvbGVuZ3RoKGRhdGEpKSp2YXIoZGF0YSkpCiAgCiAgcmV0dXJuKGMobGVuZ3RoKGRhdGEpLCBtbGUubWVhbixtbGUuc2QpKQp9CgoKYm9vdC5tZWRzLmNpIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHsKICBSIDwtIDUwMDAKICBzYW1wbGUubWVkcyA8LSBOQQogIGZvciAoaSBpbiAxOlIpewogICAgCiAgICBzYW1wbGUubWVkc1tpXSA8LSBwYXJhbWV0ZXJzICU+JSAgZ2VuZXJhdGVfZGF0YSgpICU+JSBtZWRpYW4KICAgICNzYW1wbGUubWVkc1tpXQogIH0KICBxdWFudGlsZShzYW1wbGUubWVkcywgYygwLjAyNSwwLjk3NSkpCiAgCiAgCn0KCgojdHJ1ZS5wYXJhbWV0ZXJzICU+JSAgZ2VuZXJhdGVfZGF0YSAlPiUgIGVzdC5tbGUgICU+JSBib290Lm1lZHMuY2klPiUgY2FwdHVyZV9tZWRpYW4KCmBgYAoKCgoKYGBge3J9CmxpYnJhcnkoZG9QYXJhbGxlbCkKbGlicmFyeShmb3JlYWNoKQpsaWJyYXJ5KGl0ZXJhdG9ycykKbGlicmFyeShwYXJhbGxlbCkKCmNvcmVzXzJfdXNlIDwtIGRldGVjdENvcmVzKCkgLSAxCmNsIDwtIG1ha2VDbHVzdGVyKGNvcmVzXzJfdXNlKQpjbHVzdGVyU2V0Uk5HU3RyZWFtKGNsLCAyMzQ0KQpyZWdpc3RlckRvUGFyYWxsZWwoY2wpCgpjYXB0dXJlcyA8LSBmb3JlYWNoKAogICAgaSA9IDE6MTAwMAogICwgLmNvbWJpbmUgPSBjCiAgLCAucGFja2FnZXMgPSBjKCdkcGx5cicpCikgJWRvcGFyJSB7CiB0cnVlLnBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhICU+JSAgZXN0Lm1sZSAgJT4lIGJvb3QubWVkcy5jaSU+JSBjYXB0dXJlX21lZGlhbgp9CnN0b3BDbHVzdGVyKGNsKQoKCm1lYW4oY2FwdHVyZXMpCgpgYGAKCgo=</div>
 
 
 

@@ -4,3 +4,111 @@ output: html_notebook
 author: "Shaswat Rajput"
 ---
 
+```{r}
+
+N <- 201
+pop.mean <- 0
+
+pop.sample <- rnorm(N,0,1)
+
+#Aproximate Distribution of our sample
+Fhat <- rnorm(N, mean(pop.sample), sd(pop.sample))
+
+mle.sd <- sqrt(((N-1)/N)*var(pop.sample))
+mle.mean <- mean(pop.sample)
+capture <- NA
+for(j in 1:10000){
+out <- rep(NA,10000)
+for(i in 1:10000) {
+Fhat.sample <- rnorm(N,mle.mean ,sd = mle.sd)
+out[i] <- median(Fhat.sample)
+}
+
+gen.ci <- quantile(out,c(0.025,0.975))
+
+
+capture[j] <- (gen.ci[1] < 0 & gen.ci[2] > 0 )
+}
+
+round(mean(capture,4))
+```
+
+
+
+
+
+```{r}
+
+set.seed(44)
+N <- 201 
+pop.mean = 0
+pop.sd = 1
+true.parameters <- c(N,pop.mean,pop.sd)
+
+generate_data <- function(parameters) {
+#standard normal disributions
+  rnorm(parameters[1],parameters[2],parameters[3])
+  
+}
+
+capture_median <- function(ci){
+  # 0 as parameter of interest
+  1*(ci[1] < 0 & 0 < ci[2])
+}
+
+est.mle <- function(data) {
+  
+  dat.mean <- mean(data)
+  dat.sd <- sqrt(((length(data)- 1)/length(data))*var(data))
+  
+  return(c(length(data), mle.mean,mle.sd))
+}
+
+
+boot.meds.ci <- function(parameters) {
+  R <- 5000
+  sample.meds <- NA
+  for (i in 1:R){
+    
+    sample.meds[i] <- parameters %>%  generate_data() %>% median
+    #sample.meds[i]
+  }
+  quantile(sample.meds, c(0.025,0.975))
+  
+  
+}
+
+
+#true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
+
+```
+
+
+
+
+```{r}
+library(doParallel)
+library(foreach)
+library(iterators)
+library(parallel)
+
+cores_2_use <- detectCores() - 1
+cl <- makeCluster(cores_2_use)
+clusterSetRNGStream(cl, 2344)
+registerDoParallel(cl)
+
+captures <- foreach(
+    i = 1:1000
+  , .combine = c
+  , .packages = c('dplyr')
+) %dopar% {
+ true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
+}
+stopCluster(cl)
+
+
+mean(captures)
+
+```
+
+
