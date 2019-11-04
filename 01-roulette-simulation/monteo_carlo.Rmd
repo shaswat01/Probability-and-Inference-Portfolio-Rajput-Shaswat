@@ -2,7 +2,13 @@
 title: "01-Roulette-Simulation"
 output:
   html_document:
-    df_print: paged
+    theme: cosmo
+    toc: yes
+    toc_depth: 5
+    toc_float: true
+editor_options: 
+  chunk_output_type: inline
+author: Shaswat Rajput
 ---
 
 
@@ -124,11 +130,18 @@ plot(one_series(B = 200, W = 300, L = 1000, M = 100),ylab = "Money",xlab = "No. 
 
 <u>In the above simulation we had set our parameters to be as follows: <br>
 B = 200 ; W = 300 ; L = 1000 ; M = 100 </u><br>
-After running the simulation we find that chance of our winning is 0.527 with average walk out money of -41.8 dollars. As we can see from the second plot above we do end up with $50 in profit after around 100 plays but if we increased our number of play we tend to loose money. I ran this simulation multiple time and every time I end up with different results as we need more samples but our computation power is limited. Anyways, what the plot above tells us that we have chance of winning around 0.52 with average walk out money of -41.8 dollars. 
+After running the simulation we find that chance of our winning is 0.527 with average walk out money of -41.8 dollars. As we can see from the second plot above we do end up with $50 in profit after around 100 plays but if we increased our number of play we tend to loose money. I ran this simulation multiple time and every time I end up with different results as we need more samples but our computation power is limited. Anyways, what the plot above tells us that we have chance of winning around 0.52 with average walk out money of -41.8 dollars. <br>
+
+<b>Hypotheses:</b> If we want profit then we should play with less number of plays (less than or equal to budget) and less casino wager (equal to or less than budget). We are aiming for less profit here for martingale system.<br>
 
 ##### <b><u> As a data scientist we should have curosity to ask that what will happen if I change the parameters. Is there a connection between the parameters. Let's find out...</u></b><br>
 
-#### <b><u>Simulation 2:</u></b>
+#### <b><u>Simulation 2:</u></b><br>
+
+<u><In this simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 150 ; L = 100 ; M = 1000 </u><br>
+
+According to our hypotheses, we are aiming for less profit and with wager limit and max no. of plays according to hypotheses, ie less than or equal to budget.
 
 ```{r}
 # Simulation 2
@@ -148,11 +161,12 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 150, L = 100, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u><In the above simulation we had set our parameters to be as follows: <br>
-B = 100 ; W = 150 ; L = 100 ; M = 1000 </u><br>
+As we can see than using these parameters, we get the highest chance of winning (0.562) as compared to all the simulations in this blog. Maybe our hypotheses is correct, let's explore other possibilities.
 
+#### <b><u>Simulation 3:</u></b><br>
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 1000 ; L = 1000 ; M = 1000 </u><br>
 
-#### <b><u>Simulation 3:</u></b>
 ```{r}
 # Simulation 3
 walk_out_money <- rep(NA, 1000)
@@ -171,10 +185,13 @@ mean(walk_out_money - 1000)
 plot(one_series(B = 100, W = 10000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u>In the above simulation we had set our parameters to be as follows: <br>
-B = 100 ; W = 1000 ; L = 1000 ; M = 1000 </u><br>
+In this simulation we put profit to be 10000 and starting budget to be 100, which if we think logically is impossible and according to the simualtion we have 0 chance of earning this much amount. Our hypotheses hold true here.
 
-#### <b><u>Simulation 4:</u></b>
+#### <b><u>Simulation 4:</u></b><br>
+
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 1000 ; L = 1000 ; M = 100 </u><br>
+
 ```{r}
 # Simulation 4
 walk_out_money <- rep(NA, 1000)
@@ -193,11 +210,12 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 1000, L = 1000, M = 100),ylab = "Money",xlab = "No. of plays")
 ```
 
+In this simulation we tested our initial hypotheses by having more threshold and no. of plays than budget. We ended up with winning probability of 0.101. Our hypotheses still hold true here.
+
+
+#### <b><u>Simulation 5:</u></b><br>
 <u>In the above simulation we had set our parameters to be as follows: <br>
-B = 100 ; W = 1000 ; L = 1000 ; M = 100 </u><br>
-
-
-#### <b><u>Simulation 5:</u></b>
+B = 100 ; W = 1000 ; L = 1000 ; M = 1000</u> <br>
 ```{r}
 # Simulation 5
 walk_out_money <- rep(NA, 1000)
@@ -216,10 +234,13 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 1000, L = 1000, M = 1000),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u>In the above simulation we had set our parameters to be as follows: <br>
-B = 100 ; W = 1000 ; L = 1000 ; M = 1000</u> <br>
+We are testing our hypotheses by putting more wager, threshold and profit than budget. We find out that is we do this then we have winning chance of 0.075 with walk out money in loss. So, our hypotheses still hold true here.
 
-#### <b><u>Simulation 6:</u></b>
+#### <b><u>Simulation 6:</u></b> <br>
+
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 100 ; W = 150 ; L = 100 ; M = 10 </u><br>
+
 ```{r}
 # Simulation 6
 walk_out_money <- rep(NA, 1000)
@@ -238,10 +259,12 @@ mean(walk_out_money - 100)
 plot(one_series(B = 100, W = 150, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u>In the above simulation we had set our parameters to be as follows: <br>
-B = 100 ; W = 150 ; L = 100 ; M = 10 </u><br>
+IN this simulation we put our threshold to be less according to our initial hypotheses with no. of plays and wager less than or equal to budget. We found out that if we have too much less casino wager limit then our winning chance gets dropped. <br>
+So, we should not have too much less wager and no. of plays then budget. But how much less is enough? We can found out the threshold point but we need more computataion power to run this much simulation, which can't be done on laptop.<>br
 
-#### <b><u>Simulation 7:</u></b>
+#### <b><u>Simulation 7:</u></b> <br>
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 200 ; W = 300 ; L = 1000 ; M = 10 </u><br>
 ```{r}
 # Simulation 7
 walk_out_money <- rep(NA, 1000)
@@ -260,10 +283,11 @@ mean(walk_out_money - 200)
 plot(one_series(B = 200, W = 300, L = 1000, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u>In the above simulation we had set our parameters to be as follows: <br>
-B = 200 ; W = 300 ; L = 1000 ; M = 10 </u><br>
+What if change some parameter, if we have very high no of plays with very less wager limit. We found out that our chance of winning is very less, i.e. 0.619, and our initial hypotheses holds true here too.<br>
 
-#### <b><u>Simulation 8:</u></b>
+#### <b><u>Simulation 8:</u></b><br>
+<u>In the above simulation we had set our parameters to be as follows: <br>
+B = 200 ; W = 300 ; L = 100 ; M = 10 </u><br>
 ```{r}
 # Simulation 8
 walk_out_money <- rep(NA, 1000)
@@ -282,8 +306,7 @@ mean(walk_out_money - 200)
 plot(one_series(B = 200, W = 300, L = 100, M = 10),ylab = "Money",xlab = "No. of plays")
 ```
 
-<u>In the above simulation we had set our parameters to be as follows: <br>
-B = 200 ; W = 300 ; L = 100 ; M = 10 </u><br>
+We changed some parameters as compared to simulation 7 to test our initial hypotheses and we found out that our hypothese holds true and we get our chance of wining increased to 0.417.
 
 
 #### <u><b>Conclusions :</b></u> <br>
