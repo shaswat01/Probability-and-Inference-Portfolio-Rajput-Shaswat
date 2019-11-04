@@ -1,7 +1,14 @@
 ---
 title: "03-Discrete-Probability-Calculations"
-author: "Shaswat Rajput"
-output: html_notebook
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_depth: 5
+    toc_float: true
+editor_options: 
+  chunk_output_type: inline
+author: Shaswat Rajput
 ---
 
 ### <b><u> What is Probability ? </u></b>
