@@ -1710,8 +1710,9 @@ apo[, sum(p), overall_outcome]</code></pre>
 <p>So, we found out that with analytical solution there is not much difference with home or not home field advantage.<br></p>
 <p>Let’s do the same thing as above using the simulation and comapre our results with analytical solution.<br></p>
 </div>
-<div id="simulation" class="section level3">
-<h3>SIMULATION:</h3>
+</div>
+<div id="simulation" class="section level2">
+<h2>SIMULATION:</h2>
 <p>Let’s take out out size of 10000000 and take mean of when the output&gt;3.</p>
 <pre class="r"><code># Without home advantage 
 without_home_adv&lt;-mean(rbinom(10000000,7,pb)&gt;3)
@@ -1773,11 +1774,10 @@ analy_without - without_home_adv</code></pre>
 </table>
 </div>
 </div>
-<div id="conclusion" class="section level3">
-<h3>Conclusion:</h3>
-<p>We found out that there is not much difference between Analytical and Simulated Result for Braves winning World Series. We also infer that having home-field advantage doesn’t increase your chance of winning World Series according to the parameters we have set initially.<br> Overall we can say that Braves have winning chance of ~60% of winning the world series, but this is based on our initial parameters we have set. To get practical result we need past data of Braves winning matches against Yankees so that we can get actual winning probability and then we can do peoper analysis of Braves winning World Series.</p>
-<p>```</p>
-</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion:</h2>
+<p>We found out that there is not much difference between Analytical and Simulated Result for Braves winning World Series. We also infer that having home-field advantage doesn’t increase your chance of winning World Series according to the parameters we have set initially.<br> Overall we can say that Braves have winning chance of ~60% of winning the world series, but this is based on our initial parameters we have set. To get practical result we need past data of Braves winning matches against Yankees so that we can get actual winning probability and then we can do peoper analysis of Braves winning World Series.<br></p>
+<p><strong>References and Further Study:</strong> <a href="https://web.archive.org/web/20050330200457/http://www.geocities.com/cyrilmorong@sbcglobal.net/HomeRoad.htm">Historical Trends in Home-Field Advantage by Cyril Morong</a></p>
 </div>
 
 
