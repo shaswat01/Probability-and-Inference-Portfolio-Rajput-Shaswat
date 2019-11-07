@@ -1754,6 +1754,14 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-text-begin -->
+<div id="world-series" class="section level3">
+<h3>World Series :</h3>
+<p>The World Series is the annual championship series of Major League Baseball (MLB) in North America, contested since 1903 between the American League (AL) champion team and the National League (NL) champion team. The winner of the World Series championship is determined through a best-of-seven playoff, and the winning team is awarded the Commissioner’s Trophy. As the series is played during the fall season in North America, it is sometimes referred to as the Fall Classic. Since 2017, it has been officially known as the World Series <br></p>
+<div id="what-is-home-field-advantage" class="section level4">
+<h4>What is Home field Advantage ?</h4>
+<p>In team sports, the term home advantage – also called home ground, home field, home-field advantage, home court, home-court advantage, defender’s advantage or home-ice advantage – describes the benefit that the home team is said to gain over the visiting team. This benefit has been attributed to psychological effects supporting fans have on the competitors or referees; to psychological or physiological advantages of playing near home in familiar situations; to the disadvantages away teams suffer from changing time zones or climates, or from the rigors of travel; and in some sports, to specific rules that favor the home team directly or indirectly. In baseball, in particular, the difference may also be the result of the home team having been assembled to take advantage of the idiosyncrasies of the home ballpark, such as the distances to the outfield walls; most other sports are played in standardized venues.</p>
+</div>
+</div>
 <div id="if-home-field-advantage-exists-how-much-of-an-impact-does-it-have-on-winning-the-world-series" class="section level2">
 <h2>If home field advantage exists, how much of an impact does it have on winning the world series? <br></h2>
 <div id="setup" class="section level3">
@@ -1826,12 +1834,13 @@ Let <em>P</em><sub><em>B</em></sub> be the probability that the Braves win a sin
 </tbody>
 </table>
 <p><br></p>
-<ol style="list-style-type: decimal">
-<li>Compute analytically the probability that the Braves win the world series when the sequence of game locations is {NYC, NYC, ATL, ATL, ATL, NYC, NYC}. Calculate the probability with and without home field advantage when P<sub>b</sub>= 0.55. What is the difference in probabilities?</li>
-</ol>
+<p>We are calculating the the probability that Braves win the World Series when the sequence of games location is {NYC, NYC, ATL, ATL, ATL, NYC, NYC}. <br></p>
+</div>
+<div id="setting-the-parameters-for-simulation-and-analytics-answer.-w" class="section level3">
+<h3>Setting the parameters for simulation and analytics answer. W</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShkcGx5cilcbnJlcXVpcmUoZGF0YS50YWJsZSlcbiMgR2V0IGFsbCBwb3NzaWJsZSBvdXRjb21lc1xuYXBvIDwtIGZyZWFkKFwiYWxsLXBvc3NpYmxlLXdvcmxkLXNlcmllcy1vdXRjb21lcy5jc3ZcIilcbnNldC5zZWVkKDQ0KVxuaGZpIDwtIGMoMCwwLDEsMSwxLDAsMCkgIyB7TllDLCBOWUMsIEFUTCwgQVRMLCBBVEwsIE5ZQywgTllDfVxucGIgPC0gMC41NVxuYWR2YW50YWdlX211bHRpcGxpZXIgPC0gMS4xXG5wYmggPC0gMC41NSphZHZhbnRhZ2VfbXVsdGlwbGllclxucGJhIDwtIDEgLSAoMSAtIDAuNTUpKmFkdmFudGFnZV9tdWx0aXBsaWVyXG5cbiMgV2l0aG91dCBIb21lIEFkdmFudGFnZVxucGJpbm9tKDMsNyxwYixsb3dlci50YWlsID0gRilcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShkcGx5cilcbnJlcXVpcmUoZGF0YS50YWJsZSlcbiMgR2V0IGFsbCBwb3NzaWJsZSBvdXRjb21lc1xuYXBvIDwtIGZyZWFkKFwiYWxsLXBvc3NpYmxlLXdvcmxkLXNlcmllcy1vdXRjb21lcy5jc3ZcIilcbnNldC5zZWVkKDQ0KVxuaGZpIDwtIGMoMCwwLDEsMSwxLDAsMCkgIyB7TllDLCBOWUMsIEFUTCwgQVRMLCBBVEwsIE5ZQywgTllDfVxucGIgPC0gMC41NVxuYWR2YW50YWdlX211bHRpcGxpZXIgPC0gMS4xXG5wYmggPC0gMC41NSphZHZhbnRhZ2VfbXVsdGlwbGllclxucGJhIDwtIDEgLSAoMSAtIDAuNTUpKmFkdmFudGFnZV9tdWx0aXBsaWVyXG5cbmBgYCJ9 -->
 <pre class="r"><code>require(dplyr)
 require(data.table)
 # Get all possible outcomes
@@ -1842,13 +1851,32 @@ pb &lt;- 0.55
 advantage_multiplier &lt;- 1.1
 pbh &lt;- 0.55*advantage_multiplier
 pba &lt;- 1 - (1 - 0.55)*advantage_multiplier
-
-# Without Home Advantage
-pbinom(3,7,pb,lower.tail = F)</code></pre>
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="analytical" class="section level2">
+<h2>ANALYTICAL:</h2>
+<div id="probability-that-braves-win-world-series-without-home-advantage.-for-this-part-we-just-simply-used-the-pbinom-functiom-and-set-lower.tail-to-be-false-as-we-want-the-right-side-of-the-curve." class="section level3">
+<h3>Probability that Braves win world Series without Home advantage. For this part we just simply used the pbinom functiom and set lower.tail to be False as we want the right side of the curve.</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaXRob3V0IEhvbWUgQWR2YW50YWdlXG5hbmFseV93aXRob3V0PC0gcGJpbm9tKDMsNyxwYixsb3dlci50YWlsID0gRilcbmFuYWx5X3dpdGhvdXRcbmBgYCJ9 -->
+<pre class="r"><code># Without Home Advantage
+analy_without&lt;- pbinom(3,7,pb,lower.tail = F)
+analy_without</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjA4Mjg3OFxuIn0= -->
 <pre><code>[1] 0.6082878</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>So, we found that probability that Braves win world series without Home Field advantage is equal to 0.6082. This method was analytical method.<br></p>
+<p>Let’s find out the probability that Braves win the world Series with Home Field Advantage using analytical method.<br></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaXRoIGhvbWUgQWFkdmFudGFnZSBcbmFwb1ssIHAgOj0gTkFfcmVhbF9dICMgSW5pdGlhbGl6ZSBuZXcgY29sdW1uIGluIGFwbyB0byBzdG9yZSBwcm9iXG5mb3IoaSBpbiAxOm5yb3coYXBvKSl7XG4gIHByb2JfZ2FtZSA8LSByZXAoMSwgNylcbiAgZm9yKGogaW4gMTo3KXtcbiAgICBwX3dpbiA8LSBpZmVsc2UoaGZpW2pdLCBwYmgsIHBiYSlcbiAgICBwcm9iX2dhbWVbal0gPC0gY2FzZV93aGVuKFxuICAgICAgICBhcG9baSxqLHdpdGg9RkFMU0VdID09IFwiV1wiIH4gcF93aW5cbiAgICAgICwgYXBvW2ksaix3aXRoPUZBTFNFXSA9PSBcIkxcIiB+IDEgLSBwX3dpblxuICAgICAgLCBUUlVFIH4gMVxuICAgIClcbiAgfVxuICBhcG9baSwgcCA6PSBwcm9kKHByb2JfZ2FtZSldICMgRGF0YS50YWJsZSBzeW50YXhcbn1cblxuIyBTYW5pdHkgY2hlY2s6IGRvZXMgc3VtKHApID09IDE/XG5hcG9bLCBzdW0ocCldICMgVGhpcyBpcyBkYXRhLnRhYmxlIG5vdGF0aW9uXG5gYGAifQ== -->
 <pre class="r"><code># With home Aadvantage 
 apo[, p := NA_real_] # Initialize new column in apo to store prob
@@ -1875,81 +1903,182 @@ apo[, sum(p)] # This is data.table notation</code></pre>
 <pre class="r"><code># Probability of overall World Series outcomes
 apo[, sum(p), overall_outcome]</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEudGFibGUiLCJkYXRhLmZyYW1lIl0sIm5jb2wiOjIsIm5yb3ciOjJ9LCJyZGYiOiJINHNJQUFBQUFBQUFBd3R5aVREbWl1QmlZR0JnWm1CbVkyUmdaZ1V5R1ZoRFE5eDBMUmdZV0ppQUhFWUdGZ1pPRUYwQlZDUU1aSUFFQmNBMFZDSWN4dkFCRW53Z0dmdkhvY2N0UkxLeTdXK0dGUFpmMTlaQU00cXpLTDljTHk4eE43VVl5T0VGYVdnQUV2Ly8vLytIcHBBMU9TZXh1QmhxSDB5UUt5V3hKRkV2clFpb0gxMDV6RXhrNS9Ibmw2VVdKZWJreE9lWGxpVG5BL1ZBaEpuQ0RJRWt1b1hzK1FVbG1mbDVRRE9ZUUY1bFJiT2FzUWhOZ0w4MEQyUm5pbTV5Um1sZXRxNHB5SGxnYVFqZ2hiS1pVTmtnSzFuK1E0MWloUnJGbHBxWG5wa0hjeDVyVG1KU2FnNlV3d2NNTDdEWDlBcUtNdk5LWU9FQUZDM1dLOGt2U1lTcDQwck96NEdKZ1AzRzhBOEFINjg1cStFQkFBQT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEudGFibGUiLCJkYXRhLmZyYW1lIl0sIm5jb2wiOjIsIm5yb3ciOjJ9LCJyZGYiOiJINHNJQUFBQUFBQUFBd3R5aVREbWl1QmlZR0JnWm1CbVkyUmdaZ1V5R1ZoRFE5eDBMUmdZV0ppQUhFWUdGZ1pPRUYwQlZDUU1aSUFFQmNBMFZDSWN4dkFCRW53Z0dmdkhvY2N0UkxLeTdXK0dGUFpmMTlaQU00cXpLTDljTHk4eE43VVl5T0VGYVdnQUV2Ly8vLytIcHBBMU9TZXh1QmhxSDB5UUt5V3hKRkV2clFpb0gxMDV6RXhrNS9Ibmw2VVdKZWJreE9lWGxpVG5BL1ZBaEpuQ0RJRWt1b1hzK1FVbG1mbDVRRE9ZUUY1bFJiT2FzUWhOZ0w4MEQyUm5pbTV5Um1sZXRxNDV5SGxnYVFqZ2hiS1pVTmtnSzFuK1E0MWloUnJGbHBxWG5wa0hjeDVyVG1KU2FnNlV3d2NNTDdEWDlBcUtNdk5LWU9FQUZDM1dLOGt2U1lTcDQwck96NEdKZ1AzRzhBOEFXK3VGYmVFQkFBQT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["overall_outcome"],"name":[1],"type":["chr"],"align":["left"]},{"label":["V1"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"W","2":"0.604221"},{"1":"L","2":"0.395779"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbmBgYCJ9 -->
-<pre class="r"><code>NA</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>There is difference in the analytical method if the team has advantage or without it. Absolute Error = 0.6082878 - 0.604221 = 0.0040668 Relative error = 0.0040668/0.6082878 = 0.00668565</p>
-<p>2.Calculate the same probabilities as the previous question by simulation.</p>
+<p>So, we found out that the probability of Braves winning the World Series is 0.604221. We get this answer using the analytical method.</p>
+<p>Now, let’s compare our results of without and with home advantage. We can do this by relative and absolute error.<br></p>
+<p>There is difference in the analytical method if the team has advantage or without it. <br></p>
+<p>Absolute Error = 0.6082878 - 0.604221 = 0.0040668<br> Relative error = 0.0040668/0.6082878 = 0.00668565<br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Method</th>
+<th align="center">Home Advantage</th>
+<th align="center">Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Analytic</td>
+<td align="center">No</td>
+<td align="center">0.6082878</td>
+</tr>
+<tr class="even">
+<td align="center">Analytic</td>
+<td align="center">Yes</td>
+<td align="center">0.604221</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Error Type</th>
+<th align="center">Error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Absolute Error</td>
+<td align="center">0.004066</td>
+</tr>
+<tr class="even">
+<td align="center">Relative Error</td>
+<td align="center">0.00668565</td>
+</tr>
+</tbody>
+</table>
+<p>So, we found out that with analytical solution there is not much difference with home or not home field advantage.<br></p>
+<p>Let’s do the same thing as above using the simulation and comapre our results with analytical solution.<br></p>
+</div>
+<div id="simulation" class="section level3">
+<h3>SIMULATION:</h3>
+<p>Let’s take out out size of 10000000 and take mean of when the output&gt;3.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaXRob3V0IGhvbWUgYWR2YW50YWdlIFxud2l0aG91dF9ob21lX2FkdjwtbWVhbihyYmlub20oMTAwMDAwMDAsNywwLjU1KT4zKVxud2l0aG91dF9ob21lX2FkdlxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBXaXRob3V0IGhvbWUgYWR2YW50YWdlIFxud2l0aG91dF9ob21lX2FkdjwtbWVhbihyYmlub20oMTAwMDAwMDAsNyxwYik+MylcbndpdGhvdXRfaG9tZV9hZHZcbmBgYCJ9 -->
 <pre class="r"><code># Without home advantage 
-without_home_adv&lt;-mean(rbinom(10000000,7,0.55)&gt;3)
+without_home_adv&lt;-mean(rbinom(10000000,7,pb)&gt;3)
 without_home_adv</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjA4MTgyNlxuIn0= -->
-<pre><code>[1] 0.6081826</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjA4MDE1XG4ifQ== -->
+<pre><code>[1] 0.608015</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>So, if we do simulation to find the probability of Braves winning without Home Field Advantage, we get probability of 0.608</p>
+<p>Let’s find probability of Braves winning world series with Home field Advantage.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1dpdGggSG9tZSBBZHZhbnRhZ2VcbndpdGhfYWR2IDwtIG1lYW4oKHJiaW5vbSgxMDAwMDAsNCxwYmEpKyByYmlub20oMTAwMDAwLDMscGJoKSk+MylcbndpdGhfYWR2XG5gYGAifQ== -->
 <pre class="r"><code>#With Home Advantage
 with_adv &lt;- mean((rbinom(100000,4,pba)+ rbinom(100000,3,pbh))&gt;3)
 with_adv</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjA1NDNcbiJ9 -->
-<pre><code>[1] 0.60543</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjAzNjRcbiJ9 -->
+<pre><code>[1] 0.60364</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<ol start="3" style="list-style-type: decimal">
-<li>What is the absolute and relative error for your simulation in the previous question?</li>
-</ol>
+<p>So, from the simulation we found out that probability that Braves win World Series with home advantage is 0.6057.<br></p>
+<p>Let’s explore the difference between analytical and simulation result.<br></p>
+<div id="difference-between-analytical-and-simualtion-results." class="section level4">
+<h4>Difference Between Analytical and Simualtion Results.</h4>
+<p>Let’s find out the Mean absolute error between analytical and simulated probability with Home field Advantage.<br></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBNZWFuIGFic29sdXRlIEVycm9yICh3aXRoIGhvbWUgYWR2YW50YWdlKVxuKDAuNjA0MjIxXHQgLSB3aXRoX2FkdilcbmBgYCJ9 -->
 <pre class="r"><code># Mean absolute Error (with home advantage)
 (0.604221    - with_adv)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAxMTExXG4ifQ== -->
-<pre><code>[1] 0.001111</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwNTgxXG4ifQ== -->
+<pre><code>[1] 0.000581</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We found out that the difference between simulated and analytical result is very small. The difference turned out to be 0.000581 which is nearly equal to 0. <br></p>
+<p>Let’s find the relative error between analytical and simulated result:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBSZWxhdGl2ZSBFcnJvciAod2l0aCBob21lIGFkdmFudGFnZSlcbigwLjYwNDIyMVx0IC0gd2l0aF9hZHYpLzAuNjA0MjIxXG5gYGAifQ== -->
 <pre class="r"><code># Relative Error (with home advantage)
 (0.604221    - with_adv)/0.604221</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAxODM4NzMxXG4ifQ== -->
-<pre><code>[1] 0.001838731</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwOTYxNTY4N1xuIn0= -->
+<pre><code>[1] 0.0009615687</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The relative error between simulated and analytical solution turned out to be very neglible, nearly equal to 0. <br></p>
+<p>Let’s explore the differene simulated and analytical solution of Braves winning the World Series without the home-field advantage : <br></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI01lYW4gYWJzb2x1dGUgRXJyb3IgKHdpdGhvdXQgaG9tZSBhZHZhbnRhZ2UpXG5hbmFseV93aXRob3V0IC0gd2l0aG91dF9ob21lX2FkdlxuYGBgIn0= -->
 <pre class="r"><code>#Mean absolute Error (without home advantage)
 analy_without - without_home_adv</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwMTMzNzk2OVxuIn0= -->
-<pre><code>[1] 0.0001337969</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwMjcyNzk2OVxuIn0= -->
+<pre><code>[1] 0.0002727969</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Just like the result we got in with home-field advantage, we see there is not much difference between simulated and analytical solution for Braves winning world series without home-field advantage.<br> We can expect the relative error to be neglible too.<br></p>
+<p>Let’s find the relative error without home field advantage :</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgUmVsYXRpdmUgRXJyb3IgKHdpdGhvdXQgaG9tZSBhZHZhbnRhZ2UpXG4oYW5hbHlfd2l0aG91dC13aXRob3V0X2hvbWVfYWR2KS9hbmFseV93aXRob3V0XG5gYGAifQ== -->
 <pre class="r"><code>## Relative Error (without home advantage)
 (analy_without-without_home_adv)/analy_without</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwMjE5OTU2NVxuIn0= -->
-<pre><code>[1] 0.0002199565</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDAwNDQ4NDY2OFxuIn0= -->
+<pre><code>[1] 0.0004484668</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>We found that relative error is very small, almost negligible. So, we can say that analyical and simulated results are almost same for Braves winning world Series without home-field advantage.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Home Field Advantage</th>
+<th align="center">Relative Error</th>
+<th align="center">Absolute Error</th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Yes</td>
+<td align="center">0.0009615687</td>
+<td align="center">0.000581</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">No</td>
+<td align="center">0.0004484668</td>
+<td align="center">0.0002727969</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion:</h3>
+<p>We found out that there is not much difference between Analytical and Simulated Result for Braves winning World Series. We also infer that having home-field advantage doesn’t increase your chance of winning World Series according to the parameters we have set initially.<br> Overall we can say that Braves have winning chance of ~60% of winning the world series, but this is based on our initial parameters we have set. To get practical result we need past data of Braves winning matches against Yankees so that we can get actual winning probability and then we can do peoper analysis of Braves winning World Series.</p>
 <p>```</p>
 <!-- rnb-text-end -->
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDQtaG9tZS1maWVsZC1hZHZhbnRhZ2UiCmF1dGhvcjogIlNoYXN3YXQgUmFqcHV0IgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCmBgYHtyICxlY2hvPVRSVUUsIGluY2x1ZGU9RkFMU0V9CmxpYnJhcnkoZHBseXIpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShtYWdyaXR0cikKYGBgCgojIyBJZiBob21lIGZpZWxkIGFkdmFudGFnZSBleGlzdHMsIGhvdyBtdWNoIG9mIGFuIGltcGFjdCBkb2VzIGl0IGhhdmUgb24gd2lubmluZyB0aGUgd29ybGQgc2VyaWVzPyA8YnI+CgojIyMgU0VUVVAgOgo8bGk+IFN1cHBvc2UgdGhhdCB0aGUgQnJhdmVzIGFuZCB0aGUgWWFua2VlcyBhcmUgdGVhbXMgY29tcGV0aW5nIGluIHRoZSBXb3JsZCBTZXJpZXMuPC9saT4KPGxpPiBUaGUgdGFibGUgYmVsb3cgaGFzIHRoZSB0d28gcG9zc2libGUgc2NoZWR1bGVzIGZvciBlYWNoIGdhbWUgb2YgdGhlIHNlcmllcy4gKE5ZQyA9IE5ldyBZb3JrIENpdHksIEFUTCA9IEF0bGFudGEpIDwvbGk+PGJyPgoKfCBPdmVyYWxsIGFkdmFudGFnZSB8IEdhbWUgMSB8IEdhbWUgMiB8IEdhbWUgMyB8IEdhbWUgNCB8IEdhbWUgNSB8IEdhbWUgNiB8IEdhbWUgNyB8Cnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fAp8ICAgICAgIEJyYXZlcyAgICAgIHwgICBBVEwgIHwgICBBVEwgIHwgICBOWUMgIHwgICBOWUMgIHwgICBOWUMgIHwgICBBVEwgIHwgICBBVEwgIHwKfCAgICAgIFlhbmtlZXMgICAgICB8ICAgTllDICB8ICAgTllDICB8ICAgQVRMICB8ICAgQVRMICB8ICAgQVRMICB8ICAgTllDICB8ICAgTllDICB8Cgo8bGk+IExldCAqUCo8c3ViPipCKjwvc3ViPiBiZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgQnJhdmVzIHdpbiBhCiAgICBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMsIHVuZGVyIHRoZSBhc3N1bXB0aW9uCiAgICB0aGF0IGhvbWUgZmllbGQgYWR2YW50YWdlIGRvZXNu4oCZdCBleGlzdC4gTGV0CiAgICAqUCo8c3ViPipCKjwvc3ViPjxzdXA+KkgqPC9zdXA+IGRlbm90ZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUKICAgIEJyYXZlcyB3aW4gYSBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMgYXMgdGhlCiAgICBob21lIHRlYW0gKEggZm9yIGhvbWUpLiBMZXQgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPiBkZW5vdGUKICAgIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBCcmF2ZXMgd2luIGEgc2luZ2xlIGhlYWQtdG8taGVhZCBtYXRjaC11cAogICAgd2l0aCB0aGUgYXdheSB0ZWFtIChBIGZvciBhd2F5KS48L2xpPgp8IEdhbWUgbG9jYXRpb24gfCAgICBObyBhZHZhbnRhZ2UgICB8IEFkdmFudGFnZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfDotLS0tLS0tLS0tLS0tOnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18CnwgICAgICBBVEwgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipIKjwvc3VwPuKAhD3igIQqUCo8c3ViPipCKjwvc3ViPuKAhVwq4oCFMS4xICAgICAgICAgICB8CnwgICAgICBOWUMgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPuKAhD3igIQx4oCF4oiS4oCFKDHigIXiiJLigIUqUCo8c3ViPipCKjwvc3ViPinigIVcKuKAhTEuMSB8Cjxicj4KCgoxLiBDb21wdXRlIGFuYWx5dGljYWxseSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgQnJhdmVzIHdpbiB0aGUgd29ybGQgc2VyaWVzIHdoZW4gdGhlIHNlcXVlbmNlIG9mIGdhbWUgbG9jYXRpb25zIGlzIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9LiBDYWxjdWxhdGUgdGhlIHByb2JhYmlsaXR5IHdpdGggYW5kIHdpdGhvdXQgaG9tZSBmaWVsZCBhZHZhbnRhZ2Ugd2hlbiBQPHN1Yj5iPC9zdWI+PSAwLjU1LiBXaGF0IGlzIHRoZSBkaWZmZXJlbmNlIGluIHByb2JhYmlsaXRpZXM/CgpgYGB7cn0KcmVxdWlyZShkcGx5cikKcmVxdWlyZShkYXRhLnRhYmxlKQojIEdldCBhbGwgcG9zc2libGUgb3V0Y29tZXMKYXBvIDwtIGZyZWFkKCJhbGwtcG9zc2libGUtd29ybGQtc2VyaWVzLW91dGNvbWVzLmNzdiIpCnNldC5zZWVkKDQ0KQpoZmkgPC0gYygwLDAsMSwxLDEsMCwwKSAjIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9CnBiIDwtIDAuNTUKYWR2YW50YWdlX211bHRpcGxpZXIgPC0gMS4xCnBiaCA8LSAwLjU1KmFkdmFudGFnZV9tdWx0aXBsaWVyCnBiYSA8LSAxIC0gKDEgLSAwLjU1KSphZHZhbnRhZ2VfbXVsdGlwbGllcgoKIyBXaXRob3V0IEhvbWUgQWR2YW50YWdlCmFuYWx5X3dpdGhvdXQ8LSBwYmlub20oMyw3LHBiLGxvd2VyLnRhaWwgPSBGKQoKIyBXaXRoIGhvbWUgQWFkdmFudGFnZSAKYXBvWywgcCA6PSBOQV9yZWFsX10gIyBJbml0aWFsaXplIG5ldyBjb2x1bW4gaW4gYXBvIHRvIHN0b3JlIHByb2IKZm9yKGkgaW4gMTpucm93KGFwbykpewogIHByb2JfZ2FtZSA8LSByZXAoMSwgNykKICBmb3IoaiBpbiAxOjcpewogICAgcF93aW4gPC0gaWZlbHNlKGhmaVtqXSwgcGJoLCBwYmEpCiAgICBwcm9iX2dhbWVbal0gPC0gY2FzZV93aGVuKAogICAgICAgIGFwb1tpLGosd2l0aD1GQUxTRV0gPT0gIlciIH4gcF93aW4KICAgICAgLCBhcG9baSxqLHdpdGg9RkFMU0VdID09ICJMIiB+IDEgLSBwX3dpbgogICAgICAsIFRSVUUgfiAxCiAgICApCiAgfQogIGFwb1tpLCBwIDo9IHByb2QocHJvYl9nYW1lKV0gIyBEYXRhLnRhYmxlIHN5bnRheAp9CgojIFNhbml0eSBjaGVjazogZG9lcyBzdW0ocCkgPT0gMT8KYXBvWywgc3VtKHApXSAjIFRoaXMgaXMgZGF0YS50YWJsZSBub3RhdGlvbgoKIyBQcm9iYWJpbGl0eSBvZiBvdmVyYWxsIFdvcmxkIFNlcmllcyBvdXRjb21lcwphcG9bLCBzdW0ocCksIG92ZXJhbGxfb3V0Y29tZV0KCmBgYApUaGVyZSBpcyBkaWZmZXJlbmNlIGluIHRoZSBhbmFseXRpY2FsIG1ldGhvZCBpZiB0aGUgdGVhbSBoYXMgYWR2YW50YWdlIG9yIHdpdGhvdXQgaXQuIApBYnNvbHV0ZSBFcnJvciA9IDAuNjA4Mjg3OCAtIDAuNjA0MjIxCT0gMC4wMDQwNjY4ClJlbGF0aXZlIGVycm9yID0gMC4wMDQwNjY4LzAuNjA4Mjg3OCA9IDAuMDA2Njg1NjUKCjIuQ2FsY3VsYXRlIHRoZSBzYW1lIHByb2JhYmlsaXRpZXMgYXMgdGhlIHByZXZpb3VzIHF1ZXN0aW9uIGJ5IHNpbXVsYXRpb24uCgpgYGB7cn0KIyBXaXRob3V0IGhvbWUgYWR2YW50YWdlIAp3aXRob3V0X2hvbWVfYWR2PC1tZWFuKHJiaW5vbSgxMDAwMDAwMCw3LDAuNTUpPjMpCndpdGhvdXRfaG9tZV9hZHYKI1dpdGggSG9tZSBBZHZhbnRhZ2UKd2l0aF9hZHYgPC0gbWVhbigocmJpbm9tKDEwMDAwMCw0LHBiYSkrIHJiaW5vbSgxMDAwMDAsMyxwYmgpKT4zKQp3aXRoX2FkdgpgYGAKCgozLiBXaGF0IGlzIHRoZSBhYnNvbHV0ZSBhbmQgcmVsYXRpdmUgZXJyb3IgZm9yIHlvdXIgc2ltdWxhdGlvbiBpbiB0aGUgcHJldmlvdXMgcXVlc3Rpb24/CgpgYGB7cn0KIyBNZWFuIGFic29sdXRlIEVycm9yICh3aXRoIGhvbWUgYWR2YW50YWdlKQooMC42MDQyMjEJIC0gd2l0aF9hZHYpCiMgUmVsYXRpdmUgRXJyb3IgKHdpdGggaG9tZSBhZHZhbnRhZ2UpCigwLjYwNDIyMQkgLSB3aXRoX2FkdikvMC42MDQyMjEKCiNNZWFuIGFic29sdXRlIEVycm9yICh3aXRob3V0IGhvbWUgYWR2YW50YWdlKQphbmFseV93aXRob3V0IC0gd2l0aG91dF9ob21lX2FkdgoKIyMgUmVsYXRpdmUgRXJyb3IgKHdpdGhvdXQgaG9tZSBhZHZhbnRhZ2UpCihhbmFseV93aXRob3V0LXdpdGhvdXRfaG9tZV9hZHYpL2FuYWx5X3dpdGhvdXQKCmBgYAoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKYGBgCgoKCgoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDQtaG9tZS1maWVsZC1hZHZhbnRhZ2UiCm91dHB1dDoKICBodG1sX2RvY3VtZW50OgogICAgdGhlbWU6IGNvc21vCiAgICB0b2M6IHllcwogICAgdG9jX2RlcHRoOiA1CiAgICB0b2NfZmxvYXQ6IHRydWUKZWRpdG9yX29wdGlvbnM6CiAgY2h1bmtfb3V0cHV0X3R5cGU6IGlubGluZQphdXRob3I6IFNoYXN3YXQgUmFqcHV0Ci0tLQoKYGBge3IgLGVjaG89VFJVRSwgaW5jbHVkZT1GQUxTRX0KbGlicmFyeShkcGx5cikKbGlicmFyeShnZ3Bsb3QyKQpsaWJyYXJ5KG1hZ3JpdHRyKQpgYGAKIyMjIFdvcmxkIFNlcmllcyA6IAoKVGhlIFdvcmxkIFNlcmllcyBpcyB0aGUgYW5udWFsIGNoYW1waW9uc2hpcCBzZXJpZXMgb2YgTWFqb3IgTGVhZ3VlIEJhc2ViYWxsIChNTEIpIGluIE5vcnRoIEFtZXJpY2EsIGNvbnRlc3RlZCBzaW5jZSAxOTAzIGJldHdlZW4gdGhlIEFtZXJpY2FuIExlYWd1ZSAoQUwpIGNoYW1waW9uIHRlYW0gYW5kIHRoZSBOYXRpb25hbCBMZWFndWUgKE5MKSBjaGFtcGlvbiB0ZWFtLiBUaGUgd2lubmVyIG9mIHRoZSBXb3JsZCBTZXJpZXMgY2hhbXBpb25zaGlwIGlzIGRldGVybWluZWQgdGhyb3VnaCBhIGJlc3Qtb2Ytc2V2ZW4gcGxheW9mZiwgYW5kIHRoZSB3aW5uaW5nIHRlYW0gaXMgYXdhcmRlZCB0aGUgQ29tbWlzc2lvbmVyJ3MgVHJvcGh5LiBBcyB0aGUgc2VyaWVzIGlzIHBsYXllZCBkdXJpbmcgdGhlIGZhbGwgc2Vhc29uIGluIE5vcnRoIEFtZXJpY2EsIGl0IGlzIHNvbWV0aW1lcyByZWZlcnJlZCB0byBhcyB0aGUgRmFsbCBDbGFzc2ljLiBTaW5jZSAyMDE3LCBpdCBoYXMgYmVlbiBvZmZpY2lhbGx5IGtub3duIGFzIHRoZSBXb3JsZCBTZXJpZXMgPGJyPgoKIyMjIyBXaGF0IGlzIEhvbWUgZmllbGQgQWR2YW50YWdlID8KSW4gdGVhbSBzcG9ydHMsIHRoZSB0ZXJtIGhvbWUgYWR2YW50YWdlIOKAkyBhbHNvIGNhbGxlZCBob21lIGdyb3VuZCwgaG9tZSBmaWVsZCwgaG9tZS1maWVsZCBhZHZhbnRhZ2UsIGhvbWUgY291cnQsIGhvbWUtY291cnQgYWR2YW50YWdlLCBkZWZlbmRlcidzIGFkdmFudGFnZSBvciBob21lLWljZSBhZHZhbnRhZ2Ug4oCTIGRlc2NyaWJlcyB0aGUgYmVuZWZpdCB0aGF0IHRoZSBob21lIHRlYW0gaXMgc2FpZCB0byBnYWluIG92ZXIgdGhlIHZpc2l0aW5nIHRlYW0uIFRoaXMgYmVuZWZpdCBoYXMgYmVlbiBhdHRyaWJ1dGVkIHRvIHBzeWNob2xvZ2ljYWwgZWZmZWN0cyBzdXBwb3J0aW5nIGZhbnMgaGF2ZSBvbiB0aGUgY29tcGV0aXRvcnMgb3IgcmVmZXJlZXM7IHRvIHBzeWNob2xvZ2ljYWwgb3IgcGh5c2lvbG9naWNhbCBhZHZhbnRhZ2VzIG9mIHBsYXlpbmcgbmVhciBob21lIGluIGZhbWlsaWFyIHNpdHVhdGlvbnM7IHRvIHRoZSBkaXNhZHZhbnRhZ2VzIGF3YXkgdGVhbXMgc3VmZmVyIGZyb20gY2hhbmdpbmcgdGltZSB6b25lcyBvciBjbGltYXRlcywgb3IgZnJvbSB0aGUgcmlnb3JzIG9mIHRyYXZlbDsgYW5kIGluIHNvbWUgc3BvcnRzLCB0byBzcGVjaWZpYyBydWxlcyB0aGF0IGZhdm9yIHRoZSBob21lIHRlYW0gZGlyZWN0bHkgb3IgaW5kaXJlY3RseS4gSW4gYmFzZWJhbGwsIGluIHBhcnRpY3VsYXIsIHRoZSBkaWZmZXJlbmNlIG1heSBhbHNvIGJlIHRoZSByZXN1bHQgb2YgdGhlIGhvbWUgdGVhbSBoYXZpbmcgYmVlbiBhc3NlbWJsZWQgdG8gdGFrZSBhZHZhbnRhZ2Ugb2YgdGhlIGlkaW9zeW5jcmFzaWVzIG9mIHRoZSBob21lIGJhbGxwYXJrLCBzdWNoIGFzIHRoZSBkaXN0YW5jZXMgdG8gdGhlIG91dGZpZWxkIHdhbGxzOyBtb3N0IG90aGVyIHNwb3J0cyBhcmUgcGxheWVkIGluIHN0YW5kYXJkaXplZCB2ZW51ZXMuCgojIyBJZiBob21lIGZpZWxkIGFkdmFudGFnZSBleGlzdHMsIGhvdyBtdWNoIG9mIGFuIGltcGFjdCBkb2VzIGl0IGhhdmUgb24gd2lubmluZyB0aGUgd29ybGQgc2VyaWVzPyA8YnI+CgojIyMgU0VUVVAgOgo8bGk+IFN1cHBvc2UgdGhhdCB0aGUgQnJhdmVzIGFuZCB0aGUgWWFua2VlcyBhcmUgdGVhbXMgY29tcGV0aW5nIGluIHRoZSBXb3JsZCBTZXJpZXMuPC9saT4KPGxpPiBUaGUgdGFibGUgYmVsb3cgaGFzIHRoZSB0d28gcG9zc2libGUgc2NoZWR1bGVzIGZvciBlYWNoIGdhbWUgb2YgdGhlIHNlcmllcy4gKE5ZQyA9IE5ldyBZb3JrIENpdHksIEFUTCA9IEF0bGFudGEpIDwvbGk+PGJyPgoKfCBPdmVyYWxsIGFkdmFudGFnZSB8IEdhbWUgMSB8IEdhbWUgMiB8IEdhbWUgMyB8IEdhbWUgNCB8IEdhbWUgNSB8IEdhbWUgNiB8IEdhbWUgNyB8Cnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fDotLS0tLS06fAp8ICAgICAgIEJyYXZlcyAgICAgIHwgICBBVEwgIHwgICBBVEwgIHwgICBOWUMgIHwgICBOWUMgIHwgICBOWUMgIHwgICBBVEwgIHwgICBBVEwgIHwKfCAgICAgIFlhbmtlZXMgICAgICB8ICAgTllDICB8ICAgTllDICB8ICAgQVRMICB8ICAgQVRMICB8ICAgQVRMICB8ICAgTllDICB8ICAgTllDICB8Cgo8bGk+IExldCAqUCo8c3ViPipCKjwvc3ViPiBiZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUgQnJhdmVzIHdpbiBhCiAgICBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMsIHVuZGVyIHRoZSBhc3N1bXB0aW9uCiAgICB0aGF0IGhvbWUgZmllbGQgYWR2YW50YWdlIGRvZXNu4oCZdCBleGlzdC4gTGV0CiAgICAqUCo8c3ViPipCKjwvc3ViPjxzdXA+KkgqPC9zdXA+IGRlbm90ZSB0aGUgcHJvYmFiaWxpdHkgdGhhdCB0aGUKICAgIEJyYXZlcyB3aW4gYSBzaW5nbGUgaGVhZC10by1oZWFkIG1hdGNoLXVwIHdpdGggdGhlIFlhbmtlZXMgYXMgdGhlCiAgICBob21lIHRlYW0gKEggZm9yIGhvbWUpLiBMZXQgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPiBkZW5vdGUKICAgIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBCcmF2ZXMgd2luIGEgc2luZ2xlIGhlYWQtdG8taGVhZCBtYXRjaC11cAogICAgd2l0aCB0aGUgYXdheSB0ZWFtIChBIGZvciBhd2F5KS48L2xpPgp8IEdhbWUgbG9jYXRpb24gfCAgICBObyBhZHZhbnRhZ2UgICB8IEFkdmFudGFnZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfDotLS0tLS0tLS0tLS0tOnw6LS0tLS0tLS0tLS0tLS0tLS06fDotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS18CnwgICAgICBBVEwgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipIKjwvc3VwPuKAhD3igIQqUCo8c3ViPipCKjwvc3ViPuKAhVwq4oCFMS4xICAgICAgICAgICB8CnwgICAgICBOWUMgICAgICB8ICpQKjxzdWI+KkIqPC9zdWI+IHwgKlAqPHN1Yj4qQio8L3N1Yj48c3VwPipBKjwvc3VwPuKAhD3igIQx4oCF4oiS4oCFKDHigIXiiJLigIUqUCo8c3ViPipCKjwvc3ViPinigIVcKuKAhTEuMSB8Cjxicj4KCldlIGFyZSBjYWxjdWxhdGluZyB0aGUgdGhlIHByb2JhYmlsaXR5IHRoYXQgQnJhdmVzIHdpbiB0aGUgV29ybGQgU2VyaWVzIHdoZW4gdGhlIHNlcXVlbmNlIG9mIGdhbWVzIGxvY2F0aW9uIGlzIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9LiA8YnI+CgojIyMgU2V0dGluZyB0aGUgcGFyYW1ldGVycyBmb3Igc2ltdWxhdGlvbiBhbmQgYW5hbHl0aWNzIGFuc3dlci4gVwpgYGB7cn0KcmVxdWlyZShkcGx5cikKcmVxdWlyZShkYXRhLnRhYmxlKQojIEdldCBhbGwgcG9zc2libGUgb3V0Y29tZXMKYXBvIDwtIGZyZWFkKCJhbGwtcG9zc2libGUtd29ybGQtc2VyaWVzLW91dGNvbWVzLmNzdiIpCnNldC5zZWVkKDQ0KQpoZmkgPC0gYygwLDAsMSwxLDEsMCwwKSAjIHtOWUMsIE5ZQywgQVRMLCBBVEwsIEFUTCwgTllDLCBOWUN9CnBiIDwtIDAuNTUKYWR2YW50YWdlX211bHRpcGxpZXIgPC0gMS4xCnBiaCA8LSAwLjU1KmFkdmFudGFnZV9tdWx0aXBsaWVyCnBiYSA8LSAxIC0gKDEgLSAwLjU1KSphZHZhbnRhZ2VfbXVsdGlwbGllcgoKYGBgCgojIyBBTkFMWVRJQ0FMOgojIyMgUHJvYmFiaWxpdHkgdGhhdCBCcmF2ZXMgd2luIHdvcmxkIFNlcmllcyB3aXRob3V0IEhvbWUgYWR2YW50YWdlLiBGb3IgdGhpcyBwYXJ0IHdlIGp1c3Qgc2ltcGx5IHVzZWQgdGhlIHBiaW5vbSBmdW5jdGlvbSBhbmQgc2V0IGxvd2VyLnRhaWwgdG8gYmUgRmFsc2UgYXMgd2Ugd2FudCB0aGUgcmlnaHQgc2lkZSBvZiB0aGUgY3VydmUuCmBgYHtyfQojIFdpdGhvdXQgSG9tZSBBZHZhbnRhZ2UKYW5hbHlfd2l0aG91dDwtIHBiaW5vbSgzLDcscGIsbG93ZXIudGFpbCA9IEYpCmFuYWx5X3dpdGhvdXQKYGBgClNvLCB3ZSBmb3VuZCB0aGF0IHByb2JhYmlsaXR5IHRoYXQgQnJhdmVzIHdpbiB3b3JsZCBzZXJpZXMgd2l0aG91dCBIb21lIEZpZWxkIGFkdmFudGFnZSBpcyBlcXVhbCB0byAwLjYwODIuIFRoaXMgbWV0aG9kIHdhcyBhbmFseXRpY2FsIG1ldGhvZC48YnI+CgpMZXQncyBmaW5kIG91dCB0aGUgcHJvYmFiaWxpdHkgdGhhdCBCcmF2ZXMgd2luIHRoZSB3b3JsZCBTZXJpZXMgd2l0aCBIb21lIEZpZWxkIEFkdmFudGFnZSB1c2luZyBhbmFseXRpY2FsIG1ldGhvZC48YnI+CgpgYGB7cn0KIyBXaXRoIGhvbWUgQWFkdmFudGFnZSAKYXBvWywgcCA6PSBOQV9yZWFsX10gIyBJbml0aWFsaXplIG5ldyBjb2x1bW4gaW4gYXBvIHRvIHN0b3JlIHByb2IKZm9yKGkgaW4gMTpucm93KGFwbykpewogIHByb2JfZ2FtZSA8LSByZXAoMSwgNykKICBmb3IoaiBpbiAxOjcpewogICAgcF93aW4gPC0gaWZlbHNlKGhmaVtqXSwgcGJoLCBwYmEpCiAgICBwcm9iX2dhbWVbal0gPC0gY2FzZV93aGVuKAogICAgICAgIGFwb1tpLGosd2l0aD1GQUxTRV0gPT0gIlciIH4gcF93aW4KICAgICAgLCBhcG9baSxqLHdpdGg9RkFMU0VdID09ICJMIiB+IDEgLSBwX3dpbgogICAgICAsIFRSVUUgfiAxCiAgICApCiAgfQogIGFwb1tpLCBwIDo9IHByb2QocHJvYl9nYW1lKV0gIyBEYXRhLnRhYmxlIHN5bnRheAp9CgojIFNhbml0eSBjaGVjazogZG9lcyBzdW0ocCkgPT0gMT8KYXBvWywgc3VtKHApXSAjIFRoaXMgaXMgZGF0YS50YWJsZSBub3RhdGlvbgoKIyBQcm9iYWJpbGl0eSBvZiBvdmVyYWxsIFdvcmxkIFNlcmllcyBvdXRjb21lcwphcG9bLCBzdW0ocCksIG92ZXJhbGxfb3V0Y29tZV0KYGBgCgpTbywgd2UgZm91bmQgb3V0IHRoYXQgdGhlIHByb2JhYmlsaXR5IG9mIEJyYXZlcyB3aW5uaW5nIHRoZSBXb3JsZCBTZXJpZXMgaXMgMC42MDQyMjEuIFdlIGdldCB0aGlzIGFuc3dlciB1c2luZyB0aGUgYW5hbHl0aWNhbCBtZXRob2QuCgpOb3csIGxldCdzIGNvbXBhcmUgb3VyIHJlc3VsdHMgb2Ygd2l0aG91dCBhbmQgd2l0aCBob21lIGFkdmFudGFnZS4gV2UgY2FuIGRvIHRoaXMgYnkgcmVsYXRpdmUgYW5kIGFic29sdXRlIGVycm9yLjxicj4KClRoZXJlIGlzIGRpZmZlcmVuY2UgaW4gdGhlIGFuYWx5dGljYWwgbWV0aG9kIGlmIHRoZSB0ZWFtIGhhcyBhZHZhbnRhZ2Ugb3Igd2l0aG91dCBpdC4gPGJyPgoKQWJzb2x1dGUgRXJyb3IgPSAwLjYwODI4NzggLSAwLjYwNDIyMQk9IDAuMDA0MDY2ODxicj4KUmVsYXRpdmUgZXJyb3IgPSAwLjAwNDA2NjgvMC42MDgyODc4ID0gMC4wMDY2ODU2NTxicj4KCnwgTWV0aG9kIHwgSG9tZSBBZHZhbnRhZ2UgfCBQcm9iYWJpbGl0eSB8IAp8Oi0tLS0tLS0tLS0tLS0tLS0tOnw6LS0tLS0tOnw6LS0tLS0tOnwKfCAgICAgICBBbmFseXRpYyAgICAgIHwgIE5vICB8ICAgMC42MDgyODc4ICB8CnwgICAgICBBbmFseXRpYyAgICAgIHwgICBZZXMgIHwgMC42MDQyMjEgfCAKCjxicj4KCnwgRXJyb3IgVHlwZSB8IEVycm9yIHwKfDotLS0tLS0tLS0tLS0tLS0tLTp8Oi0tLS0tLTp8CnwgICAgICAgQWJzb2x1dGUgRXJyb3IgICAgICB8ICAwLjAwNDA2NiAgfCAgCnwgICAgIFJlbGF0aXZlIEVycm9yICAgIHwgIDAuMDA2Njg1NjUgIHwgXQoKU28sIHdlIGZvdW5kIG91dCB0aGF0IHdpdGggYW5hbHl0aWNhbCBzb2x1dGlvbiB0aGVyZSBpcyBub3QgbXVjaCBkaWZmZXJlbmNlIHdpdGggaG9tZSBvciBub3QgaG9tZSBmaWVsZCBhZHZhbnRhZ2UuPGJyPgoKTGV0J3MgZG8gdGhlIHNhbWUgdGhpbmcgYXMgYWJvdmUgdXNpbmcgdGhlIHNpbXVsYXRpb24gYW5kIGNvbWFwcmUgb3VyIHJlc3VsdHMgd2l0aCBhbmFseXRpY2FsIHNvbHV0aW9uLjxicj4KCiMjIyBTSU1VTEFUSU9OOiAKCkxldCdzIHRha2Ugb3V0IG91dCBzaXplIG9mIDEwMDAwMDAwIGFuZCB0YWtlIG1lYW4gb2Ygd2hlbiB0aGUgb3V0cHV0PjMuCgpgYGB7cn0KIyBXaXRob3V0IGhvbWUgYWR2YW50YWdlIAp3aXRob3V0X2hvbWVfYWR2PC1tZWFuKHJiaW5vbSgxMDAwMDAwMCw3LHBiKT4zKQp3aXRob3V0X2hvbWVfYWR2CmBgYApTbywgaWYgd2UgZG8gc2ltdWxhdGlvbiB0byBmaW5kIHRoZSBwcm9iYWJpbGl0eSBvZiBCcmF2ZXMgd2lubmluZyB3aXRob3V0IEhvbWUgRmllbGQgQWR2YW50YWdlLCB3ZSBnZXQgcHJvYmFiaWxpdHkgb2YgMC42MDgKCkxldCdzIGZpbmQgcHJvYmFiaWxpdHkgb2YgQnJhdmVzIHdpbm5pbmcgd29ybGQgc2VyaWVzIHdpdGggSG9tZSBmaWVsZCBBZHZhbnRhZ2UuIAoKYGBge3J9CiNXaXRoIEhvbWUgQWR2YW50YWdlCndpdGhfYWR2IDwtIG1lYW4oKHJiaW5vbSgxMDAwMDAsNCxwYmEpKyByYmlub20oMTAwMDAwLDMscGJoKSk+MykKd2l0aF9hZHYKYGBgClNvLCBmcm9tIHRoZSBzaW11bGF0aW9uIHdlIGZvdW5kIG91dCB0aGF0IHByb2JhYmlsaXR5IHRoYXQgQnJhdmVzIHdpbiBXb3JsZCBTZXJpZXMgd2l0aCBob21lIGFkdmFudGFnZSBpcyAwLjYwNTcuPGJyPgoKTGV0J3MgZXhwbG9yZSB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIGFuYWx5dGljYWwgYW5kIHNpbXVsYXRpb24gcmVzdWx0Ljxicj4KCiMjIyMgRGlmZmVyZW5jZSBCZXR3ZWVuIEFuYWx5dGljYWwgYW5kIFNpbXVhbHRpb24gUmVzdWx0cy4KCkxldCdzIGZpbmQgb3V0IHRoZSBNZWFuIGFic29sdXRlIGVycm9yIGJldHdlZW4gYW5hbHl0aWNhbCBhbmQgc2ltdWxhdGVkIHByb2JhYmlsaXR5IHdpdGggSG9tZSBmaWVsZCBBZHZhbnRhZ2UuPGJyPgpgYGB7cn0KIyBNZWFuIGFic29sdXRlIEVycm9yICh3aXRoIGhvbWUgYWR2YW50YWdlKQooMC42MDQyMjEJIC0gd2l0aF9hZHYpCmBgYApXZSBmb3VuZCBvdXQgdGhhdCB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHNpbXVsYXRlZCBhbmQgYW5hbHl0aWNhbCByZXN1bHQgaXMgdmVyeSBzbWFsbC4gVGhlIGRpZmZlcmVuY2UgdHVybmVkIG91dCB0byBiZSAwLjAwMDU4MSB3aGljaCBpcyBuZWFybHkgZXF1YWwgdG8gMC4gPGJyPgoKTGV0J3MgZmluZCB0aGUgcmVsYXRpdmUgZXJyb3IgYmV0d2VlbiBhbmFseXRpY2FsIGFuZCBzaW11bGF0ZWQgcmVzdWx0OgoKYGBge3J9CiMgUmVsYXRpdmUgRXJyb3IgKHdpdGggaG9tZSBhZHZhbnRhZ2UpCigwLjYwNDIyMQkgLSB3aXRoX2FkdikvMC42MDQyMjEKYGBgCgpUaGUgcmVsYXRpdmUgZXJyb3IgYmV0d2VlbiBzaW11bGF0ZWQgYW5kIGFuYWx5dGljYWwgc29sdXRpb24gdHVybmVkIG91dCB0byBiZSB2ZXJ5IG5lZ2xpYmxlLCBuZWFybHkgZXF1YWwgdG8gMC4gPGJyPgoKTGV0J3MgZXhwbG9yZSB0aGUgZGlmZmVyZW5lIHNpbXVsYXRlZCBhbmQgYW5hbHl0aWNhbCBzb2x1dGlvbiBvZiBCcmF2ZXMgd2lubmluZyB0aGUgV29ybGQgU2VyaWVzIHdpdGhvdXQgdGhlIGhvbWUtZmllbGQgYWR2YW50YWdlIDogPGJyPgpgYGB7cn0KI01lYW4gYWJzb2x1dGUgRXJyb3IgKHdpdGhvdXQgaG9tZSBhZHZhbnRhZ2UpCmFuYWx5X3dpdGhvdXQgLSB3aXRob3V0X2hvbWVfYWR2CmBgYAogSnVzdCBsaWtlIHRoZSByZXN1bHQgd2UgZ290IGluIHdpdGggaG9tZS1maWVsZCBhZHZhbnRhZ2UsIHdlIHNlZSB0aGVyZSBpcyBub3QgbXVjaCBkaWZmZXJlbmNlIGJldHdlZW4gc2ltdWxhdGVkIGFuZCBhbmFseXRpY2FsIHNvbHV0aW9uIGZvciBCcmF2ZXMgd2lubmluZyB3b3JsZCBzZXJpZXMgd2l0aG91dCBob21lLWZpZWxkIGFkdmFudGFnZS48YnI+CldlIGNhbiBleHBlY3QgdGhlIHJlbGF0aXZlIGVycm9yIHRvIGJlIG5lZ2xpYmxlIHRvby48YnI+CgpMZXQncyBmaW5kIHRoZSByZWxhdGl2ZSBlcnJvciB3aXRob3V0IGhvbWUgZmllbGQgYWR2YW50YWdlIDoKYGBge3J9CiMjIFJlbGF0aXZlIEVycm9yICh3aXRob3V0IGhvbWUgYWR2YW50YWdlKQooYW5hbHlfd2l0aG91dC13aXRob3V0X2hvbWVfYWR2KS9hbmFseV93aXRob3V0CmBgYApXZSBmb3VuZCB0aGF0IHJlbGF0aXZlIGVycm9yIGlzIHZlcnkgc21hbGwsIGFsbW9zdCBuZWdsaWdpYmxlLiBTbywgd2UgY2FuIHNheSB0aGF0IGFuYWx5aWNhbCBhbmQgc2ltdWxhdGVkIHJlc3VsdHMgYXJlIGFsbW9zdCBzYW1lIGZvciBCcmF2ZXMgd2lubmluZyB3b3JsZCBTZXJpZXMgd2l0aG91dCBob21lLWZpZWxkIGFkdmFudGFnZS4KCgp8IEhvbWUgRmllbGQgQWR2YW50YWdlIHwgUmVsYXRpdmUgRXJyb3IgfCBBYnNvbHV0ZSBFcnJvciB8IAp8Oi0tLS0tLS0tLS0tLS0tLS0tOnw6LS0tLS0tOnw6LS0tLS0tOnw6LS0tLS0tOnwKfCAgICAgICBZZXMgICAgICB8ICAgICAgIDAuMDAwOTYxNTY4NyAgfCAgIDAuMDAwNTgxICB8ICAKfCAgICAgIE5vICAgICAgfCAgICAwLjAwMDQ0ODQ2NjggIHwgICAwLjAwMDI3Mjc5NjkgIHwgIAoKIyMjIENvbmNsdXNpb246CldlIGZvdW5kIG91dCB0aGF0IHRoZXJlIGlzIG5vdCBtdWNoIGRpZmZlcmVuY2UgYmV0d2VlbiBBbmFseXRpY2FsIGFuZCBTaW11bGF0ZWQgUmVzdWx0IGZvciBCcmF2ZXMgd2lubmluZyBXb3JsZCBTZXJpZXMuIFdlIGFsc28gaW5mZXIgdGhhdCBoYXZpbmcgaG9tZS1maWVsZCBhZHZhbnRhZ2UgZG9lc24ndCBpbmNyZWFzZSB5b3VyIGNoYW5jZSBvZiB3aW5uaW5nIFdvcmxkIFNlcmllcyBhY2NvcmRpbmcgdG8gdGhlIHBhcmFtZXRlcnMgd2UgaGF2ZSBzZXQgaW5pdGlhbGx5Ljxicj4KT3ZlcmFsbCB3ZSBjYW4gc2F5IHRoYXQgQnJhdmVzIGhhdmUgd2lubmluZyBjaGFuY2Ugb2YgfjYwJSBvZiB3aW5uaW5nIHRoZSB3b3JsZCBzZXJpZXMsIGJ1dCB0aGlzICBpcyBiYXNlZCBvbiBvdXIgaW5pdGlhbCBwYXJhbWV0ZXJzIHdlIGhhdmUgc2V0LiBUbyBnZXQgcHJhY3RpY2FsIHJlc3VsdCB3ZSBuZWVkIHBhc3QgZGF0YSBvZiBCcmF2ZXMgd2lubmluZyBtYXRjaGVzIGFnYWluc3QgWWFua2VlcyBzbyB0aGF0IHdlIGNhbiBnZXQgYWN0dWFsIHdpbm5pbmcgcHJvYmFiaWxpdHkgYW5kIHRoZW4gd2UgY2FuIGRvIHBlb3BlciBhbmFseXNpcyBvZiBCcmF2ZXMgd2lubmluZyBXb3JsZCBTZXJpZXMuCgoKCgoKCgoKCgoKCgoKCgoKCgoKCmBgYAoKCgoKCgo=</div>
 
 
 
