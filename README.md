@@ -11,3 +11,31 @@ Probability and Inference class Assignment repo
 
 3. [03-Discrete-Probability-Calculations](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/03-discrete-probability-calculations)<br>
 [Discrete Probability Calculations HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/03-discrete-probability-calculations/writeup.nb.html) <br><br>
+
+4. [04-Home-Field-Advantage](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/04-Home-Field-Advantage)<br>
+[Home Field Advantage HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/04-Home-Field-Advantage/writeup.html) <br><br>
+
+5. [05-Quantile-Precision](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/05-quantile-precision)<br>
+[Quantile Precision HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/05-quantile-precision/writeup.html) <br><br>
+
+6. [06-Order-Statistics](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/06-order-statistics)<br>
+[Order Statistics HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/06-order-statistics/writeup.html) <br><br>
+
+7. [08-Coverage-Probability](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/08-coverage-probability)<br>
+[Order Statistics HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/08-coverage-probability/writeup.nb.html) <br><br>
+
+8. [09-Simulation-Study](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/09-simulation-study)<br>
+[Order Statistics HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/09-simulation-study/writeup.nb.html) <br><br>
+
+9. [10-CLT-Approximation](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/10-CLT-approximation)<br>
+[Order Statistics HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/10-CLT-approximation/10-CLT-Approximation.nb.html) <br><br>
+
+
+
+
+
+
+
+
+
+
