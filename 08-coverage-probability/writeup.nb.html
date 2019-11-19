@@ -10,7 +10,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Shaswat Rajput" />
 
 
 <title>08-Coverage-Probability</title>
@@ -1746,7 +1745,6 @@ summary {
 
 
 <h1 class="title toc-ignore">08-Coverage-Probability</h1>
-<h4 class="author">Shaswat Rajput</h4>
 
 </div>
 
@@ -1754,60 +1752,92 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGRvUGFyYWxsZWwpXG5gYGAifQ== -->
-<pre class="r"><code>library(tidyverse)
-library(doParallel)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBmb3JlYWNoXG5cbkF0dGFjaGluZyBwYWNrYWdlOiDigJhmb3JlYWNo4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g4oCYcGFja2FnZTpwdXJycuKAmTpcblxuICAgIGFjY3VtdWxhdGUsIHdoZW5cblxuTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBpdGVyYXRvcnNcbkxvYWRpbmcgcmVxdWlyZWQgcGFja2FnZTogcGFyYWxsZWxcbiJ9 -->
-<pre><code>Loading required package: foreach
-
-Attaching package: ‘foreach’
-
-The following objects are masked from ‘package:purrr’:
-
-    accumulate, when
-
-Loading required package: iterators
-Loading required package: parallel</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlYWNoKVxubGlicmFyeShpdGVyYXRvcnMpXG5saWJyYXJ5KHBhcmFsbGVsKVxuYGBgIn0= -->
-<pre class="r"><code>library(foreach)
-library(iterators)
-library(parallel)</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<div id="what-is-coverage-probability" class="section level2">
+<h2>What is Coverage Probability?</h2>
+Coverage probability: This term refers to the probability that a procedure for constructing random regions will produce an interval containing, or covering, the true value. It is a property of the interval producing procedure, and is independent of the particular sample to which such a procedure is applied.<br> <b>Steps: </b><br>
+<li>
+First we will calculate the true parameters by some fixed value, then the true parameters should be give to generate data function in order to get the normal distribution of the true parameters.
+</li>
+<li>
+Calculate the normal distribution.
+</li>
+<li>
+We will use MLE method to calculate the mean, sd and length of the distribution.
+</li>
+<li>
+The caluclated parameters are passed to bootsrapping. Here, bootstrap calculates the medians based on the normal distribution of the parameters given by the estimated MLE function.
+</li>
+</div>
+<div id="setting-parameters" class="section level2">
+<h2>Setting Parameters:</h2>
+<p>Here, we are setting the values of parameters and storing them in a vector.<br></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zZXQuc2VlZCg0NClcbk4gPC0gMjAxIFxucG9wLm1lYW4gPSAwXG5wb3Auc2QgPSAxXG50cnVlLnBhcmFtZXRlcnMgPC0gYyhOLHBvcC5tZWFuLHBvcC5zZClcblxuZ2VuZXJhdGVfZGF0YSA8LSBmdW5jdGlvbihwYXJhbWV0ZXJzKSB7XG4jc3RhbmRhcmQgbm9ybWFsIGRpc3JpYnV0aW9uc1xuICBybm9ybShwYXJhbWV0ZXJzWzFdLHBhcmFtZXRlcnNbMl0scGFyYW1ldGVyc1szXSlcbiAgXG59XG5cbmNhcHR1cmVfbWVkaWFuIDwtIGZ1bmN0aW9uKGNpKXtcbiAgIyAwIGFzIHBhcmFtZXRlciBvZiBpbnRlcmVzdFxuICAxKihjaVsxXSA8IDAgJiAwIDwgY2lbMl0pXG59XG5cbmVzdC5tbGUgPC0gZnVuY3Rpb24oZGF0YSkge1xuICBcbiAgZGF0Lm1lYW4gPC0gbWVhbihkYXRhKVxuICBkYXQuc2QgPC0gc3FydCgoKGxlbmd0aChkYXRhKS0gMSkvbGVuZ3RoKGRhdGEpKSp2YXIoZGF0YSkpXG4gIFxuICByZXR1cm4oYyhsZW5ndGgoZGF0YSksIG1sZS5tZWFuLG1sZS5zZCkpXG59XG5cblxuYm9vdC5tZWRzLmNpIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHtcbiAgUiA8LSA1MDAwXG4gIHNhbXBsZS5tZWRzIDwtIE5BXG4gIGZvciAoaSBpbiAxOlIpe1xuICAgIFxuICAgIHNhbXBsZS5tZWRzW2ldIDwtIHBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhKCkgJT4lIG1lZGlhblxuICAgICNzYW1wbGUubWVkc1tpXVxuICB9XG4gIHF1YW50aWxlKHNhbXBsZS5tZWRzLCBjKDAuMDI1LDAuOTc1KSlcbiAgXG4gIFxufVxuXG5cbnRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5zZXQuc2VlZCg0NClcbk4gPC0gMjAxIFxucG9wLm1lYW4gPSAwXG5wb3Auc2QgPSAxXG50cnVlLnBhcmFtZXRlcnMgPC0gYyhOLHBvcC5tZWFuLHBvcC5zZClcbmBgYCJ9 -->
 <pre class="r"><code>
 set.seed(44)
 N &lt;- 201 
 pop.mean = 0
 pop.sd = 1
-true.parameters &lt;- c(N,pop.mean,pop.sd)
-
-generate_data &lt;- function(parameters) {
+true.parameters &lt;- c(N,pop.mean,pop.sd)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>#Generating the Data: Here we are using the parameters values to generate the Normal distribution</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2VuZXJhdGVfZGF0YSA8LSBmdW5jdGlvbihwYXJhbWV0ZXJzKSB7XG4jc3RhbmRhcmQgbm9ybWFsIGRpc3JpYnV0aW9uc1xuICBybm9ybShwYXJhbWV0ZXJzWzFdLHBhcmFtZXRlcnNbMl0scGFyYW1ldGVyc1szXSlcbiAgXG59XG5gYGAifQ== -->
+<pre class="r"><code>generate_data &lt;- function(parameters) {
 #standard normal disributions
   rnorm(parameters[1],parameters[2],parameters[3])
   
-}
-
-capture_median &lt;- function(ci){
-  # 0 as parameter of interest
-  1*(ci[1] &lt; 0 &amp; 0 &lt; ci[2])
-}
-
-est.mle &lt;- function(data) {
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="mle-estimation" class="section level2">
+<h2>MLE Estimation:</h2>
+<p>Using the Normal distribution value genrated above, we estimate the vale using MLE method by simuilation. We are estimating the MLE by taking the mean of the data generated from the normal distribution. Then we calculated the SD based on the formule i.e. square root of ((N-1/N) * var(data)). N denotes the lenght of the data for which the variance is calulated.At end, we return a vector of the length, mean and sd from the function of MLE. This will be our simualted MLE value.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXN0Lm1sZSA8LSBmdW5jdGlvbihkYXRhKSB7XG4gIFxuICBkYXQubWVhbiA8LSBtZWFuKGRhdGEpXG4gIGRhdC5zZCA8LSBzcXJ0KCgobGVuZ3RoKGRhdGEpLSAxKS9sZW5ndGgoZGF0YSkpKnZhcihkYXRhKSlcbiAgXG4gIHJldHVybihjKGxlbmd0aChkYXRhKSwgZGF0Lm1lYW4sZGF0LnNkKSlcbn1cbmBgYCJ9 -->
+<pre class="r"><code>est.mle &lt;- function(data) {
   
   dat.mean &lt;- mean(data)
   dat.sd &lt;- sqrt(((length(data)- 1)/length(data))*var(data))
   
-  return(c(length(data), mle.mean,mle.sd))
+  return(c(length(data), dat.mean,dat.sd))
+}</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="confidence-interval-of-distribution" class="section level1">
+<h1>Confidence Interval of Distribution:</h1>
+<p>The function that is defined below is to see whether the quantiles calulated lie in the range that we want them to be.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5jYXB0dXJlX21lZGlhbiA8LSBmdW5jdGlvbihjaSl7XG4gICMgMCBhcyBwYXJhbWV0ZXIgb2YgaW50ZXJlc3RcbiAgMSooY2lbMV0gPCAwICYgMCA8IGNpWzJdKVxufVxuXG5gYGAifQ== -->
+<pre class="r"><code>
+capture_median &lt;- function(ci){
+  # 0 as parameter of interest
+  1*(ci[1] &lt; 0 &amp; 0 &lt; ci[2])
 }
-
-
-boot.meds.ci &lt;- function(parameters) {
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="bootsrapping" class="section level1">
+<h1>Bootsrapping:</h1>
+<p>The simulated values calculated above by the MLE method are now fed to bootstrap functioon defined below. We are running this simulation 5000 times. The output of this function will be 95% confidence interval.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9vdC5tZWRzLmNpIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHtcbiAgUiA8LSA1MDAwXG4gIHNhbXBsZS5tZWRzIDwtIE5BXG4gIGZvciAoaSBpbiAxOlIpe1xuICAgIFxuICAgIHNhbXBsZS5tZWRzW2ldIDwtIHBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhKCkgJT4lIG1lZGlhblxuICAgICNzYW1wbGUubWVkc1tpXVxuICB9XG4gIHF1YW50aWxlKHNhbXBsZS5tZWRzLCBjKDAuMDI1LDAuOTc1KSlcbiAgXG4gIFxufVxuIyB0cnVlLnBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhICU+JSAgZXN0Lm1sZSAgJT4lIGJvb3QubWVkcy5jaSU+JSBjYXB0dXJlX21lZGlhblxuXG5gYGAifQ== -->
+<pre class="r"><code>boot.meds.ci &lt;- function(parameters) {
   R &lt;- 5000
   sample.meds &lt;- NA
   for (i in 1:R){
@@ -1819,31 +1849,27 @@ boot.meds.ci &lt;- function(parameters) {
   
   
 }
-
-
-true.parameters %&gt;%  generate_data %&gt;%  est.mle  %&gt;% boot.meds.ci%&gt;% capture_median</code></pre>
+# true.parameters %&gt;%  generate_data %&gt;%  est.mle  %&gt;% boot.meds.ci%&gt;% capture_median
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gdHJ1ZS5wYXJhbWV0ZXJzICU+JSBnZW5lcmF0ZV9kYXRhICU+JSBlc3QubWxlICU+JSBib290Lm1lZHMuY2kgJT4lICA6IFxuICBjb3VsZCBub3QgZmluZCBmdW5jdGlvbiBcIiU+JVwiXG4ifQ== -->
-<pre><code>Error in true.parameters %&gt;% generate_data %&gt;% est.mle %&gt;% boot.meds.ci %&gt;%  : 
-  could not find function &quot;%&gt;%&quot;</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="simulation" class="section level1">
+<h1>Simulation:</h1>
+<p>In order to be as close to true answer, I have ran this simulation 5000 times. In below code chunk we have used detect core to check how many cores are there in our PC and then I subtracted it by 1. Basically what we are doing here we are pipelinining our data throught the functions that we defined above and we running it for 5000 times. We are leveraging parallel processing our PC to do it. At the end we are checking using the capture_median function if our data lies in confience interval or not.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkb1BhcmFsbGVsKVxubGlicmFyeShmb3JlYWNoKVxubGlicmFyeShpdGVyYXRvcnMpXG5saWJyYXJ5KHBhcmFsbGVsKVxuXG5jb3Jlc18yX3VzZSA8LSBkZXRlY3RDb3JlcygpIC0gMVxuY2wgPC0gbWFrZUNsdXN0ZXIoY29yZXNfMl91c2UpXG5jbHVzdGVyU2V0Uk5HU3RyZWFtKGNsLCAyMzQ0KVxucmVnaXN0ZXJEb1BhcmFsbGVsKGNsKVxuXG5jYXB0dXJlcyA8LSBmb3JlYWNoKFxuICAgIGkgPSAxOjEwMDBcbiAgLCAuY29tYmluZSA9IGNcbiAgLCAucGFja2FnZXMgPSBjKCdkcGx5cicpXG4pICVkb3BhciUge1xuIHRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuXG59XG5zdG9wQ2x1c3RlcihjbClcblxuXG5tZWFuKGNhcHR1cmVzKVxuYGBgIn0= -->
-<pre class="r"><code>library(doParallel)
-library(foreach)
-library(iterators)
-library(parallel)
-
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIENyZWF0ZSBwYXJhbGxlbCBiYWNrZW5kXG5jb3Jlc18yX3VzZSA8LSBkZXRlY3RDb3JlcygpIC0gMVxuY2wgPC0gbWFrZUNsdXN0ZXIoY29yZXNfMl91c2UpXG5jbHVzdGVyU2V0Uk5HU3RyZWFtKGNsLCAyMzQ0KVxucmVnaXN0ZXJEb1BhcmFsbGVsKGNsKVxuXG5jYXB0dXJlcyA8LSBmb3JlYWNoKFxuICAgIGkgPSAxOjUwMDBcbiAgLCAuY29tYmluZSA9IGNcbiAgLCAucGFja2FnZXMgPSBjKCdkcGx5cicpXG4pICVkb3BhciUge1xuIHRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuXG59XG5zdG9wQ2x1c3RlcihjbClcblxubWVhbihjYXB0dXJlcylcbmBgYCJ9 -->
+<pre class="r"><code>
+# Create parallel backend
 cores_2_use &lt;- detectCores() - 1
 cl &lt;- makeCluster(cores_2_use)
 clusterSetRNGStream(cl, 2344)
 registerDoParallel(cl)
 
 captures &lt;- foreach(
-    i = 1:1000
+    i = 1:5000
   , .combine = c
   , .packages = c('dplyr')
 ) %dopar% {
@@ -1851,17 +1877,18 @@ captures &lt;- foreach(
 }
 stopCluster(cl)
 
-
 mean(captures)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDFcbiJ9 -->
-<pre><code>[1] 1</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuOTg1OFxuIn0= -->
+<pre><code>[1] 0.9858</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>As we can see that 98.58 % of our data lied in confidence interval. For different distributions, different methods can be used to generate Fhat. If we decrease the simulations we can will see that less number of values will fall in the confidence interval and the average will drop down and if e increase our number of simualtions, average of values falling in confidence interval will increase.</p>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDgtQ292ZXJhZ2UtUHJvYmFiaWxpdHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawphdXRob3I6ICJTaGFzd2F0IFJhanB1dCIKLS0tCgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZG9QYXJhbGxlbCkKbGlicmFyeShmb3JlYWNoKQpsaWJyYXJ5KGl0ZXJhdG9ycykKbGlicmFyeShwYXJhbGxlbCkKYGBgCgoKCmBgYHtyfQoKc2V0LnNlZWQoNDQpCk4gPC0gMjAxIApwb3AubWVhbiA9IDAKcG9wLnNkID0gMQp0cnVlLnBhcmFtZXRlcnMgPC0gYyhOLHBvcC5tZWFuLHBvcC5zZCkKCmdlbmVyYXRlX2RhdGEgPC0gZnVuY3Rpb24ocGFyYW1ldGVycykgewojc3RhbmRhcmQgbm9ybWFsIGRpc3JpYnV0aW9ucwogIHJub3JtKHBhcmFtZXRlcnNbMV0scGFyYW1ldGVyc1syXSxwYXJhbWV0ZXJzWzNdKQogIAp9CgpjYXB0dXJlX21lZGlhbiA8LSBmdW5jdGlvbihjaSl7CiAgIyAwIGFzIHBhcmFtZXRlciBvZiBpbnRlcmVzdAogIDEqKGNpWzFdIDwgMCAmIDAgPCBjaVsyXSkKfQoKZXN0Lm1sZSA8LSBmdW5jdGlvbihkYXRhKSB7CiAgCiAgZGF0Lm1lYW4gPC0gbWVhbihkYXRhKQogIGRhdC5zZCA8LSBzcXJ0KCgobGVuZ3RoKGRhdGEpLSAxKS9sZW5ndGgoZGF0YSkpKnZhcihkYXRhKSkKICAKICByZXR1cm4oYyhsZW5ndGgoZGF0YSksIG1sZS5tZWFuLG1sZS5zZCkpCn0KCgpib290Lm1lZHMuY2kgPC0gZnVuY3Rpb24ocGFyYW1ldGVycykgewogIFIgPC0gNTAwMAogIHNhbXBsZS5tZWRzIDwtIE5BCiAgZm9yIChpIGluIDE6Uil7CiAgICAKICAgIHNhbXBsZS5tZWRzW2ldIDwtIHBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhKCkgJT4lIG1lZGlhbgogICAgI3NhbXBsZS5tZWRzW2ldCiAgfQogIHF1YW50aWxlKHNhbXBsZS5tZWRzLCBjKDAuMDI1LDAuOTc1KSkKICAKICAKfQoKCnRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuCgpgYGAKCgoKCmBgYHtyfQoKY29yZXNfMl91c2UgPC0gZGV0ZWN0Q29yZXMoKSAtIDEKY2wgPC0gbWFrZUNsdXN0ZXIoY29yZXNfMl91c2UpCmNsdXN0ZXJTZXRSTkdTdHJlYW0oY2wsIDIzNDQpCnJlZ2lzdGVyRG9QYXJhbGxlbChjbCkKCmNhcHR1cmVzIDwtIGZvcmVhY2goCiAgICBpID0gMToxMDAwCiAgLCAuY29tYmluZSA9IGMKICAsIC5wYWNrYWdlcyA9IGMoJ2RwbHlyJykKKSAlZG9wYXIlIHsKIHRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuCn0Kc3RvcENsdXN0ZXIoY2wpCgoKbWVhbihjYXB0dXJlcykKCmBgYAoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDgtQ292ZXJhZ2UtUHJvYmFiaWxpdHkiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCmBgYHtyIGVjaG89RkxBU0V9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGRvUGFyYWxsZWwpCmxpYnJhcnkoZm9yZWFjaCkKbGlicmFyeShpdGVyYXRvcnMpCmxpYnJhcnkocGFyYWxsZWwpCmBgYAojIyBXaGF0IGlzIENvdmVyYWdlIFByb2JhYmlsaXR5PwpDb3ZlcmFnZSBwcm9iYWJpbGl0eTogVGhpcyB0ZXJtIHJlZmVycyB0byB0aGUgcHJvYmFiaWxpdHkgdGhhdCBhIHByb2NlZHVyZSBmb3IgY29uc3RydWN0aW5nIHJhbmRvbSByZWdpb25zIHdpbGwgcHJvZHVjZSBhbiBpbnRlcnZhbCBjb250YWluaW5nLCBvciBjb3ZlcmluZywgdGhlIHRydWUgdmFsdWUuIEl0IGlzIGEgcHJvcGVydHkgb2YgdGhlIGludGVydmFsIHByb2R1Y2luZyBwcm9jZWR1cmUsIGFuZCBpcyBpbmRlcGVuZGVudCBvZiB0aGUgcGFydGljdWxhciBzYW1wbGUgdG8gd2hpY2ggc3VjaCBhIHByb2NlZHVyZSBpcyBhcHBsaWVkLjxicj4KPGI+U3RlcHM6IDwvYj48YnI+CjxsaT4gRmlyc3Qgd2Ugd2lsbCBjYWxjdWxhdGUgdGhlIHRydWUgcGFyYW1ldGVycyBieSBzb21lIGZpeGVkIHZhbHVlLCB0aGVuIHRoZSB0cnVlIHBhcmFtZXRlcnMgc2hvdWxkIGJlIGdpdmUgdG8gZ2VuZXJhdGUgZGF0YSBmdW5jdGlvbiBpbiBvcmRlciB0byBnZXQgdGhlIG5vcm1hbCBkaXN0cmlidXRpb24gb2YgdGhlIHRydWUgcGFyYW1ldGVycy48L2xpPgo8bGk+IENhbGN1bGF0ZSB0aGUgbm9ybWFsIGRpc3RyaWJ1dGlvbi4gPC9saT4KPGxpPiBXZSB3aWxsIHVzZSBNTEUgbWV0aG9kIHRvIGNhbGN1bGF0ZSB0aGUgbWVhbiwgc2QgYW5kIGxlbmd0aCBvZiB0aGUgZGlzdHJpYnV0aW9uLjwvbGk+CjxsaT4gVGhlIGNhbHVjbGF0ZWQgcGFyYW1ldGVycyBhcmUgcGFzc2VkIHRvIGJvb3RzcmFwcGluZy4gSGVyZSwgYm9vdHN0cmFwIGNhbGN1bGF0ZXMgdGhlIG1lZGlhbnMgYmFzZWQgb24gdGhlIG5vcm1hbCBkaXN0cmlidXRpb24gb2YgdGhlIHBhcmFtZXRlcnMgZ2l2ZW4gYnkgdGhlIGVzdGltYXRlZCBNTEUgZnVuY3Rpb24uPC9saT4KCiMjIFNldHRpbmcgUGFyYW1ldGVyczoKSGVyZSwgd2UgYXJlIHNldHRpbmcgdGhlIHZhbHVlcyBvZiBwYXJhbWV0ZXJzIGFuZCBzdG9yaW5nIHRoZW0gaW4gYSB2ZWN0b3IuPGJyPgoKYGBge3J9CgpzZXQuc2VlZCg0NCkKTiA8LSAyMDEgCnBvcC5tZWFuID0gMApwb3Auc2QgPSAxCnRydWUucGFyYW1ldGVycyA8LSBjKE4scG9wLm1lYW4scG9wLnNkKQpgYGAKCiNHZW5lcmF0aW5nIHRoZSBEYXRhOgpIZXJlIHdlIGFyZSB1c2luZyB0aGUgcGFyYW1ldGVycyB2YWx1ZXMgdG8gZ2VuZXJhdGUgdGhlIE5vcm1hbCBkaXN0cmlidXRpb24KYGBge3J9CmdlbmVyYXRlX2RhdGEgPC0gZnVuY3Rpb24ocGFyYW1ldGVycykgewojc3RhbmRhcmQgbm9ybWFsIGRpc3JpYnV0aW9ucwogIHJub3JtKHBhcmFtZXRlcnNbMV0scGFyYW1ldGVyc1syXSxwYXJhbWV0ZXJzWzNdKQogIAp9CmBgYAoKIyMgTUxFIEVzdGltYXRpb246IApVc2luZyB0aGUgTm9ybWFsIGRpc3RyaWJ1dGlvbiB2YWx1ZSBnZW5yYXRlZCBhYm92ZSwgd2UgZXN0aW1hdGUgdGhlIHZhbGUgdXNpbmcgTUxFIG1ldGhvZCBieSBzaW11aWxhdGlvbi4gV2UgYXJlIGVzdGltYXRpbmcgdGhlIE1MRSBieSB0YWtpbmcgdGhlIG1lYW4gb2YgdGhlIGRhdGEgZ2VuZXJhdGVkIGZyb20gdGhlIG5vcm1hbCBkaXN0cmlidXRpb24uIFRoZW4gd2UgY2FsY3VsYXRlZCB0aGUgU0QgYmFzZWQgb24gdGhlIGZvcm11bGUgaS5lLiBzcXVhcmUgcm9vdCBvZiAoKE4tMS9OKSAqIHZhcihkYXRhKSkuIE4gZGVub3RlcyB0aGUgbGVuZ2h0IG9mIHRoZSBkYXRhIGZvciB3aGljaCB0aGUgdmFyaWFuY2UgaXMgY2FsdWxhdGVkLkF0IGVuZCwgd2UgcmV0dXJuIGEgdmVjdG9yIG9mIHRoZSBsZW5ndGgsIG1lYW4gYW5kIHNkIGZyb20gdGhlIGZ1bmN0aW9uIG9mIE1MRS4gVGhpcyB3aWxsIGJlIG91ciBzaW11YWx0ZWQgTUxFIHZhbHVlLgoKCmBgYHtyfQplc3QubWxlIDwtIGZ1bmN0aW9uKGRhdGEpIHsKICAKICBkYXQubWVhbiA8LSBtZWFuKGRhdGEpCiAgZGF0LnNkIDwtIHNxcnQoKChsZW5ndGgoZGF0YSktIDEpL2xlbmd0aChkYXRhKSkqdmFyKGRhdGEpKQogIAogIHJldHVybihjKGxlbmd0aChkYXRhKSwgZGF0Lm1lYW4sZGF0LnNkKSkKfQpgYGAKCiMgQ29uZmlkZW5jZSBJbnRlcnZhbCBvZiBEaXN0cmlidXRpb246ClRoZSBmdW5jdGlvbiB0aGF0IGlzIGRlZmluZWQgYmVsb3cgaXMgdG8gc2VlIHdoZXRoZXIgdGhlIHF1YW50aWxlcyBjYWx1bGF0ZWQgbGllIGluIHRoZSByYW5nZSB0aGF0IHdlIHdhbnQgdGhlbSB0byBiZS4KCmBgYHtyfQoKY2FwdHVyZV9tZWRpYW4gPC0gZnVuY3Rpb24oY2kpewogICMgMCBhcyBwYXJhbWV0ZXIgb2YgaW50ZXJlc3QKICAxKihjaVsxXSA8IDAgJiAwIDwgY2lbMl0pCn0KCmBgYAoKIyBCb290c3JhcHBpbmc6ClRoZSBzaW11bGF0ZWQgdmFsdWVzIGNhbGN1bGF0ZWQgYWJvdmUgYnkgdGhlIE1MRSBtZXRob2QgYXJlIG5vdyBmZWQgdG8gYm9vdHN0cmFwIGZ1bmN0aW9vbiBkZWZpbmVkIGJlbG93LiBXZSBhcmUgcnVubmluZyB0aGlzIHNpbXVsYXRpb24gNTAwMCB0aW1lcy4gVGhlIG91dHB1dCBvZiB0aGlzIGZ1bmN0aW9uIHdpbGwgYmUgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwuCgpgYGB7cn0KYm9vdC5tZWRzLmNpIDwtIGZ1bmN0aW9uKHBhcmFtZXRlcnMpIHsKICBSIDwtIDUwMDAKICBzYW1wbGUubWVkcyA8LSBOQQogIGZvciAoaSBpbiAxOlIpewogICAgCiAgICBzYW1wbGUubWVkc1tpXSA8LSBwYXJhbWV0ZXJzICU+JSAgZ2VuZXJhdGVfZGF0YSgpICU+JSBtZWRpYW4KICAgICNzYW1wbGUubWVkc1tpXQogIH0KICBxdWFudGlsZShzYW1wbGUubWVkcywgYygwLjAyNSwwLjk3NSkpCiAgCiAgCn0KIyB0cnVlLnBhcmFtZXRlcnMgJT4lICBnZW5lcmF0ZV9kYXRhICU+JSAgZXN0Lm1sZSAgJT4lIGJvb3QubWVkcy5jaSU+JSBjYXB0dXJlX21lZGlhbgoKYGBgCgoKIyBTaW11bGF0aW9uOgpJbiBvcmRlciB0byBiZSBhcyBjbG9zZSB0byB0cnVlIGFuc3dlciwgSSBoYXZlIHJhbiB0aGlzIHNpbXVsYXRpb24gNTAwMCB0aW1lcy4gSW4gYmVsb3cgY29kZSBjaHVuayB3ZSBoYXZlIHVzZWQgZGV0ZWN0IGNvcmUgdG8gY2hlY2sgaG93IG1hbnkgY29yZXMgYXJlIHRoZXJlIGluIG91ciBQQyBhbmQgdGhlbiBJIHN1YnRyYWN0ZWQgaXQgYnkgMS4gQmFzaWNhbGx5IHdoYXQgd2UgYXJlIGRvaW5nIGhlcmUgd2UgYXJlIHBpcGVsaW5pbmluZyBvdXIgZGF0YSB0aHJvdWdodCB0aGUgZnVuY3Rpb25zIHRoYXQgd2UgZGVmaW5lZCBhYm92ZSBhbmQgd2UgcnVubmluZyBpdCBmb3IgNTAwMCB0aW1lcy4gV2UgYXJlIGxldmVyYWdpbmcgcGFyYWxsZWwgcHJvY2Vzc2luZyBvdXIgUEMgdG8gZG8gaXQuIEF0IHRoZSBlbmQgd2UgYXJlIGNoZWNraW5nIHVzaW5nIHRoZSBjYXB0dXJlX21lZGlhbiBmdW5jdGlvbiBpZiBvdXIgZGF0YSBsaWVzIGluIGNvbmZpZW5jZSBpbnRlcnZhbCBvciBub3QuCgpgYGB7cn0KCiMgQ3JlYXRlIHBhcmFsbGVsIGJhY2tlbmQKY29yZXNfMl91c2UgPC0gZGV0ZWN0Q29yZXMoKSAtIDEKY2wgPC0gbWFrZUNsdXN0ZXIoY29yZXNfMl91c2UpCmNsdXN0ZXJTZXRSTkdTdHJlYW0oY2wsIDIzNDQpCnJlZ2lzdGVyRG9QYXJhbGxlbChjbCkKCmNhcHR1cmVzIDwtIGZvcmVhY2goCiAgICBpID0gMTo1MDAwCiAgLCAuY29tYmluZSA9IGMKICAsIC5wYWNrYWdlcyA9IGMoJ2RwbHlyJykKKSAlZG9wYXIlIHsKIHRydWUucGFyYW1ldGVycyAlPiUgIGdlbmVyYXRlX2RhdGEgJT4lICBlc3QubWxlICAlPiUgYm9vdC5tZWRzLmNpJT4lIGNhcHR1cmVfbWVkaWFuCn0Kc3RvcENsdXN0ZXIoY2wpCgptZWFuKGNhcHR1cmVzKQoKYGBgCgpBcyB3ZSBjYW4gc2VlICB0aGF0IDk4LjU4ICUgb2Ygb3VyIGRhdGEgbGllZCBpbiBjb25maWRlbmNlIGludGVydmFsLiBGb3IgZGlmZmVyZW50IGRpc3RyaWJ1dGlvbnMsIGRpZmZlcmVudCBtZXRob2RzIGNhbiBiZSB1c2VkIHRvIGdlbmVyYXRlIEZoYXQuIElmIHdlIGRlY3JlYXNlIHRoZSBzaW11bGF0aW9ucyB3ZSBjYW4gd2lsbCBzZWUgdGhhdCBsZXNzIG51bWJlciBvZiB2YWx1ZXMgd2lsbCBmYWxsIGluIHRoZSBjb25maWRlbmNlIGludGVydmFsIGFuZCB0aGUgYXZlcmFnZSB3aWxsIGRyb3AgZG93biBhbmQgaWYgZSBpbmNyZWFzZSBvdXIgbnVtYmVyIG9mIHNpbXVhbHRpb25zLCBhdmVyYWdlIG9mIHZhbHVlcyBmYWxsaW5nIGluIGNvbmZpZGVuY2UgaW50ZXJ2YWwgd2lsbCBpbmNyZWFzZS4KCgoKCgoKCgoK</div>
 
 
 

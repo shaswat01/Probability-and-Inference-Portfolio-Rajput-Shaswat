@@ -1,18 +1,25 @@
 ---
 title: "08-Coverage-Probability"
 output: html_notebook
-author: "Shaswat Rajput"
 ---
 
-```{r}
+```{r echo=FLASE}
 library(tidyverse)
 library(doParallel)
 library(foreach)
 library(iterators)
 library(parallel)
 ```
+## What is Coverage Probability?
+Coverage probability: This term refers to the probability that a procedure for constructing random regions will produce an interval containing, or covering, the true value. It is a property of the interval producing procedure, and is independent of the particular sample to which such a procedure is applied.<br>
+<b>Steps: </b><br>
+<li> First we will calculate the true parameters by some fixed value, then the true parameters should be give to generate data function in order to get the normal distribution of the true parameters.</li>
+<li> Calculate the normal distribution. </li>
+<li> We will use MLE method to calculate the mean, sd and length of the distribution.</li>
+<li> The caluclated parameters are passed to bootsrapping. Here, bootstrap calculates the medians based on the normal distribution of the parameters given by the estimated MLE function.</li>
 
-
+## Setting Parameters:
+Here, we are setting the values of parameters and storing them in a vector.<br>
 
 ```{r}
 
@@ -21,27 +28,48 @@ N <- 201
 pop.mean = 0
 pop.sd = 1
 true.parameters <- c(N,pop.mean,pop.sd)
+```
 
+#Generating the Data:
+Here we are using the parameters values to generate the Normal distribution
+```{r}
 generate_data <- function(parameters) {
 #standard normal disributions
   rnorm(parameters[1],parameters[2],parameters[3])
   
 }
+```
+
+## MLE Estimation: 
+Using the Normal distribution value genrated above, we estimate the vale using MLE method by simuilation. We are estimating the MLE by taking the mean of the data generated from the normal distribution. Then we calculated the SD based on the formule i.e. square root of ((N-1/N) * var(data)). N denotes the lenght of the data for which the variance is calulated.At end, we return a vector of the length, mean and sd from the function of MLE. This will be our simualted MLE value.
+
+
+```{r}
+est.mle <- function(data) {
+  
+  dat.mean <- mean(data)
+  dat.sd <- sqrt(((length(data)- 1)/length(data))*var(data))
+  
+  return(c(length(data), dat.mean,dat.sd))
+}
+```
+
+# Confidence Interval of Distribution:
+The function that is defined below is to see whether the quantiles calulated lie in the range that we want them to be.
+
+```{r}
 
 capture_median <- function(ci){
   # 0 as parameter of interest
   1*(ci[1] < 0 & 0 < ci[2])
 }
 
-est.mle <- function(data) {
-  
-  dat.mean <- mean(data)
-  dat.sd <- sqrt(((length(data)- 1)/length(data))*var(data))
-  
-  return(c(length(data), mle.mean,mle.sd))
-}
+```
 
+# Bootsrapping:
+The simulated values calculated above by the MLE method are now fed to bootstrap functioon defined below. We are running this simulation 5000 times. The output of this function will be 95% confidence interval.
 
+```{r}
 boot.meds.ci <- function(parameters) {
   R <- 5000
   sample.meds <- NA
@@ -54,24 +82,24 @@ boot.meds.ci <- function(parameters) {
   
   
 }
-
-
-true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
+# true.parameters %>%  generate_data %>%  est.mle  %>% boot.meds.ci%>% capture_median
 
 ```
 
 
-
+# Simulation:
+In order to be as close to true answer, I have ran this simulation 5000 times. In below code chunk we have used detect core to check how many cores are there in our PC and then I subtracted it by 1. Basically what we are doing here we are pipelinining our data throught the functions that we defined above and we running it for 5000 times. We are leveraging parallel processing our PC to do it. At the end we are checking using the capture_median function if our data lies in confience interval or not.
 
 ```{r}
 
+# Create parallel backend
 cores_2_use <- detectCores() - 1
 cl <- makeCluster(cores_2_use)
 clusterSetRNGStream(cl, 2344)
 registerDoParallel(cl)
 
 captures <- foreach(
-    i = 1:1000
+    i = 1:5000
   , .combine = c
   , .packages = c('dplyr')
 ) %dopar% {
@@ -79,9 +107,17 @@ captures <- foreach(
 }
 stopCluster(cl)
 
-
 mean(captures)
 
 ```
+
+As we can see  that 98.58 % of our data lied in confidence interval. For different distributions, different methods can be used to generate Fhat. If we decrease the simulations we can will see that less number of values will fall in the confidence interval and the average will drop down and if e increase our number of simualtions, average of values falling in confidence interval will increase.
+
+
+
+
+
+
+
 
 
