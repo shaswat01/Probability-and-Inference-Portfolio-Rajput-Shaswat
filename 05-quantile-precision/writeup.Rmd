@@ -1,8 +1,30 @@
 ---
-title: "R Notebook"
-output: html_notebook
+html_document:
+  theme: cosmo
+  toc: yes
+  toc_depth: 5
+  toc_float: yes
+author: "Shaswat Rajput"
+title: "05-Quantile_Precision"
+editor_options:
+  chunk_output_type: inline
 ---
-### 1st Distribution
+
+# Which quantiles of a continuous distribution can one estimate with more precision?
+## SETUP:
+The median is an important quantity in data analysis. It represents the middle value of the data distribution. Estimates of the median, however, have a degree of uncertainty because :<br>
+(a) the estimates are calculated from a finite sample and <br>
+(b) the data distribution of the underlying data is generally unknown.<br>
+
+## What are Quantiles ?
+A quantile is a data value that divides the data into equally sized groups. The 50th quantile of a distributionis the value which divides the data into two equally sized groups. 
+ 
+In this blog we are determining the precision of quantiles. We will be going through the following steps - <br>
+<li> Generating a distribution of N = 200.</li>
+<li> Taking the quantile and using for loop to take that sample quantile 5000 times.</li>
+<li> Subtracting the 97.5 quantile value to 2.5 to get the the middle 95%. We will get the length of the distribution by this and then we can infer about the spread of distribution of particular quantile. </li><br>
+
+### 1st Distribution (Standard Normal Distribution)
 ```{r}
 
 calc_quantile <- function(x,N){
@@ -42,6 +64,9 @@ lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
 lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
 box(col="black")
 ```
+<br>
+<b><u>Analysis:</b></u>We know that, lower the length, tighter the distribution is. In the above graph we did the simulation to get the values of quantiles. The simulation we did is for N = 200, 400, 800, 1600. In the above graph the black line is when N = 200, yellow is for N = 400, green is for N = 800 and violet is for N = 1600. <br>
+We can see in above graph that as we increase the value of N, we are getting high precision. We know that smaller the length, the higher the precision. The 5th and 95th quantiles have low precision whereas themedian has highest precision for this distribution. So the median of the sample resembles the actual value ofthe population
 
 ```{r}
 first <- qnorm(quantiles,0,1)
@@ -51,8 +76,11 @@ den <- dnorm(first,0,1)
 ```{r}
 plot(den,length_values[,1],type="b", xlab = "Density", ylab = "Length")
 ```
+ <br>
+<b><u>Analysis:</b></u>We know that greater the density of a certain quantile the lower the uncertainity around it. The normal distribution shows the lowest uncertainity around the median value. We can see from the graph that still the lowest precision is for 5th and 95th quantile and highest for the median(50th quantile). <br>
 
-### 2nd Distribution
+### 2nd Distribution (Exponential Distribution with rate = 1)
+For Random sampling I have used the same function from the normal distribution just changing rnorm to rexp. The quantile calculation is the same.
 ```{r}
 calc_quantile_expo <- function(x,N){
 quant_vector <- rep(NA, 5000)
@@ -89,6 +117,8 @@ lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
 lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
 box(col="black")
 ```
+<br>
+<b><u>Analysis:</b></u> I run the above simualtion for N = 200 (black line), 400 (yellow line), 800 (green line) and 1600 (violet line). We can infer from the above graph that as the N value increases, length of distribution decreases. We can say that higher the N value, tighter the distribution is. From the graph we can see the that the most precise quantile would be the 5th Quantile so the 5th Quantile resembles value close to the population value. Lowest precision is the 95th quantile.
 
 ```{r}
 second <- qexp(quantiles,rate = 1)
@@ -98,8 +128,11 @@ plot(den_1,length_values[,2],type="b", xlab = "Density", ylab = "Length")
 plot(den_1,length_values[,3],type="b", xlab = "Density", ylab = "Length")
 plot(den_1,length_values[,4],type="b", xlab = "Density", ylab = "Length")
 ```
+<br>
+<b><u>Analysis:</b></u> The above graphs shows the density for the different N values. The Length vs Density graph shows that the highest length value is for 0.05 value of density which is the 95th Quantile and the lowest uncertainity is at 0.95 which is the 5th quantile.So, the 5th Quantile is the most precise and 95th quantile is the least precise for an exponential distribution.
 
-### Distribution 3 
+### Distribution 3 (mixed Distribution):
+Since it's a mixed distribution, we can't directly use qnorm which is inverse of pnorm to find density. In this we have to find the inverse function which will find those values of probability which will make pf3 - p =0 . Here, i have used p to denoted quantile values.
 ```{r}
 calc_quantile_mix_1 <- function(x,N){
 quant_vector <- rep(NA, 5000)
@@ -161,8 +194,11 @@ plot(df3(roots),length_values[,2],type="b",xlab="Density",ylab="Length")
 plot(df3(roots),length_values[,3],type="b",xlab="Density",ylab="Length")
 plot(df3(roots),length_values[,4],type="b",xlab="Density",ylab="Length")
 ```
+<br>
+<b><u>Analysis:</b></u> We can see that in length vs Pth quantile graph the lowest precision is for 15th percentile and the highest precision is at the 45th percentile. Also, the density plot doesn't make any sense because there are 3 different mean values.
 
-### Distribution 4
+### Distribution 4 (Beta Mixed Distribution):
+Since it's a mixed distribution just like the above, we can't directly use qnorm which is inverse of pnorm to find density. In this we have to find the inverse function which will find those values of probability which will make pf3 - p =0 . Here, i have used p to denoted quantile values.<br>
 ```{r}
 calc_quantile_mix_2 <- function(x,N){
 quant_vector <- rep(NA, 5000)
@@ -224,7 +260,9 @@ plot(den_value,length_values[,2],type="b",xlab="Density",ylab="Length")
 plot(den_value,length_values[,3],type="b",xlab="Density",ylab="Length")
 plot(den_value,length_values[,4],type="b",xlab="Density",ylab="Length")
 ```
-
+<br>
+<b><u>Analysis:</b></u> We can infer from the length vs Pth Quantile graph that this distribution has lowest precision for the median value (50th percentile value). And it has highest precision for 5th and 95th percentile. It resembles the shape of Normal bell curve.<br>
+We can also see from density plot that density increases as the values of length decreases as we know that from the p quantile graph that the highest precision is at the end of bell curves, ie at 5th percentile so we expect to see high density there.
 
 
 
