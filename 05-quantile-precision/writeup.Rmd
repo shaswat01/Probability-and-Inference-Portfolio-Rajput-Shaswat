@@ -56,12 +56,16 @@ return(value)
 
 
 ```{r}
-plot(seq(0.05,1,0.05),length_values[,1],type="b",axes=FALSE,xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,0.60))
+plot(seq(0.05,1,0.05),length_values[,1],type="b",axes=FALSE,xlim = c(0.05,0.95),xlab="Pth Quantile",ylab="Length",col="black",ylim=c(0.10,0.60),)
+text(0.05,length_values[1,1],pos=4,labels="N=200")
 axis(1,at=seq(0.05,1.0,0.05),labels=seq(0.05,1,0.05))
 axis(2,at=seq(0.10,0.55,0.05),labels=seq(0.10,0.55,0.05))
 lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
+text(0.05,length_values[1,2],pos=4,labels="N=400")
 lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
+text(0.05,length_values[1,3],pos=4,labels="N=800")
 lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
+text(0.05,length_values[1,4],pos=4,labels="N=1600")
 box(col="black")
 ```
 <br>
@@ -115,6 +119,8 @@ axis(2,at=seq(0.10,0.55,0.05),labels=seq(0.10,0.55,0.05))
 lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
 lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
 lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
+legend(0.05, 0.6, legend=c("N = 200", "N = 400",'N = 800','N = 1600'),
+       col=c("black", "orange",'green','violet'), lty=1,pch = 'o', cex=0.8)
 box(col="black")
 ```
 <br>
@@ -124,9 +130,14 @@ box(col="black")
 second <- qexp(quantiles,rate = 1)
 den_1 <- dexp(second,rate = 1)
 plot(den_1,length_values[,1],type="b", xlab = "Density", ylab = "Length")
+text(0.05,length_values[1,1],pos=3,labels="N=200")
 plot(den_1,length_values[,2],type="b", xlab = "Density", ylab = "Length")
+text(0.05,length_values[1,2],pos=3,labels="N=400")
 plot(den_1,length_values[,3],type="b", xlab = "Density", ylab = "Length")
+text(0.05,length_values[1,3],pos=3,labels="N=800")
 plot(den_1,length_values[,4],type="b", xlab = "Density", ylab = "Length")
+text(0.05,length_values[1,4],pos=3,labels="N=1600")
+
 ```
 <br>
 <b><u>Analysis:</b></u> The above graphs shows the density for the different N values. The Length vs Density graph shows that the highest length value is for 0.05 value of density which is the 95th Quantile and the lowest uncertainity is at 0.95 which is the 5th quantile.So, the 5th Quantile is the most precise and 95th quantile is the least precise for an exponential distribution.
@@ -169,6 +180,8 @@ lines(seq(0.05,1,0.05),length_values[,2],col="orange",type="b")
 lines(seq(0.05,1,0.05),length_values[,3],col="green",type="b")
 lines(seq(0.05,1,0.05),length_values[,4],col="violet",type="b")
 box(col="black")
+legend(0.82, 2.5, legend=c("N = 200", "N = 400",'N = 800','N = 1600'),
+       col=c("black", "orange",'green','violet'), lty=1,pch='o', cex=0.8)
 ```
 
 ```{r}
@@ -190,9 +203,13 @@ df3 <- function(x){
 }
 
 plot(df3(roots),length_values[,1],type="b",xlab="Density",ylab="Length")
+text(0.2,2.3,length_values[1,1],pos=1,labels="N=200")
 plot(df3(roots),length_values[,2],type="b",xlab="Density",ylab="Length")
+text(0.2,1.6,length_values[1,2],pos=3,labels="N=400")
 plot(df3(roots),length_values[,3],type="b",xlab="Density",ylab="Length")
+text(0.2,1.49,length_values[1,3],pos=3,labels="N=800")
 plot(df3(roots),length_values[,4],type="b",xlab="Density",ylab="Length")
+text(0.2,1.38,length_values[1,4],pos=3,labels="N=1600")
 ```
 <br>
 <b><u>Analysis:</b></u> We can see that in length vs Pth quantile graph the lowest precision is for 15th percentile and the highest precision is at the 45th percentile. Also, the density plot doesn't make any sense because there are 3 different mean values.
@@ -234,6 +251,8 @@ axis(2,at=seq(0.10,0.95,0.05),labels=seq(0.10,0.95,0.05))
 lines(seq(0.05,0.95,0.05),length_values[,2],col="orange",type="b")
 lines(seq(0.05,0.95,.05),length_values[,3],col="green",type="b")
 lines(seq(0.05,0.95,.05),length_values[,4],col="violet",type="b")
+legend(0.8, 0.5, legend=c("N = 200", "N = 400",'N = 800','N = 1600'),
+       col=c("black", "orange",'green','violet'), lty=1,pch='o', cex=0.8)
 box(col = "black")
 ```
 
@@ -256,9 +275,13 @@ df4 <- function(x){
 }
 den_value<-df4(roots)
 plot(den_value,length_values[,1],type="b",xlab="Density",ylab="Length")
+text(2,0.4,length_values[1,1],pos=1,labels="N=200")
 plot(den_value,length_values[,2],type="b",xlab="Density",ylab="Length")
+text(2,0.4,length_values[1,2],pos=1,labels="N=400")
 plot(den_value,length_values[,3],type="b",xlab="Density",ylab="Length")
+text(2,0.4,length_values[1,3],pos=1,labels="N=800")
 plot(den_value,length_values[,4],type="b",xlab="Density",ylab="Length")
+text(2,0.4,length_values[1,4],pos=1,labels="N=1600")
 ```
 <br>
 <b><u>Analysis:</b></u> We can infer from the length vs Pth Quantile graph that this distribution has lowest precision for the median value (50th percentile value). And it has highest precision for 5th and 95th percentile. It resembles the shape of Normal bell curve.<br>
