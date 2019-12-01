@@ -197,7 +197,8 @@ curve(dorder(x, 1, 200), -5,0, ylab = "Density", xlab = "min", lwd = 3)
 ```
 
 
-
-
+# Conclusion:
+If you put a sample into numerical order and delete the original observations then you lose information on the order that the observations were received in. These are the order statistics. So while the median is an order statistic (it’s the middle value when a set of values is ordered from smallest to largest), the mean is not (as we have to work with the actual values). The first order statistic is the smallest sample value (i.e. the minimum), once the values have been placed in order. We can see in the last plot that values are neartly similar are in sync with each other.
+We can infer that 1st order statistic ie min is a good measure order statistic of distribution.
 
 
