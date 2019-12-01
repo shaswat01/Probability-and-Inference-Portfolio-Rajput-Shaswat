@@ -1,13 +1,219 @@
 ---
 title: "09-Simulation-Study"
-output:
-  html_document:
-    theme: cosmo
-    toc: yes
-    toc_depth: 5
-    toc_float: true
-editor_options: 
-  chunk_output_type: inline
-author: Shaswat Rajput
+output: html_notebook
+author: 'Shaswat Rajput'
 ---
+
+ ## What is Coverage Probability?
+Coverage probability: This term refers to the probability that a procedure for constructing random regions will produce an interval containing, or covering, the true value. It is a property of the interval producing procedure, and is independent of the particular sample to which such a procedure is applied.Coverage probability is an important operating characteristic of methods for constructing interval estimates, particularly confidence intervals.<br>
+Idealy, a 95% confidence interval will capture the population parameter of interest in 95% of samples. One can also calculate 80% or 90% confidence intervals. In general, an X% confidence interval should capture the population parameter of interest in X% of samples.<br>
+
+<b><u>Factors in this blog: </b></u><br>
+<li>True, underlying distribution:<br>
+1.standard normal<br>
+2.gamma(shape = 1.4, scale = 3)</li><br>
+
+<li> Model: <br>
+1. Method of moments with normal<br>
+2. Method of moments with gamma<br>
+3. Kernel density estimation<br>
+4. Bootstrap<br></li><br>
+
+<li>Parameter of interest: <br>
+1. Sample min (1st order statistic) <br>
+2. Median</li><br>
+
+<li>Other settings in the experiment that will not change are: <br>
+Sample size, N = 201<br>
+Outside the loop estimation</li><br>
+
+<b><u>Steps: </b></u><br>
+<li> First we import the required libraries.</li>
+<li> Now we will make a function that will generate the data for normal distribution and gamma distribution. For gamma distribution we set shape to be 1.4 and scale to be 3.</li>
+<li> In this blog we will perform a 2 × 4 × 2 factorial simulation study to compare the coverage probability of various methods of calculating 90% confidence intervals.</li>
+<li> Then we will make a function for estimating confidence interval in which we define all the various methods mentioned above in the factors.</li>
+<li> Now we will define a function called capture_par which is used to tell if the data estimated lies inside the 90% CI or not.</li>
+<li> Now, we will calculate the true parameters to be fed in capture_ci. Then we will make a table in which we will give all the parameters as mentioned above in the factor.</li>
+<li> Now we will run the simulation to het the values and to check if they lie in CI or not. After getting that we will calulate the mean and display the result in tabular form.</li><br>
+
+
+## Importing the libraries :
+
+```{r}
+library(tidyverse)
+```
+
+## Defining Distibution:
+Here in this function we are defining the parameters and defining the shape of normal and gamma distribution. 
+```{r}
+generate_data <- function(N, dist,shape,scale) {
+  if(dist == "norm") {
+    rnorm(N)
+  } else if(dist == "gamma") {
+  
+    rgamma(N,shape=1.4,scale=3)
+  }
+}
+```
+
+#Estimating CI Function:
+In this function we are definig the paramaetrs that we want to calculate and then we are estimating the 5% and 95% quantiles. In this function we are giving data, mod, par.int, R and smoo. Here data is what we have defined in the above function. Mod is the type of estimater we want to use, like Method of moments, bootsrapping, KDE. R is the number of replicates we want for simulation. par.int is the the parameter for which we are estimating ie - sample min (1st order statistic) OR Median. smoo is just the smooth parameter used for KDE.<br>
+To calculate - <br>
+<b>1. Method of Moment using normal distribution:</b> We need the mean of data, standard deviation of data. We will run this simulaition for R times and according to par.int we either will calculate sample min (1st order statistic) OR Median. Then we will calculate the 5th and 95th quantile value <br>
+<b>2. Method of Moment using gamma distribution:</b> We need x_bar and var_bar values which are  mean(data)^2/variance(data) and variance(data)/mean(data) respectively. Then we will put the parameters inside the rgamma fucntion. We will apply the the function given in par.int variable. Then we will simply calculate the 5th and 95th quantile.<br>
+<b>3. KDE: </b> The KDE is calculated by weighting the distances of all the data points for each location on the line. If we've seen more points nearby, the estimate is higher, indicating that probability of seeing a point at that location. In KDE function we are giving data values and smooth value. Then to calculate the quantile values we use lookup table for estimation.<br>
+<b>4. Bootstrapping:</b> The bootstrap method is a statistical technique for estimating quantities about a population by averaging estimates from multiple small data samples. Importantly, samples are constructed by drawing observations from a large data sample one at a time and returning them to the data sample after they have been chosen. In bootstrap method we basically run our simualtion many times with replacement and then we caluate the parameter of our interest, which for this blog are sample min (1st order statistic) OR Median.<br>
+
+
+```{r}
+
+estimate.ci <- function(data, mod,R, par.int, smoo = 0.3) {
+  N = length(data)
+  sum.measure <- get(par.int)
+  
+  if(mod == "MMnorm" ) {
+    mm.mean <- mean(data)
+    mm.sd <- sd(data)
+    
+    sample.dist <- NA
+    for(i in 1:R){
+   sim.data <-  rnorm(length(data),mm.mean,mm.sd)
+   if(par.int == "median"){
+     
+     sample.dist[i] <- median(sim.data)
+   } else if(par.int == "min")
+    sample.dist[i] <- min(sim.data)
+   
+    }
+    
+    return(quantile(sample.dist,c(0.05,0.95),na.rm = T))
+    
+  } else if (mod == "MMgamma") {
+     sample.dist <- NA
+    # this will give you NAs and errors it will stop the whole simulation
+    
+    mm.shape <- mean(data)^2/var(data)
+    mm.scale <- var(data)/mean(data)
+    
+    sim.data <- array(rgamma(length(data)*R, shape = mm.shape, scale = mm.scale), dim = c(N,R))
+    sample.dist <- apply(sim.data,2,FUN = sum.measure)
+    
+   return(quantile(sample.dist,c(0.05,0.95),na.rm = T))
+    
+    
+  } else if (mod == "KDE") { 
+    sample.dist <- NA
+    ecdfstar <- function(t, data, smooth=smoo){
+    outer(t, data, function(a,b){ pnorm(a, b, smooth)}) %>% rowMeans
+    }
+    
+    tbl <- data.frame(
+    x = seq(min(data)-sd(data),max(data) + sd(data),by = 0.01)
+)
+    
+tbl$p <- ecdfstar(tbl$x, data, smoo)
+tbl <- tbl[!duplicated(tbl$p),]
+qkde <- function(ps, tbl){
+  rows <- cut(ps, tbl$p, labels = FALSE)
+  tbl[rows, "x"]
+}
+U <- runif(N*R)
+sim.data <- array(qkde(U,tbl), dim = c(N,R))
+sample.dist <- apply(sim.data,2,sum.measure)
+return(quantile(sample.dist, c(0.05,0.95),na.rm = T))
+
+    
+  } 
+  
+  else if (mod == "Boot"){
+    sample.dist <- NA
+   for(i in 1:R){
+       sim.data <- sample(data,N, replace = TRUE)
+       if (par.int == "median") {
+         sample.dist[i] <- median(sim.data)
+         }
+       else if (par.int == "min") {
+         sample.dist[i] <- min(sim.data)
+         
+       }
+   }
+    
+    return(quantile(sample.dist,c(0.05,0.95),na.rm = T))
+  }
+}
+```
+
+#Capture Parameter Function:
+In this function we basically are checking if the values calculated from the above function lies in 90% CI or not. It returns 1 if they lies and 0 if they don't lie inside the CI.
+```{r}
+
+ capture_par <-  function(ci,true.par){
+    1*(ci[1] <true.par & true.par < ci[2])
+ }
+ 
+```
+
+Here in this code chunk are calculating the true value parameters for the normal distribution and gamma distribution. In this code chunk we are also also setting the table values for which the simulation will run. It has all the 16 simulation settings.
+
+```{r}
+
+N <- 201
+shape.set <- 1.4
+scale.set <- 3
+true.norm.med <- qnorm(0.5)
+true.norm.min <- mean(apply(array(rnorm(N*1000), dim = c(N,1000)),2,min))
+true.gamma.med <- qgamma(0.5,shape = shape.set,scale = scale.set)
+true.gamma.min <- mean(apply(array(rgamma( N*1000,                
+                 shape= shape.set,scale=scale.set),dim = c(N,1000)),2,min))
+simsettings <- expand.grid(dist1 = c("norm","gamma"), model = c("MMnorm","MMgamma","KDE","Boot"),par.int = c("median","min"), cov.prob=NA, stringsAsFactors = FALSE, KEEP.OUT.ATTRS = FALSE )
+
+```
+
+In the below code chunk, we are running the simualtion for the parameters which we have set in simsetting table defiend above. We basically running the simulatons defined above many times and then using the capture_par function are checking if the values lie in 90% CI or not, 1 if they lie and 0 if they don't. The we storing their values and calulating their mean to get ovreall coverage probability.
+
+```{r}
+for (k in 1:nrow(simsettings)) {
+  
+  dist1 <- simsettings[k,1]
+  model1 <- simsettings[k,2]
+  par.int1 <- simsettings[k,3]
+  
+if(dist1 == "norm" & par.int1=="median"){
+  true.par1 = true.norm.med
+}
+  else if(dist1 == "norm" & par.int1=="min"){
+    true.par1 = true.norm.min
+    
+  }
+  
+  else if(dist1 == "gamma" & par.int1=="median"){
+    true.par1 = true.gamma.med
+    
+  }
+  
+  else if(dist1 == "gamma" & par.int1=="min"){
+    true.par1 = true.gamma.min
+    
+  }
+cover <- NA
+for (sims in 1:500){
+  cover[sims] <- generate_data(N,dist1) %>% estimate.ci(mod = model1, par.int = par.int1,R=5000) %>% capture_par(true.par=true.par1)
+}
+simsettings[k,4] <- mean(cover)
+  }
+  
+```
+
+## Results:
+
+```{r}
+simsettings
+```
+Conclusion:
+As we can in the above table that Method of Moments is best method to estimate sample min (1st order statistic) OR Median when we are using the normal distribution. Even for gamma distribution, the estimation method for sample min (1st order statistic) OR Median if the Method of Moments. Also we can see from the above table that the median and min for normal distribution using MMgamma method doesn't exist. We can run for more simulations to get more accurate results.
+
+
+
+
+
 
