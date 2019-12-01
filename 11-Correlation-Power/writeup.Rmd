@@ -1,0 +1,108 @@
+---
+title: "11-correlation-power"
+output:
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_depth: 5
+    toc_float: true
+editor_options: 
+  chunk_output_type: inline
+author: Shaswat Rajput
+---
+
+## Simulation study: Power and sample size calculations correlational studies:
+
+A common research objective is to demonstrate that two measurements are highly correlated. One measurement, call it A, may reflect the severity of disease but is difficult or costly to collect. Another measurement, call it B, may be easier to collect and potentially related to measurement A. If there is strong association between A and B, a cost effective strategy for diagnosis may be to collect measurement B instead of A. <br>
+
+In this simulation we are going will perform a power and sample size calculation for a collaborator who is submitting a grant application to fund a study to show that two measurements are highly correlated. Reviewers of the grant want to fund studies that have a high likelihood of success, which in this setting is conclusively demonstrating that the correlation between A and B is greater than 0.8.<br>
+
+The researcher will collect both measurements on N individuals. The analysis will proceed by calculating a one-sided confidence interval. If the confidence interval is completely within the range from 0.8 to 1, then the researcher will consider the study to be a success: A conclusive demonstration that the correlation between A and B is greater than 0.8. <br>
+
+Here, we are setting <b>null hypothesis</b> to be : Correlation between A and B is 0.8.<br>
+<b>Alternate Hypothesis:</b> Correlation between A and B is greater than 0.8.<br>
+
+<u>As we know that power is the probability of correctly rejecting the null hypothesis.</u> 
+<li>Power is the probability of rejecting the null hypothesis when, in fact, it is false.</li>
+<li>Power is the probability of making a correct decision (to reject the null hypothesis) when the null hypothesis is false.</li>
+<li>Power is the probability that a test of significance will pick up on an effect that is present.</li>
+<li>Power is the probability that a test of significance will detect a deviation from the null hypothesis, should such a deviation exist.</li>
+<li>Power is the probability of avoiding a Type II error.</li>
+Simply put, power is the probability of not making a Type II error. So in this case, power is the probability that the study will end in success when the true underlying correlation is, in fact, greater that 0.8.
+
+## SETUP:
+
+ <li>Let the sample size be 25, 50, 75, and 100. </li>
+ <li>Let the population correlation range from 0.8 to 0.95.</li>
+
+## Simulation: 
+
+```{r}
+set.seed(20394)
+suppressPackageStartupMessages(require(mvtnorm))
+N <- 50
+rho <- c(seq(0.80,0.96,0.01))
+length(rho)
+null_correlation <- 0.8
+R <- 5000
+N <- c(25,50,75,100)
+length(rho)
+#sigma <- array(c(1,rho,rho,1), c(2,2))
+mu <- c(0,0)
+
+mymatrix <- matrix(,nrow=4,ncol = 17, byrow  = FALSE)
+
+for(k in seq_along(N)){
+for(j in seq_along(rho)){
+  rho_check <- rho[j]     
+  sigma <- array(c(1,rho_check,rho_check,1), c(2,2))
+  
+  detect <- NA
+  for(i in 1:5000) {
+     data <- rmvnorm(N[k], mean = mu, sigma = sigma)
+      results <- cor.test(x = data[,1], y = data[,2], alternative = "greater")
+      detect[i] <- results$conf.int[1] > null_correlation
+  }
+ mymatrix[k,j] <- mean(detect)
+} 
+}
+```
+
+
+```{r}
+library("ggplot2")
+plot(x = rho, y =mymatrix[1,],type = "l",col = "black", lwd = 2, xlab = "Correlation", ylab = "Power", axes = FALSE)
+axis(1, at=seq(0.8,0.95,0.02), labels = seq(0.8,0.95,0.02))
+axis(2, at=seq(0.0,1.00,0.2), labels = seq(0.0,1.00,0.2))
+lines(x = rho, y =mymatrix[2,],type = "l",col = "red", lwd = 2)
+lines(x = rho, y =mymatrix[3,],type = "l",col = "darkgreen", lwd = 2)
+lines(x = rho, y =mymatrix[4,],type = "l",col = "blue", lwd = 2)
+box()
+legend(0.8,1, legend = c('N = 100','N = 75','N = 50','N = 25'),
+       col = c('blue','darkgreen','red','black'), lty = 1, cex = 1)
+```
+
+## Conclusion:
+From the above graph we can infer that correlations obtained with small samples are quite unreliable. We can see that the larger the sample, the more stable (reliable) the obtained correlation. Because samples vary randomly, from time to time we will get a sample correlation coefficient that is much larger or smaller than the true population figure. In other words, on occasion we will get freakily large values that have really occurred by chance but which might fool us into thinking that there was a strong correlation in the parent population. The smaller the sample size, the greater the likelihood of obtaining a spuriously-large correlation coefficient in this way.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
