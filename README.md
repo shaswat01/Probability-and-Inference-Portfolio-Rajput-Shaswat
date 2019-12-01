@@ -30,6 +30,9 @@ Probability and Inference class Assignment repo
 9. [10-CLT-Approximation](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/10-CLT-approximation)<br>
 [CLT Approximation HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/10-CLT-approximation/10-CLT-Approximation.nb.html) <br><br>
 
+10. [11-Correlation-Power](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/tree/master/11-Correlation-Power)<br>
+[Correlation Power HTML Blog](https://github.com/shaswat01/Probability-and-Inference-Portfolio-Rajput-Shaswat/blob/master/11-Correlation-Power/writeup.html) <br><br>
+
 
 
 
