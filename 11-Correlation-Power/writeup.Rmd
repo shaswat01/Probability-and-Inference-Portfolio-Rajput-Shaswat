@@ -37,10 +37,11 @@ Simply put, power is the probability of not making a Type II error. So in this c
 
 ## Simulation: 
 
+In this code chunk we are first setting the parameters, Sample size to (25,50,75 and 100), rho values to be from 0.80 to 0.96 with an increment of 0.01. Then inside loop we are basically simulating the values to get signal values and then performing a cor.test to see if the values are highly correlated as we increase the power. Then we see if they simulated values are greater the threshlod value that we have set ie 0.80. Then we take the mean of these values and store them ikn a matrix and then plot them.
+
 ```{r}
 set.seed(20394)
 suppressPackageStartupMessages(require(mvtnorm))
-N <- 50
 rho <- c(seq(0.80,0.96,0.01))
 length(rho)
 null_correlation <- 0.8
@@ -68,9 +69,9 @@ for(j in seq_along(rho)){
 }
 ```
 
+In this code we are plotting the simulated values that we get in the above graph.
 
 ```{r}
-library("ggplot2")
 plot(x = rho, y =mymatrix[1,],type = "l",col = "black", lwd = 2, xlab = "Correlation", ylab = "Power", axes = FALSE)
 axis(1, at=seq(0.8,0.95,0.02), labels = seq(0.8,0.95,0.02))
 axis(2, at=seq(0.0,1.00,0.2), labels = seq(0.0,1.00,0.2))
