@@ -150,7 +150,8 @@ So, P(P<sub>b</sub> = 0.55 | Braves win World Series in 7 games) = P(P<sub>b</su
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OR <br>
 = P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) / ((P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55) + (P(B) * P(Braves win World Series in 7 games | P<sub>b</sub> = 0.55)) = 0.55
 
-
+**References and Further Study:**
+[Historical Trends in Home-Field Advantage by Cyril Morong](https://web.archive.org/web/20050330200457/http://www.geocities.com/cyrilmorong@sbcglobal.net/HomeRoad.htm)
 
 
 
