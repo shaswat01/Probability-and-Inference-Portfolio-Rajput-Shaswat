@@ -50,11 +50,13 @@ The world series is a best-of-7 match-up between the champions of the American a
 
 <b><u>1. What is the probability that the Braves win the World Series given that P<sub>b</sub> = 0.55? </u></b><br>
 ```{r}
-dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) 
+# dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) 
 pbinom(3,7,0.55,lower.tail = FALSE)
 ```
+
 We can say that the probability of Braves winining the world series is ---->
 P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br>
+We can see that from above code both code works. We can use dbinom to get the specific probability and then we can add it to get the same thing as pbinom with lower.tail=FLASE or pnbinom. In this case we can add the specific probability of happening ie if braves win 4 matches or 5 matches or 6 or 7 matches.
 
 <b><u>2. What is the probability that the Braves win the World Series given that P<sub>b</sub> = x? This will be a figure (see below) with PB on the x-axis and P(Braves win World Series) on the y-axis. </u></b><br>
 ```{r}

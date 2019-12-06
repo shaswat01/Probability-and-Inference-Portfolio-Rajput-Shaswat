@@ -1362,7 +1362,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1452,6 +1451,12 @@ summary {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1599,11 +1604,10 @@ Suppose that in any given game, the probability that the Braves win is P<sub>b</
 </li>
 <p><br></p>
 <p><b><u>1. What is the probability that the Braves win the World Series given that P<sub>b</sub> = 0.55? </u></b><br></p>
-<pre class="r"><code>dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) </code></pre>
+<pre class="r"><code># dbinom(4,7,0.55) + dbinom(5,7,0.55) +dbinom(6,7,0.55) +dbinom(7,7,0.55) 
+pbinom(3,7,0.55,lower.tail = FALSE)</code></pre>
 <pre><code>## [1] 0.6082878</code></pre>
-<pre class="r"><code>pbinom(3,7,0.55,lower.tail = FALSE)</code></pre>
-<pre><code>## [1] 0.6082878</code></pre>
-<p>We can say that the probability of Braves winining the world series is —-&gt; P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br></p>
+<p>We can say that the probability of Braves winining the world series is —-&gt; P(WS) = P(WS in 4) + P(WS in 5) + P(WS in 6) + P(WS in 7) = 0.608<br> We can see that from above code both code works. We can use dbinom to get the specific probability and then we can add it to get the same thing as pbinom with lower.tail=FLASE or pnbinom. In this case we can add the specific probability of happening ie if braves win 4 matches or 5 matches or 6 or 7 matches.</p>
 <p><b><u>2. What is the probability that the Braves win the World Series given that P<sub>b</sub> = x? This will be a figure (see below) with PB on the x-axis and P(Braves win World Series) on the y-axis. </u></b><br></p>
 <pre class="r"><code>probab &lt;- seq(0.5,1.0, length.out = 100)
 win_probab &lt;- rep(NA,100)
