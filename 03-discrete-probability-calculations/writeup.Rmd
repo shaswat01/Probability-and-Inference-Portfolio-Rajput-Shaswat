@@ -1,7 +1,6 @@
 ---
 title: "03-Discrete-Probability-Calculations"
-output:
-  html_document:
+output:   html_document:
     theme: cosmo
     toc: yes
     toc_depth: 5
