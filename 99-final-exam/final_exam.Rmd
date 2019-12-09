@@ -148,13 +148,14 @@ Consider a test for a rare genetic condition.  Let T+ denote a test result that 
 
 **A** Create a plot that shows how the **positive** predictive value as a function of the prevalence of disease, P(D+).
 
-```{r, eval = FALSE}
+```{r}
 prevalence <- seq(0.001, 0.1, length = 50)
 p_plus_d_plus <- NA
 for (i in seq(1:50)){
   p_plus_d_plus[i]<- (prevalence[i] * 0.85) + 0.04995
 }
 plot(prevalence, p_plus_d_plus, xlab = "Prevalence", ylab = "PPV")
+
 ```
 
 # 3. Discrete Distributions
