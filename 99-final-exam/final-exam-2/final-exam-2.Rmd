@@ -1,6 +1,6 @@
 ---
 title: "Final Exam 2"
-output: html_document
+output: html_notebook
 ---
 
 ```{r setup, include = FALSE}
@@ -101,7 +101,10 @@ Consider a study designed to investigate the effectiveness of a new surgical tec
 
 **C.** If the risk of infection after surgery is 0.1, what is the probability that the study will enroll 30 or fewer subjects?
 
+
+
 **B.** If the risk of infection after surgery is 0.1, what is the expected number of subjects to be enrolled?
+
 
 **A.** Suppose the risk of infection after surgery is unknown but equally likely to be either .1 or .2.  What is the probabilty that the risk of infection is .1 if the study ends after enrolling the 50th subject?
 
@@ -178,6 +181,9 @@ Consider again the random variables X and Y from section 4.
 e_x <- rf3(100000) %>% mean()
 e_y <- rf4(100000) %>% mean()
 e_x+e_y
+e_x <- rf3(100000)
+e_y <- rf4(100000)
+mean(e_x+e_y)
 ```
 
 
@@ -186,6 +192,7 @@ e_x+e_y
 ```{r}
 val <- rf3(100000) - rf4(100000)
 mean(exp(val))
+
 ```
 
 
