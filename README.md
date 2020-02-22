@@ -1,5 +1,5 @@
 # Probability-and-Inference-Portfolio-Rajput-Shaswat-
-Probability and Inference class Assignment repo
+
 
 ### INDEX
 
